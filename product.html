@@ -698,7 +698,7 @@
     <li><a href="index.html#features">Features</a></li>
     <li><a href="index.html#how">How It Works</a></li>
   </ul>
-  <a href="#" class="nav-cta" onclick="addToCart(event)">Add to Cart</a>
+  <a href="checkout.html" class="nav-cta">Add to Cart</a>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -960,7 +960,7 @@
 <!-- STICKY BUY (mobile) -->
 <div class="sticky-buy">
   <span class="sticky-price">$34.99</span>
-  <button class="sticky-btn" onclick="addToCart(event)">Add to Cart</button>
+  <button class="sticky-btn" onclick="addToCart(event)">Add to Cart — $34.99</button>
 </div>
 
 <script>
@@ -1009,12 +1009,18 @@
     document.getElementById('qtyNum').textContent = qty;
   }
 
-  // Add to cart
+  // Add to cart → checkout
   function addToCart(e) {
     e.preventDefault();
     const btn = document.getElementById('addBtn');
     btn.classList.add('added');
-    setTimeout(() => btn.classList.remove('added'), 2200);
+    const colorEl = document.querySelector('.color-btn.active');
+    const sizeEl = document.querySelector('.size-btn.active');
+    const colorVal = colorEl ? colorEl.dataset.label : 'Brushed Gold';
+    const sizeVal = sizeEl ? sizeEl.dataset.label : 'Standard';
+    setTimeout(() => {
+      window.location.href = 'checkout.html?color=' + encodeURIComponent(colorVal) + '&size=' + encodeURIComponent(sizeVal) + '&qty=' + qty;
+    }, 700);
   }
 
   // Wishlist
