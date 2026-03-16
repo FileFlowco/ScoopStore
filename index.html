@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SCOOPX — The Last Scoop You'll Ever Need</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,826 +9,188 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --black: #080808;
-      --coal: #111111;
-      --steel: #1c1c1c;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim: #6b5520;
-      --white: #f0ece4;
-      --white-dim: #8a8278;
-      --neon: #e4ff3c;
-      --red: #ff2d2d;
+      --bg:      #1e1b17;
+      --bg2:     #252119;
+      --bg3:     #2c271f;
+      --bg4:     #332e25;
+      --gold:    #c9a84c;
+      --gold-lt: #e8c97a;
+      --gold-dk: #6b5520;
+      --white:   #f0ece4;
+      --muted:   #96908a;
+      --faint:   #3e3a34;
+      --neon:    #d4f050;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
 
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
-
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* ── NAV ── */
+    /* NAV — hide on scroll down, show on scroll up */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5vw;
-      height: 72px;
-      background: linear-gradient(to bottom, rgba(8,8,8,0.98), rgba(8,8,8,0));
-      transition: background 0.4s;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 68px;
+      background: var(--bg2);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      transition: transform 0.32s ease;
     }
-    nav.scrolled {
-      background: rgba(8,8,8,0.97);
-      border-bottom: 1px solid rgba(201,168,76,0.12);
-    }
-
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.12em;
-      color: var(--white);
-      text-decoration: none;
-      position: relative;
-    }
+    nav.hide { transform: translateY(-100%); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
-
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--gold); }
-
-    .nav-cta {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 0.6rem 1.6rem;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    }
-    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-    /* hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      padding: 4px;
-      z-index: 1100;
-    }
-    .hamburger span {
-      display: block;
-      width: 26px;
-      height: 2px;
-      background: var(--white);
-      transition: all 0.3s;
-    }
+    .nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg); background: var(--gold); padding: 0.55rem 1.5rem; text-decoration: none; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; }
+    .nav-cta:hover { background: var(--gold-lt); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
     .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(8,8,8,0.98);
-      z-index: 1050;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-    }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg2); z-index: 1050; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      letter-spacing: 0.1em;
-      color: var(--white);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; transition: color 0.2s; }
     .mobile-menu a:hover { color: var(--gold); }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 5vw 80px 8vw;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--gold);
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 10vw, 10rem);
-      line-height: 0.9;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.15em;
-    }
-    .hero-title .outline {
-      -webkit-text-stroke: 1px var(--white);
-      color: transparent;
-    }
+    /* HERO */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 110px 4vw 80px 8vw; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 1rem; }
+    .hero-eyebrow::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 9vw, 9.5rem); line-height: 0.9; letter-spacing: 0.03em; margin-bottom: 0.2em; }
+    .hero-title .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
     .hero-title .gold { color: var(--gold); }
-
-    .hero-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.3rem);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--white-dim);
-      max-width: 380px;
-      margin-bottom: 3rem;
-      line-height: 1.6;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1.2rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 1rem 2.4rem;
-      text-decoration: none;
-      display: inline-block;
-      position: relative;
-      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-      transition: background 0.2s, transform 0.2s;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-    .btn-ghost {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s;
-    }
+    .hero-sub { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(0.95rem, 1.8vw, 1.2rem); font-weight: 300; font-style: italic; color: var(--muted); max-width: 360px; margin-bottom: 2.8rem; line-height: 1.65; }
+    .hero-actions { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg); background: var(--gold); padding: 1rem 2.2rem; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
     .btn-ghost:hover { color: var(--white); }
-    .btn-ghost::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
+    .btn-ghost::after { content: '→'; transition: transform 0.2s; }
     .btn-ghost:hover::after { transform: translateX(4px); }
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, var(--bg) 0%, transparent 45%); }
+    .hero-cut { position: absolute; bottom: -1px; left: 0; right: 0; height: 90px; background: var(--bg); clip-path: polygon(0 65%,100% 0%,100% 100%,0% 100%); z-index: 3; }
 
-    .hero-right {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+    /* MARQUEE */
+    .marquee-wrap { background: var(--gold); padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-block; animation: marquee 22s linear infinite; }
+    .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.22em; color: var(--bg); margin: 0 2rem; }
+    .marquee-track .dot { color: rgba(0,0,0,0.25); margin: 0; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* Big abstract scoop visual */
-    .hero-visual {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    /* STATS */
+    .stats-bar { background: var(--bg3); border-top: 1px solid rgba(201,168,76,0.12); border-bottom: 1px solid rgba(201,168,76,0.12); padding: 1.8rem 8vw; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; overflow-x: auto; }
+    .stat-item { text-align: center; flex-shrink: 0; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--gold); line-height: 1; }
+    .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+    .stat-div { width: 1px; height: 34px; background: var(--faint); flex-shrink: 0; }
 
-    .hero-bg-text {
-      position: absolute;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(8rem, 20vw, 22rem);
-      letter-spacing: -0.02em;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(201,168,76,0.08);
-      user-select: none;
-      white-space: nowrap;
-      line-height: 1;
-    }
+    /* SECTIONS */
+    section { padding: 5.5rem 8vw; }
+    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 5.5vw, 5rem); line-height: 0.95; letter-spacing: 0.04em; margin-bottom: 1.5rem; }
 
-    .scoop-svg-wrap {
-      position: relative;
-      z-index: 2;
-      width: min(420px, 80vw);
-      animation: floatY 6s ease-in-out infinite;
-    }
-    @keyframes floatY {
-      0%,100% { transform: translateY(0px) rotate(-2deg); }
-      50% { transform: translateY(-18px) rotate(1deg); }
-    }
-
-    /* Gold glow behind scoop */
-    .scoop-glow {
-      position: absolute;
-      width: 340px;
-      height: 340px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
-      z-index: 1;
-      animation: pulseGlow 4s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%,100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.15); opacity: 1; }
-    }
-
-    /* diagonal strip */
-    .hero-strip {
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
-      height: 120px;
-      background: var(--black);
-      clip-path: polygon(0 60%, 100% 0%, 100% 100%, 0% 100%);
-      z-index: 3;
-    }
-
-    /* Stats bar */
-    .stats-bar {
-      background: var(--steel);
-      border-top: 1px solid rgba(201,168,76,0.15);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      padding: 1.8rem 8vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2rem;
-      overflow-x: auto;
-    }
-    .stat-item {
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .stat-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      margin-top: 0.2rem;
-    }
-    .stat-divider {
-      width: 1px;
-      height: 40px;
-      background: rgba(201,168,76,0.2);
-      flex-shrink: 0;
-    }
-
-    /* ── MARQUEE ── */
-    .marquee-wrap {
-      background: var(--gold);
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .marquee-track {
-      display: inline-block;
-      animation: marquee 22s linear infinite;
-    }
-    .marquee-track span {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 0.22em;
-      color: var(--black);
-      margin: 0 2.5rem;
-    }
-    .marquee-track .dot {
-      color: rgba(0,0,0,0.3);
-      margin: 0;
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* ── SECTION SHARED ── */
-    section { padding: 6rem 8vw; }
-
-    .section-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .section-label::before {
-      content: '';
-      width: 30px;
-      height: 1px;
-      background: var(--gold);
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      line-height: 0.95;
-      letter-spacing: 0.04em;
-      margin-bottom: 1.5rem;
-    }
-
-    /* ── FEATURES ── */
-    .features { background: var(--coal); }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.1);
-      margin-top: 4rem;
-    }
-
-    .feature-card {
-      background: var(--coal);
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 0;
-      background: var(--gold);
-      transition: height 0.4s ease;
-    }
-    .feature-card:hover { background: var(--steel); }
+    /* FEATURES */
+    .features { background: var(--bg2); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 1px; background: var(--faint); border: 1px solid var(--faint); margin-top: 3.5rem; }
+    .feature-card { background: var(--bg2); padding: 2.2rem; position: relative; overflow: hidden; transition: background 0.3s; }
+    .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--gold); transition: height 0.4s ease; }
+    .feature-card:hover { background: var(--bg3); }
     .feature-card:hover::before { height: 100%; }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+    .feature-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
+    .feature-desc { font-size: 0.86rem; line-height: 1.7; color: var(--muted); }
 
-    .feature-icon {
-      font-size: 2rem;
-      margin-bottom: 1.2rem;
-      display: block;
-    }
-    .feature-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.6rem;
-    }
-    .feature-desc {
-      font-size: 0.88rem;
-      line-height: 1.7;
-      color: var(--white-dim);
-    }
-
-    /* ── PRODUCT SPOTLIGHT ── */
-    .spotlight {
-      background: var(--black);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6vw;
-      align-items: center;
-    }
-
-    .spotlight-visual {
-      position: relative;
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .spotlight-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.15);
-      animation: spinSlow 30s linear infinite;
-    }
-    .spotlight-ring:nth-child(1) { width: 90%; height: 90%; }
-    .spotlight-ring:nth-child(2) { width: 70%; height: 70%; animation-direction: reverse; animation-duration: 20s; }
-    .spotlight-ring:nth-child(3) { width: 50%; height: 50%; border-color: rgba(201,168,76,0.3); }
-    @keyframes spinSlow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .spotlight-scoop {
-      position: relative;
-      z-index: 2;
-      width: 65%;
-      animation: floatY 5s ease-in-out infinite;
-    }
-
-    .spotlight-content { padding: 2rem 0; }
-
-    .price-tag {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .price-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      color: var(--white-dim);
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-
-    .spec-list {
-      list-style: none;
-      margin-bottom: 2.5rem;
-    }
-    .spec-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.88rem;
-      color: var(--white-dim);
-      padding: 0.7rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .spec-list li::before {
-      content: '—';
-      color: var(--gold);
-      font-size: 0.7rem;
-    }
+    /* SPOTLIGHT */
+    .spotlight { background: var(--bg); display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: center; }
+    .spotlight-img { position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(201,168,76,0.15); }
+    .spotlight-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .spotlight-img:hover img { transform: scale(1.04); }
+    .price-tag { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
+    .price-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 2rem; }
+    .spec-list { list-style: none; margin-bottom: 2.5rem; }
+    .spec-list li { display: flex; align-items: center; gap: 0.8rem; font-size: 0.86rem; color: var(--muted); padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .spec-list li::before { content: '—'; color: var(--gold); font-size: 0.7rem; }
     .spec-list li strong { color: var(--white); font-weight: 500; }
 
-    /* ── HOW IT WORKS ── */
-    .how { background: var(--steel); }
+    /* HOW */
+    .how { background: var(--bg3); }
+    .steps-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); margin-top: 3.5rem; position: relative; }
+    .steps-row::before { content: ''; position: absolute; top: 1.3rem; left: 8%; right: 8%; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dk), var(--gold-dk), transparent); }
+    .step { text-align: center; padding: 0 1.2rem 2rem; }
+    .step-num { width: 42px; height: 42px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.4rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--gold); position: relative; z-index: 1; }
+    .step-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.82rem; line-height: 1.65; color: var(--muted); }
 
-    .steps-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0;
-      margin-top: 4rem;
-      position: relative;
-    }
-    .steps-row::before {
-      content: '';
-      position: absolute;
-      top: 2.2rem;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold-dim), var(--gold-dim), transparent);
-    }
+    /* PHOTO BREAK */
+    .photo-break { display: grid; grid-template-columns: 1fr 1fr; height: clamp(220px, 38vw, 500px); overflow: hidden; }
+    .photo-break div { overflow: hidden; }
+    .photo-break img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .photo-break div:hover img { transform: scale(1.05); }
 
-    .step {
-      text-align: center;
-      padding: 0 1.5rem 2rem;
-      position: relative;
-    }
-    .step-num {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--black);
-      border: 1px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      color: var(--gold);
-      position: relative;
-      z-index: 1;
-    }
-    .step-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-    }
-    .step-desc {
-      font-size: 0.82rem;
-      line-height: 1.65;
-      color: var(--white-dim);
-    }
+    /* TESTIMONIALS */
+    .testimonials { background: var(--bg2); }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); gap: 1.2rem; margin-top: 3.5rem; }
+    .testi-card { background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); padding: 1.8rem; position: relative; }
+    .testi-card::before { content: '"'; font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--gold); opacity: 0.12; position: absolute; top: -0.3rem; left: 1.2rem; line-height: 1; }
+    .testi-text { font-size: 0.87rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.4rem; position: relative; z-index: 1; }
+    .testi-author { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+    .testi-role { font-size: 0.74rem; color: var(--muted); margin-top: 0.2rem; }
+    .stars { color: var(--gold); font-size: 0.72rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
 
-    /* ── TESTIMONIALS ── */
-    .testimonials { background: var(--coal); }
+    /* CTA */
+    .cta-banner { background: var(--gold); padding: 5rem 8vw; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; position: relative; overflow: hidden; }
+    .cta-banner::before { content: 'SCOOPX'; position: absolute; right: -1%; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 13rem; color: rgba(0,0,0,0.07); pointer-events: none; line-height: 1; }
+    .cta-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.4rem; }
+    .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 4.5vw, 4.2rem); color: var(--bg); line-height: 0.95; letter-spacing: 0.04em; }
+    .btn-dark { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); background: var(--bg); padding: 1.1rem 2.6rem; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; white-space: nowrap; display: inline-block; }
+    .btn-dark:hover { background: var(--bg2); transform: translateY(-2px); }
 
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 4rem;
-    }
-
-    .testi-card {
-      background: var(--steel);
-      border: 1px solid rgba(201,168,76,0.1);
-      padding: 2rem;
-      position: relative;
-    }
-    .testi-card::before {
-      content: '"';
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
-      color: var(--gold);
-      opacity: 0.15;
-      position: absolute;
-      top: -0.5rem;
-      left: 1.5rem;
-      line-height: 1;
-    }
-    .testi-text {
-      font-size: 0.9rem;
-      line-height: 1.75;
-      color: var(--white-dim);
-      margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-    .testi-author {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .testi-role {
-      font-size: 0.75rem;
-      color: var(--white-dim);
-      margin-top: 0.2rem;
-    }
-    .stars {
-      color: var(--gold);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.8rem;
-    }
-
-    /* ── CTA BANNER ── */
-    .cta-banner {
-      background: var(--gold);
-      padding: 5rem 8vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 3rem;
-      flex-wrap: wrap;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-banner::before {
-      content: 'SCOOPX';
-      position: absolute;
-      right: -2%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 14rem;
-      color: rgba(0,0,0,0.06);
-      pointer-events: none;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
-    .cta-text-wrap {}
-    .cta-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.5);
-      margin-bottom: 0.5rem;
-    }
-    .cta-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      color: var(--black);
-      line-height: 0.95;
-      letter-spacing: 0.04em;
-    }
-    .btn-dark {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: var(--black);
-      padding: 1.1rem 2.8rem;
-      text-decoration: none;
-      display: inline-block;
-      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
-    }
-    .btn-dark:hover { background: #1a1a1a; transform: translateY(-2px); }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #050505;
-      padding: 4rem 8vw 2rem;
-      border-top: 1px solid rgba(201,168,76,0.1);
-    }
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 3rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-    .footer-brand {}
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 0.1em;
-      color: var(--white);
-      text-decoration: none;
-    }
+    /* FOOTER */
+    footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
     .footer-logo span { color: var(--gold); }
-    .footer-tagline {
-      font-size: 0.82rem;
-      color: var(--white-dim);
-      margin-top: 0.5rem;
-      max-width: 220px;
-      line-height: 1.6;
-    }
-    .footer-nav-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .footer-nav-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .footer-nav-links a {
-      font-size: 0.85rem;
-      color: var(--white-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .footer-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; max-width: 210px; line-height: 1.6; }
+    .footer-nav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-nav-links a { font-size: 0.84rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-nav-links a:hover { color: var(--gold); }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding-top: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .footer-copy {
-      font-size: 0.75rem;
-      color: var(--white-dim);
-    }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: 0.74rem; color: var(--muted); }
     .footer-copy span { color: var(--gold); }
 
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .hero-left {
-        padding: 110px 6vw 3rem;
-        order: 1;
-      }
-      .hero-right {
-        order: 0;
-        height: 55vw;
-        max-height: 380px;
-      }
-      .spotlight {
-        grid-template-columns: 1fr;
-      }
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 100px 6vw 3rem; order: 2; }
+      .hero-right { order: 1; height: 62vw; max-height: 440px; }
+      .hero-right::after { background: linear-gradient(to top, var(--bg) 0%, transparent 55%); }
+      .hero-cut { display: none; }
+      .spotlight { grid-template-columns: 1fr; }
       .steps-row::before { display: none; }
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
-      .stats-bar {
-        padding: 1.5rem 5vw;
-        gap: 1rem;
-        justify-content: flex-start;
-      }
       section { padding: 4rem 6vw; }
+      .stats-bar { padding: 1.4rem 5vw; justify-content: flex-start; }
     }
-
-    @media (max-width: 520px) {
-      .hero-title { font-size: 4.2rem; }
-      .cta-banner { padding: 3.5rem 6vw; }
-      .features-grid { grid-template-columns: 1fr; }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 3.8rem; }
+      .cta-banner { padding: 3rem 6vw; }
+      .photo-break { grid-template-columns: 1fr; height: auto; }
+      .photo-break div { height: 55vw; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">SCOOP<span>X</span></a>
   <ul class="nav-links">
@@ -837,30 +199,22 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#how">How It Works</a></li>
   </ul>
-  <a href="product.html" class="nav-cta">Shop Now</a>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <a href="checkout.html" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ── MOBILE MENU ── -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" onclick="closeMenu()">Home</a>
   <a href="product.html" onclick="closeMenu()">Product</a>
   <a href="#features" onclick="closeMenu()">Features</a>
   <a href="#how" onclick="closeMenu()">How It Works</a>
-  <a href="product.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
+  <a href="checkout.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
 </div>
 
-<!-- ── HERO ── -->
 <section class="hero" style="padding:0">
   <div class="hero-left">
     <div class="hero-eyebrow">Precision Engineered</div>
-    <h1 class="hero-title">
-      THE<br>
-      <span class="outline">PERFECT</span><br>
-      <span class="gold">SCOOP</span>
-    </h1>
+    <h1 class="hero-title">THE<br><span class="outline">PERFECT</span><br><span class="gold">SCOOP</span></h1>
     <p class="hero-sub">No mess. No guess. Every powder — protein, coffee, collagen — measured flawlessly every single time.</p>
     <div class="hero-actions">
       <a href="checkout.html" class="btn-primary">Get Yours</a>
@@ -868,195 +222,57 @@
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-visual">
-      <div class="hero-bg-text">SCOOP</div>
-      <div class="scoop-glow"></div>
-      <div class="scoop-svg-wrap">
-        <!-- SVG Scoop Illustration -->
-        <svg viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- handle -->
-          <rect x="168" y="280" width="64" height="130" rx="32" fill="url(#handleGrad)" />
-          <!-- handle shine -->
-          <rect x="179" y="290" width="18" height="90" rx="9" fill="rgba(255,255,255,0.12)" />
-          <!-- bowl outer -->
-          <ellipse cx="200" cy="200" rx="130" ry="82" fill="url(#bowlOuter)" />
-          <!-- bowl inner shadow -->
-          <ellipse cx="200" cy="198" rx="112" ry="68" fill="url(#bowlInner)" />
-          <!-- powder inside -->
-          <ellipse cx="200" cy="182" rx="100" ry="48" fill="url(#powderGrad)" />
-          <!-- powder surface highlight -->
-          <ellipse cx="185" cy="176" rx="45" ry="16" fill="rgba(255,255,255,0.1)" />
-          <!-- rim highlight -->
-          <path d="M72 200 Q200 130 328 200" stroke="url(#rimLight)" stroke-width="3" fill="none" />
-          <!-- bottom glint -->
-          <ellipse cx="200" cy="270" rx="80" ry="12" fill="rgba(0,0,0,0.25)" />
-          <!-- decorative line on handle -->
-          <rect x="192" y="310" width="16" height="2" rx="1" fill="rgba(201,168,76,0.5)" />
-          <rect x="192" y="322" width="16" height="2" rx="1" fill="rgba(201,168,76,0.3)" />
-
-          <defs>
-            <linearGradient id="handleGrad" x1="168" y1="280" x2="232" y2="410" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#c9a84c"/>
-              <stop offset="40%" stop-color="#e8c97a"/>
-              <stop offset="100%" stop-color="#7a6030"/>
-            </linearGradient>
-            <linearGradient id="bowlOuter" x1="70" y1="140" x2="330" y2="280" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#d4b05a"/>
-              <stop offset="50%" stop-color="#c9a84c"/>
-              <stop offset="100%" stop-color="#5a4018"/>
-            </linearGradient>
-            <radialGradient id="bowlInner" cx="50%" cy="40%" r="60%">
-              <stop offset="0%" stop-color="#1e1a12"/>
-              <stop offset="100%" stop-color="#0d0b07"/>
-            </radialGradient>
-            <radialGradient id="powderGrad" cx="45%" cy="40%" r="65%">
-              <stop offset="0%" stop-color="#e8d8b8"/>
-              <stop offset="60%" stop-color="#c9b88a"/>
-              <stop offset="100%" stop-color="#9a8860"/>
-            </radialGradient>
-            <linearGradient id="rimLight" x1="72" y1="200" x2="328" y2="200" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="transparent"/>
-              <stop offset="40%" stop-color="rgba(232,201,122,0.6)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
+    <img src="assets/1.jpg" alt="SCOOPX Pro One">
   </div>
-  <div class="hero-strip"></div>
+  <div class="hero-cut"></div>
 </section>
 
-<!-- ── MARQUEE ── -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    <span>PROTEIN POWDER</span><span class="dot">✦</span>
-    <span>COFFEE & MATCHA</span><span class="dot">✦</span>
-    <span>COLLAGEN</span><span class="dot">✦</span>
-    <span>PRE-WORKOUT</span><span class="dot">✦</span>
-    <span>CREATINE</span><span class="dot">✦</span>
-    <span>GREENS</span><span class="dot">✦</span>
-    <span>PROTEIN POWDER</span><span class="dot">✦</span>
-    <span>COFFEE & MATCHA</span><span class="dot">✦</span>
-    <span>COLLAGEN</span><span class="dot">✦</span>
-    <span>PRE-WORKOUT</span><span class="dot">✦</span>
-    <span>CREATINE</span><span class="dot">✦</span>
-    <span>GREENS</span><span class="dot">✦</span>
+    <span>PROTEIN POWDER</span><span class="dot">✦</span><span>COFFEE & MATCHA</span><span class="dot">✦</span><span>COLLAGEN</span><span class="dot">✦</span><span>PRE-WORKOUT</span><span class="dot">✦</span><span>CREATINE</span><span class="dot">✦</span><span>GREENS</span><span class="dot">✦</span>
+    <span>PROTEIN POWDER</span><span class="dot">✦</span><span>COFFEE & MATCHA</span><span class="dot">✦</span><span>COLLAGEN</span><span class="dot">✦</span><span>PRE-WORKOUT</span><span class="dot">✦</span><span>CREATINE</span><span class="dot">✦</span><span>GREENS</span><span class="dot">✦</span>
   </div>
 </div>
 
-<!-- ── STATS ── -->
 <div class="stats-bar">
-  <div class="stat-item reveal">
-    <div class="stat-num">30g</div>
-    <div class="stat-label">Max Capacity</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item reveal">
-    <div class="stat-num">±0.1g</div>
-    <div class="stat-label">Precision</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item reveal">
-    <div class="stat-num">304</div>
-    <div class="stat-label">Grade Steel</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item reveal">
-    <div class="stat-num">BPA</div>
-    <div class="stat-label">Free Materials</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item reveal">
-    <div class="stat-num">5yr</div>
-    <div class="stat-label">Warranty</div>
-  </div>
+  <div class="stat-item reveal"><div class="stat-num">30g</div><div class="stat-label">Max Capacity</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal"><div class="stat-num">±0.1g</div><div class="stat-label">Precision</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal"><div class="stat-num">304</div><div class="stat-label">Grade Steel</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal"><div class="stat-num">BPA</div><div class="stat-label">Free</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal"><div class="stat-num">5yr</div><div class="stat-label">Warranty</div></div>
 </div>
 
-<!-- ── FEATURES ── -->
 <section class="features" id="features">
   <div class="section-label">Why SCOOPX</div>
-  <h2 class="section-title reveal">BUILT<br><span style="-webkit-text-stroke:1px var(--white);color:transparent">DIFFERENT</span></h2>
+  <h2 class="section-title reveal">BUILT<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">DIFFERENT</span></h2>
   <div class="features-grid">
-    <div class="feature-card reveal">
-      <span class="feature-icon">⚖️</span>
-      <div class="feature-name">Dead-Accurate</div>
-      <p class="feature-desc">Machined to ±0.1g tolerance. Whether it's 5g of creatine or 30g of protein, you'll never second-guess again.</p>
-    </div>
-    <div class="feature-card reveal">
-      <span class="feature-icon">🏗️</span>
-      <div class="feature-name">Indestructible</div>
-      <p class="feature-desc">304 food-grade stainless steel. Dishwasher safe. Drop it, throw it, it won't care. Built to outlast every tub you own.</p>
-    </div>
-    <div class="feature-card reveal">
-      <span class="feature-icon">🌀</span>
-      <div class="feature-name">No Clump, No Mess</div>
-      <p class="feature-desc">Engineered bowl geometry prevents powder from clumping or sticking. Glides clean every single rep.</p>
-    </div>
-    <div class="feature-card reveal">
-      <span class="feature-icon">🔒</span>
-      <div class="feature-name">Locking Collar</div>
-      <p class="feature-desc">Snap-lock mechanism lets you preset your dose and lock it in. Measure once, scoop forever.</p>
-    </div>
-    <div class="feature-card reveal">
-      <span class="feature-icon">♻️</span>
-      <div class="feature-name">Zero Waste</div>
-      <p class="feature-desc">Unlike plastic scoops buried in your tub, SCOOPX stays clean on the counter. No powder contamination, no waste.</p>
-    </div>
-    <div class="feature-card reveal">
-      <span class="feature-icon">✦</span>
-      <div class="feature-name">Universal Fit</div>
-      <p class="feature-desc">Protein. Coffee. Collagen. Creatine. Matcha. Spices. One scoop rules every powder in your kitchen and gym bag.</p>
-    </div>
+    <div class="feature-card reveal"><span class="feature-icon">⚖️</span><div class="feature-name">Dead-Accurate</div><p class="feature-desc">Machined to ±0.1g tolerance. Whether it's 5g of creatine or 30g of protein, you'll never second-guess again.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🏗️</span><div class="feature-name">Indestructible</div><p class="feature-desc">304 food-grade stainless steel. Dishwasher safe. Drop it, it won't care. Built to outlast every tub you own.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🌀</span><div class="feature-name">No Clump, No Mess</div><p class="feature-desc">Engineered geometry prevents powder from sticking. Glides clean every single time.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">⚡</span><div class="feature-name">Slide & Pour</div><p class="feature-desc">One-hand slide mechanism. Preset your dose and dispense instantly. Measure once, scoop forever.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">♻️</span><div class="feature-name">Zero Waste</div><p class="feature-desc">No powder contamination. No plastic buried in your tub. SCOOPX stays clean on the counter.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">✦</span><div class="feature-name">Universal Fit</div><p class="feature-desc">Protein. Coffee. Collagen. Creatine. Matcha. One scoop rules every powder you own.</p></div>
   </div>
 </section>
 
-<!-- ── PRODUCT SPOTLIGHT ── -->
-<section class="spotlight" style="padding: 6rem 8vw">
-  <div class="spotlight-visual reveal">
-    <div class="spotlight-ring"></div>
-    <div class="spotlight-ring"></div>
-    <div class="spotlight-ring"></div>
-    <svg class="spotlight-scoop" viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="168" y="280" width="64" height="130" rx="32" fill="url(#h2)"/>
-      <rect x="179" y="290" width="18" height="90" rx="9" fill="rgba(255,255,255,0.12)"/>
-      <ellipse cx="200" cy="200" rx="130" ry="82" fill="url(#b2)"/>
-      <ellipse cx="200" cy="198" rx="112" ry="68" fill="url(#bi2)"/>
-      <ellipse cx="200" cy="182" rx="100" ry="48" fill="url(#p2)"/>
-      <ellipse cx="185" cy="176" rx="45" ry="16" fill="rgba(255,255,255,0.1)"/>
-      <path d="M72 200 Q200 130 328 200" stroke="url(#r2)" stroke-width="3" fill="none"/>
-      <ellipse cx="200" cy="270" rx="80" ry="12" fill="rgba(0,0,0,0.25)"/>
-      <rect x="192" y="310" width="16" height="2" rx="1" fill="rgba(201,168,76,0.5)"/>
-      <rect x="192" y="322" width="16" height="2" rx="1" fill="rgba(201,168,76,0.3)"/>
-      <defs>
-        <linearGradient id="h2" x1="168" y1="280" x2="232" y2="410" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#c9a84c"/><stop offset="40%" stop-color="#e8c97a"/><stop offset="100%" stop-color="#7a6030"/>
-        </linearGradient>
-        <linearGradient id="b2" x1="70" y1="140" x2="330" y2="280" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#d4b05a"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#5a4018"/>
-        </linearGradient>
-        <radialGradient id="bi2" cx="50%" cy="40%" r="60%">
-          <stop offset="0%" stop-color="#1e1a12"/><stop offset="100%" stop-color="#0d0b07"/>
-        </radialGradient>
-        <radialGradient id="p2" cx="45%" cy="40%" r="65%">
-          <stop offset="0%" stop-color="#e8d8b8"/><stop offset="60%" stop-color="#c9b88a"/><stop offset="100%" stop-color="#9a8860"/>
-        </radialGradient>
-        <linearGradient id="r2" x1="72" y1="200" x2="328" y2="200" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="transparent"/><stop offset="40%" stop-color="rgba(232,201,122,0.6)"/><stop offset="100%" stop-color="transparent"/>
-        </linearGradient>
-      </defs>
-    </svg>
+<section class="spotlight" style="padding:5.5rem 8vw">
+  <div class="spotlight-img reveal">
+    <img src="assets/4.jpg" alt="SCOOPX in action">
   </div>
-  <div class="spotlight-content">
+  <div>
     <div class="section-label reveal">The Scoop</div>
     <h2 class="section-title reveal">SCOOPX<br>PRO <span style="color:var(--gold)">ONE</span></h2>
     <div class="price-tag reveal">$34.99</div>
     <div class="price-sub reveal">Free shipping on orders over $50</div>
     <ul class="spec-list reveal">
       <li><strong>Material:</strong> 304 Stainless Steel</li>
+      <li><strong>Mechanism:</strong> Slide & Pour</li>
       <li><strong>Capacity:</strong> Adjustable 5g – 30g</li>
-      <li><strong>Finish:</strong> Brushed Gold / Matte Black</li>
-      <li><strong>Weight:</strong> 68g — solid, not cheap</li>
+      <li><strong>Finish:</strong> Matte Black</li>
       <li><strong>Compatibility:</strong> All powders & grains</li>
       <li><strong>Warranty:</strong> 5 years, no questions</li>
     </ul>
@@ -1064,73 +280,43 @@
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ── -->
 <section class="how" id="how">
   <div class="section-label reveal">Simple by Design</div>
-  <h2 class="section-title reveal">HOW IT<br><span style="-webkit-text-stroke:1px var(--white);color:transparent">WORKS</span></h2>
+  <h2 class="section-title reveal">HOW IT<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">WORKS</span></h2>
   <div class="steps-row">
-    <div class="step reveal">
-      <div class="step-num">01</div>
-      <div class="step-title">Set Your Dose</div>
-      <p class="step-desc">Twist the collar to your desired amount. Lock it in with a single click.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">02</div>
-      <div class="step-title">Scoop & Level</div>
-      <p class="step-desc">Dig in, level off the top edge. Perfectly flat every time.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">03</div>
-      <div class="step-title">Pour & Mix</div>
-      <p class="step-desc">Drop it in your shaker, cup, or pot. Non-stick bowl means nothing left behind.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">04</div>
-      <div class="step-title">Rinse & Repeat</div>
-      <p class="step-desc">Dishwasher safe. Or a quick rinse under the tap. Done in 3 seconds.</p>
-    </div>
+    <div class="step reveal"><div class="step-num">01</div><div class="step-title">Set Your Dose</div><p class="step-desc">Slide the collar to your desired amount. Click it in place.</p></div>
+    <div class="step reveal"><div class="step-num">02</div><div class="step-title">Scoop & Level</div><p class="step-desc">Dig in. Perfectly flat every time. No guessing.</p></div>
+    <div class="step reveal"><div class="step-num">03</div><div class="step-title">Slide & Pour</div><p class="step-desc">One push. Everything drops clean — nothing stays behind.</p></div>
+    <div class="step reveal"><div class="step-num">04</div><div class="step-title">Rinse & Repeat</div><p class="step-desc">Dishwasher safe. Quick rinse. Done in seconds.</p></div>
   </div>
 </section>
 
-<!-- ── TESTIMONIALS ── -->
+<div class="photo-break">
+  <div><img src="assets/2.jpg" alt="Slide and Pour"></div>
+  <div><img src="assets/3.jpg" alt="The Smart Way"></div>
+</div>
+
 <section class="testimonials">
   <div class="section-label reveal">Real People</div>
   <h2 class="section-title reveal">THEY<br><span style="color:var(--gold)">LOVE IT</span></h2>
   <div class="testi-grid">
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p class="testi-text">I've gone through a dozen plastic scoops. SCOOPX is the first one I haven't lost in a protein tub. It just sits on my counter and looks insane.</p>
-      <div class="testi-author">Marcus L.</div>
-      <div class="testi-role">Competitive Powerlifter</div>
-    </div>
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p class="testi-text">I use it for matcha every morning. The precision is real — my cups taste consistent for the first time ever. Worth every cent.</p>
-      <div class="testi-author">Sofia R.</div>
-      <div class="testi-role">Wellness Coach</div>
-    </div>
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p class="testi-text">Bought two — one for the gym bag, one for the kitchen. The locking collar is genius. My pre-workout dose is dialed in permanently.</p>
-      <div class="testi-author">Jake T.</div>
-      <div class="testi-role">CrossFit Athlete</div>
-    </div>
+    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">I've gone through a dozen plastic scoops. SCOOPX is the first one I haven't lost in a protein tub. The slide mechanism is a total game changer.</p><div class="testi-author">Marcus L.</div><div class="testi-role">Competitive Powerlifter</div></div>
+    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">I use it for matcha every morning. Consistent every single time. Worth every cent and then some.</p><div class="testi-author">Sofia R.</div><div class="testi-role">Wellness Coach</div></div>
+    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">Bought two — gym bag and kitchen. Pre-workout always dialed in. Build quality is insane for the price.</p><div class="testi-author">Jake T.</div><div class="testi-role">CrossFit Athlete</div></div>
   </div>
 </section>
 
-<!-- ── CTA BANNER ── -->
 <div class="cta-banner">
-  <div class="cta-text-wrap">
+  <div>
     <div class="cta-label">Limited Drop</div>
     <div class="cta-title">STOP<br>GUESSING.<br>START<br>SCOOPING.</div>
   </div>
   <a href="checkout.html" class="btn-dark">Order Now</a>
 </div>
 
-<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-top">
-    <div class="footer-brand">
+    <div>
       <a href="index.html" class="footer-logo">SCOOP<span>X</span></a>
       <p class="footer-tagline">Precision measuring tools for serious people. Every gram counts.</p>
     </div>
@@ -1162,17 +348,20 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2024 <span>SCOOPX</span>. All rights reserved.</div>
+    <div class="footer-copy">© 2025 <span>SCOOPX</span>. All rights reserved.</div>
     <div class="footer-copy">Made for people who give a damn.</div>
   </div>
 </footer>
 
 <script>
-  // Nav scroll
-  const navbar = document.getElementById('navbar');
+  // Hide nav on scroll down, show on scroll up
+  const nav = document.getElementById('navbar');
+  let lastY = 0;
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  });
+    const y = window.scrollY;
+    nav.classList.toggle('hide', y > lastY && y > 80);
+    lastY = y;
+  }, { passive: true });
 
   // Hamburger
   const hamburger = document.getElementById('hamburger');
@@ -1189,16 +378,12 @@
   }
 
   // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
     });
   }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
