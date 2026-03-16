@@ -9,688 +9,207 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --black: #080808;
-      --coal: #111111;
-      --steel: #1c1c1c;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim: #6b5520;
-      --white: #f0ece4;
-      --white-dim: #8a8278;
-      --neon: #e4ff3c;
+      --bg:      #1e1b17;
+      --bg2:     #252119;
+      --bg3:     #2c271f;
+      --bg4:     #332e25;
+      --gold:    #c9a84c;
+      --gold-lt: #e8c97a;
+      --gold-dk: #6b5520;
+      --white:   #f0ece4;
+      --muted:   #96908a;
+      --faint:   #3e3a34;
+      --neon:    #d4f050;
     }
-
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
+    body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5vw;
-      height: 72px;
-      background: rgba(8,8,8,0.97);
-      border-bottom: 1px solid rgba(201,168,76,0.12);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 68px;
+      background: var(--bg2);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      transition: transform 0.32s ease;
     }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.12em;
-      color: var(--white);
-      text-decoration: none;
-    }
+    nav.hide { transform: translateY(-100%); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-    .nav-cta {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 0.6rem 1.6rem;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    }
-    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      padding: 4px;
-      z-index: 1100;
-    }
-    .hamburger span {
-      display: block; width: 26px; height: 2px;
-      background: var(--white); transition: all 0.3s;
-    }
+    .nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg); background: var(--gold); padding: 0.55rem 1.5rem; text-decoration: none; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; }
+    .nav-cta:hover { background: var(--gold-lt); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
     .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-
-    .mobile-menu {
-      display: none; position: fixed; inset: 0;
-      background: rgba(8,8,8,0.98); z-index: 1050;
-      flex-direction: column; align-items: center;
-      justify-content: center; gap: 2.5rem;
-    }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg2); z-index: 1050; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
-      letter-spacing: 0.1em; color: var(--white);
-      text-decoration: none; transition: color 0.2s;
-    }
+    .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; transition: color 0.2s; }
     .mobile-menu a:hover { color: var(--gold); }
 
-    /* ── BREADCRUMB ── */
-    .breadcrumb {
-      padding: 90px 8vw 0;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-    }
-    .breadcrumb a { color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+    /* BREADCRUMB */
+    .breadcrumb { padding: 86px 8vw 0; display: flex; align-items: center; gap: 0.6rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .breadcrumb a:hover { color: var(--gold); }
-    .breadcrumb .sep { color: var(--gold-dim); }
-    .breadcrumb .current { color: var(--gold); }
+    .breadcrumb .sep { color: var(--gold-dk); }
+    .breadcrumb .cur { color: var(--gold); }
 
-    /* ── PRODUCT HERO ── */
-    .product-hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4vw;
-      padding: 3rem 8vw 6rem;
-      align-items: start;
-    }
+    /* PRODUCT LAYOUT */
+    .product-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; padding: 2.5rem 8vw 5rem; align-items: start; }
 
-    /* LEFT — visuals */
-    .product-gallery {
-      position: sticky;
-      top: 90px;
-    }
+    /* GALLERY */
+    .product-gallery { position: sticky; top: 86px; }
 
     .main-visual {
-      background: var(--coal);
-      border: 1px solid rgba(201,168,76,0.12);
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
-      margin-bottom: 1rem;
-    }
-    .main-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 65%);
-    }
-
-    .main-scoop-svg {
-      width: 65%;
-      position: relative;
-      z-index: 2;
-      transition: transform 0.4s ease;
-    }
-    .main-visual:hover .main-scoop-svg {
-      transform: scale(1.04) rotate(3deg);
-    }
-
-    .color-badge {
-      position: absolute;
-      bottom: 1.2rem;
-      left: 1.2rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(201,168,76,0.3);
-      padding: 0.4rem 0.9rem;
-    }
-
-    .thumb-row {
-      display: flex;
-      gap: 0.7rem;
-    }
-    .thumb {
-      flex: 1;
-      aspect-ratio: 1;
-      background: var(--coal);
-      border: 1px solid rgba(201,168,76,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      transition: border-color 0.2s;
-      cursor: pointer;
-    }
-    .thumb:hover, .thumb.active { border-color: var(--gold); }
-
-    /* RIGHT — info */
-    .product-info { padding-top: 0.5rem; }
-
-    .product-eyebrow {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-    }
-
-    .product-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5rem);
-      line-height: 0.92;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
-    }
-
-    .product-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--white-dim);
-      margin-bottom: 1.5rem;
-    }
-
-    .rating-row {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 2rem;
-    }
-    .stars-gold { color: var(--gold); font-size: 0.85rem; letter-spacing: 0.05em; }
-    .rating-count {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      color: var(--white-dim);
-      text-transform: uppercase;
-    }
-
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 0.4rem;
-    }
-    .price-main {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .price-old {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.2rem;
-      color: var(--white-dim);
-      text-decoration: line-through;
-    }
-    .price-save {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--neon);
-      background: rgba(228,255,60,0.1);
-      border: 1px solid rgba(228,255,60,0.3);
-      padding: 0.25rem 0.6rem;
-    }
-    .price-note {
-      font-size: 0.8rem;
-      color: var(--white-dim);
-      margin-bottom: 2rem;
-    }
-
-    /* Variant selector */
-    .option-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--white-dim);
+      border: 1px solid rgba(201,168,76,0.15);
       margin-bottom: 0.7rem;
+      background: var(--bg3);
+      position: relative;
     }
+    #mainImg {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+      transition: transform 0.45s ease, opacity 0.22s ease;
+    }
+    .main-visual:hover #mainImg { transform: scale(1.04); }
+    #mainImg.fade { opacity: 0; transform: scale(1.03); }
+
+    .thumb-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+    .thumb { aspect-ratio: 1; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; background: var(--bg3); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.3s; }
+    .thumb:hover img { transform: scale(1.08); }
+    .thumb.active { border-color: var(--gold); }
+    .thumb:hover:not(.active) { border-color: rgba(201,168,76,0.4); }
+
+    /* PRODUCT INFO */
+    .product-info { padding-top: 0.5rem; }
+    .product-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .product-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); line-height: 0.92; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+    .product-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 1.5rem; }
+    .rating-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; }
+    .stars-gold { color: var(--gold); font-size: 0.85rem; }
+    .rating-count { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+    .price-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+    .price-main { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--gold); line-height: 1; }
+    .price-old { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--muted); text-decoration: line-through; }
+    .price-save { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--neon); background: rgba(212,240,80,0.08); border: 1px solid rgba(212,240,80,0.3); padding: 0.25rem 0.6rem; }
+    .price-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
+
+    .option-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.7rem; }
     .option-label span { color: var(--white); }
-
-    .color-options {
-      display: flex;
-      gap: 0.8rem;
-      margin-bottom: 1.8rem;
-    }
-    .color-btn {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      position: relative;
-    }
-    .color-btn:hover { transform: scale(1.08); }
-    .color-btn.active { border-color: var(--white); }
-    .color-btn[data-color="gold"] { background: linear-gradient(135deg, #e8c97a, #c9a84c); }
-    .color-btn[data-color="black"] { background: linear-gradient(135deg, #2a2a2a, #111); border: 2px solid #333; }
-    .color-btn[data-color="silver"] { background: linear-gradient(135deg, #d8d8d8, #a0a0a0); }
-
-    .size-options {
-      display: flex;
-      gap: 0.7rem;
-      margin-bottom: 2rem;
-    }
-    .size-btn {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      background: none;
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 0.6rem 1.2rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-    }
+    .size-options { display: flex; gap: 0.7rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .size-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.12); padding: 0.6rem 1.2rem; cursor: pointer; transition: all 0.2s; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
     .size-btn:hover { border-color: var(--gold); color: var(--gold); }
-    .size-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+    .size-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.07); }
 
-    /* Qty + add to cart */
-    .buy-row {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    .qty-control {
-      display: flex;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,0.15);
-      height: 52px;
-    }
-    .qty-btn {
-      width: 44px; height: 100%;
-      background: none; border: none;
-      color: var(--white); font-size: 1.2rem;
-      cursor: pointer; transition: background 0.2s;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .buy-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .qty-control { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.12); height: 52px; }
+    .qty-btn { width: 44px; height: 100%; background: none; border: none; color: var(--white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .qty-btn:hover { background: rgba(201,168,76,0.1); }
-    .qty-num {
-      width: 44px; text-align: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem; color: var(--white);
-      border: none; background: none;
-      pointer-events: none;
-    }
+    .qty-num { width: 44px; text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); }
 
-    .btn-add {
-      flex: 1;
-      min-width: 200px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      border: none;
-      height: 52px;
-      padding: 0 2rem;
-      cursor: pointer;
-      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-      transition: background 0.2s, transform 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-add::after {
-      content: '✓ Added!';
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #2d5a1b;
-      color: #7fff5f;
-      transform: translateY(100%);
-      transition: transform 0.3s;
-    }
+    .btn-add { flex: 1; min-width: 180px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg); background: var(--gold); border: none; height: 52px; padding: 0 1.8rem; cursor: pointer; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+    .btn-add::after { content: '✓ Added!'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #2d5a1b; color: #7fff5f; transform: translateY(100%); transition: transform 0.3s; }
     .btn-add.added::after { transform: translateY(0); }
-    .btn-add:hover:not(.added) { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-add:hover:not(.added) { background: var(--gold-lt); transform: translateY(-1px); }
 
-    .btn-wishlist {
-      width: 52px; height: 52px;
-      background: none;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: var(--white-dim);
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .btn-wishlist:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-wishlist.active { color: #ff4d4d; border-color: #ff4d4d; }
+    .btn-wish { width: 52px; height: 52px; background: none; border: 1px solid rgba(255,255,255,0.12); color: var(--muted); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .btn-wish:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-wish.active { color: #ff4d4d; border-color: #ff4d4d; }
 
-    .trust-row {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      padding: 1.5rem 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 2rem;
-    }
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-    }
-    .trust-item .icon { font-size: 1rem; }
+    .trust-row { display: flex; gap: 1.2rem; flex-wrap: wrap; padding: 1.4rem 0; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 2rem; }
+    .trust-item { display: flex; align-items: center; gap: 0.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-    /* ── TABS ── */
-    .tabs-section {
-      padding: 5rem 8vw;
-      background: var(--coal);
-    }
-    .tab-nav {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      margin-bottom: 3rem;
-      overflow-x: auto;
-    }
-    .tab-btn {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      background: none;
-      border: none;
-      padding: 1rem 2rem;
-      cursor: pointer;
-      transition: color 0.2s;
-      position: relative;
-      white-space: nowrap;
-    }
-    .tab-btn::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0; right: 0;
-      height: 2px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transition: transform 0.2s;
-    }
+    /* STICKY MOBILE BUY */
+    .sticky-buy { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.2); padding: 0.9rem 6vw; z-index: 900; align-items: center; justify-content: space-between; gap: 1rem; }
+    .sticky-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: var(--gold); }
+    .sticky-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg); background: var(--gold); border: none; padding: 0.85rem 1.8rem; cursor: pointer; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; }
+    .sticky-btn:hover { background: var(--gold-lt); }
+
+    /* TABS */
+    .tabs-section { padding: 5rem 8vw; background: var(--bg2); }
+    .tab-nav { display: flex; border-bottom: 1px solid rgba(201,168,76,0.15); margin-bottom: 3rem; overflow-x: auto; }
+    .tab-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); background: none; border: none; padding: 1rem 1.8rem; cursor: pointer; transition: color 0.2s; position: relative; white-space: nowrap; }
+    .tab-btn::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.2s; }
     .tab-btn.active { color: var(--gold); }
     .tab-btn.active::after { transform: scaleX(1); }
-
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-
-    /* specs table */
     .specs-table { width: 100%; border-collapse: collapse; }
     .specs-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .specs-table tr:last-child { border-bottom: none; }
-    .specs-table td {
-      padding: 1rem 0.5rem;
-      font-size: 0.88rem;
-      color: var(--white-dim);
-    }
-    .specs-table td:first-child {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--white);
-      width: 38%;
-    }
-
-    .desc-text {
-      font-size: 0.9rem;
-      line-height: 1.85;
-      color: var(--white-dim);
-      max-width: 700px;
-    }
+    .specs-table td { padding: 0.95rem 0.5rem; font-size: 0.87rem; color: var(--muted); }
+    .specs-table td:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); width: 38%; }
+    .desc-text { font-size: 0.9rem; line-height: 1.85; color: var(--muted); max-width: 680px; }
     .desc-text + .desc-text { margin-top: 1.2rem; }
     .desc-text strong { color: var(--white); font-weight: 500; }
-
-    /* review in tabs */
-    .review-item {
-      padding: 1.8rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .review-author {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--white);
-      font-size: 0.88rem;
-    }
-    .review-date {
-      font-size: 0.75rem;
-      color: var(--white-dim);
-    }
+    .review-item { padding: 1.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+    .review-author { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); font-size: 0.88rem; }
+    .review-date { font-size: 0.75rem; color: var(--muted); }
     .review-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 0.5rem; }
-    .review-text { font-size: 0.88rem; line-height: 1.7; color: var(--white-dim); }
+    .review-text { font-size: 0.88rem; line-height: 1.7; color: var(--muted); }
 
-    /* ── RELATED ── */
-    .related {
-      padding: 5rem 8vw;
-      background: var(--black);
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    .product-card {
-      background: var(--coal);
-      border: 1px solid rgba(201,168,76,0.08);
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .product-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
-    .card-img {
-      aspect-ratio: 1;
-      background: var(--steel);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
-    }
-    .card-body { padding: 1.2rem; }
-    .card-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-    }
-    .card-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--gold);
-    }
-    .card-link {
-      display: block;
-      margin-top: 0.8rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .card-link:hover { color: var(--gold-light); }
+    /* RELATED */
+    .related { padding: 5rem 8vw; background: var(--bg); }
+    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+    .product-card { background: var(--bg2); border: 1px solid rgba(201,168,76,0.08); overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
+    .product-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+    .card-img { aspect-ratio: 1; overflow: hidden; border-bottom: 1px solid rgba(201,168,76,0.08); background: var(--bg3); }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .product-card:hover .card-img img { transform: scale(1.05); }
+    .card-body { padding: 1.1rem; }
+    .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); margin-bottom: 0.3rem; }
+    .card-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); }
+    .card-link { display: block; margin-top: 0.7rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; transition: color 0.2s; }
+    .card-link:hover { color: var(--gold-lt); }
 
-    /* ── STICKY ADD TO CART (mobile) ── */
-    .sticky-buy {
-      display: none;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(8,8,8,0.97);
-      border-top: 1px solid rgba(201,168,76,0.2);
-      padding: 1rem 6vw;
-      z-index: 900;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .sticky-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      color: var(--gold);
-    }
-    .sticky-btn {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      border: none;
-      padding: 0.85rem 2rem;
-      cursor: pointer;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #050505;
-      padding: 4rem 8vw 2rem;
-      border-top: 1px solid rgba(201,168,76,0.1);
-    }
-    .footer-top {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; gap: 3rem;
-      flex-wrap: wrap; margin-bottom: 3rem;
-    }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem; letter-spacing: 0.1em;
-      color: var(--white); text-decoration: none;
-    }
+    /* FOOTER */
+    footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
     .footer-logo span { color: var(--gold); }
-    .footer-tagline { font-size: 0.82rem; color: var(--white-dim); margin-top: 0.5rem; max-width: 220px; line-height: 1.6; }
-    .footer-nav-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.3em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 1rem;
-    }
-    .footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .footer-nav-links a { font-size: 0.85rem; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; max-width: 210px; line-height: 1.6; }
+    .footer-nav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-nav-links a { font-size: 0.84rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-nav-links a:hover { color: var(--gold); }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding-top: 1.5rem; display: flex;
-      justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-copy { font-size: 0.75rem; color: var(--white-dim); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: 0.74rem; color: var(--muted); }
     .footer-copy span { color: var(--gold); }
 
-    /* reveal */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
-    /* responsive */
-    @media (max-width: 900px) {
-      .product-hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 1.5rem 6vw 5rem; }
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .product-hero { grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem 6vw 4rem; }
       .product-gallery { position: static; }
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
       .sticky-buy { display: flex; }
-      body { padding-bottom: 80px; }
+      body { padding-bottom: 72px; }
+      .tabs-section, .related { padding: 3.5rem 6vw; }
     }
-    @media (max-width: 520px) {
-      .product-name { font-size: 3rem; }
-      .buy-row { gap: 0.7rem; }
+    @media (max-width: 480px) {
+      .product-name { font-size: 2.8rem; }
+      .thumb-row { grid-template-columns: repeat(5,1fr); gap: 0.35rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
-<nav>
+<nav id="navbar">
   <a href="index.html" class="nav-logo">SCOOP<span>X</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -699,9 +218,7 @@
     <li><a href="index.html#how">How It Works</a></li>
   </ul>
   <a href="checkout.html" class="nav-cta">Add to Cart</a>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -709,71 +226,39 @@
   <a href="product.html" onclick="closeMenu()">Product</a>
   <a href="index.html#features" onclick="closeMenu()">Features</a>
   <a href="index.html#how" onclick="closeMenu()">How It Works</a>
+  <a href="checkout.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
 </div>
 
-<!-- ── BREADCRUMB ── -->
 <div class="breadcrumb">
   <a href="index.html">Home</a>
   <span class="sep">/</span>
-  <span class="current">SCOOPX PRO ONE</span>
+  <span class="cur">SCOOPX PRO ONE</span>
 </div>
 
-<!-- ── PRODUCT HERO ── -->
 <div class="product-hero">
-
   <!-- GALLERY -->
   <div class="product-gallery reveal">
-    <div class="main-visual" id="mainVisual">
-      <svg class="main-scoop-svg" viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="168" y="280" width="64" height="130" rx="32" fill="url(#mh)"/>
-        <rect x="179" y="290" width="18" height="90" rx="9" fill="rgba(255,255,255,0.12)"/>
-        <ellipse cx="200" cy="200" rx="130" ry="82" fill="url(#mb)"/>
-        <ellipse cx="200" cy="198" rx="112" ry="68" fill="url(#mbi)"/>
-        <ellipse cx="200" cy="182" rx="100" ry="48" fill="url(#mp)"/>
-        <ellipse cx="185" cy="176" rx="45" ry="16" fill="rgba(255,255,255,0.1)"/>
-        <path d="M72 200 Q200 130 328 200" stroke="url(#mr)" stroke-width="3" fill="none"/>
-        <ellipse cx="200" cy="270" rx="80" ry="12" fill="rgba(0,0,0,0.25)"/>
-        <rect x="192" y="310" width="16" height="2" rx="1" fill="rgba(201,168,76,0.5)"/>
-        <rect x="192" y="322" width="16" height="2" rx="1" fill="rgba(201,168,76,0.3)"/>
-        <defs>
-          <linearGradient id="mh" x1="168" y1="280" x2="232" y2="410" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#c9a84c"/><stop offset="40%" stop-color="#e8c97a"/><stop offset="100%" stop-color="#7a6030"/>
-          </linearGradient>
-          <linearGradient id="mb" x1="70" y1="140" x2="330" y2="280" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#d4b05a"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#5a4018"/>
-          </linearGradient>
-          <radialGradient id="mbi" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#1e1a12"/><stop offset="100%" stop-color="#0d0b07"/>
-          </radialGradient>
-          <radialGradient id="mp" cx="45%" cy="40%" r="65%">
-            <stop offset="0%" stop-color="#e8d8b8"/><stop offset="60%" stop-color="#c9b88a"/><stop offset="100%" stop-color="#9a8860"/>
-          </radialGradient>
-          <linearGradient id="mr" x1="72" y1="200" x2="328" y2="200" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="transparent"/><stop offset="40%" stop-color="rgba(232,201,122,0.6)"/><stop offset="100%" stop-color="transparent"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="color-badge" id="colorBadge">Brushed Gold</div>
+    <div class="main-visual">
+      <img id="mainImg" src="assets/1.jpg" alt="SCOOPX PRO ONE">
     </div>
     <div class="thumb-row">
-      <div class="thumb active" onclick="setThumb(this, '⚗️', 'Side View')">⚗️</div>
-      <div class="thumb" onclick="setThumb(this, '🔬', 'Close Up')">🔬</div>
-      <div class="thumb" onclick="setThumb(this, '📦', 'Packaging')">📦</div>
-      <div class="thumb" onclick="setThumb(this, '✨', 'Detail')">✨</div>
+      <div class="thumb active" onclick="switchImg(this,'assets/1.jpg')"><img src="assets/1.jpg" alt="View 1"></div>
+      <div class="thumb" onclick="switchImg(this,'assets/2.jpg')"><img src="assets/2.jpg" alt="View 2"></div>
+      <div class="thumb" onclick="switchImg(this,'assets/3.jpg')"><img src="assets/3.jpg" alt="View 3"></div>
+      <div class="thumb" onclick="switchImg(this,'assets/4.jpg')"><img src="assets/4.jpg" alt="View 4"></div>
+      <div class="thumb" onclick="switchImg(this,'assets/5.jpg')"><img src="assets/5.jpg" alt="View 5"></div>
     </div>
   </div>
 
-  <!-- PRODUCT INFO -->
+  <!-- INFO -->
   <div class="product-info">
     <div class="product-eyebrow reveal">Precision Measuring Tool</div>
     <h1 class="product-name reveal">SCOOPX<br><span style="color:var(--gold)">PRO ONE</span></h1>
     <p class="product-sub reveal">The last scoop you'll ever buy.</p>
-
     <div class="rating-row reveal">
       <span class="stars-gold">★★★★★</span>
       <span class="rating-count">4.9 / 5 — 214 Reviews</span>
     </div>
-
     <div class="price-row reveal">
       <span class="price-main">$34.99</span>
       <span class="price-old">$49.99</span>
@@ -781,23 +266,13 @@
     </div>
     <p class="price-note reveal">Free shipping on orders over $50 · Ships in 24h</p>
 
-    <!-- Color -->
-    <div class="option-label reveal">Finish — <span id="colorLabel">Brushed Gold</span></div>
-    <div class="color-options reveal">
-      <button class="color-btn active" data-color="gold" data-label="Brushed Gold" onclick="selectColor(this)" aria-label="Gold"></button>
-      <button class="color-btn" data-color="black" data-label="Matte Black" onclick="selectColor(this)" aria-label="Black"></button>
-      <button class="color-btn" data-color="silver" data-label="Polished Silver" onclick="selectColor(this)" aria-label="Silver"></button>
-    </div>
-
-    <!-- Size -->
-    <div class="option-label reveal">Capacity — <span id="sizeLabel">Standard (5–30g)</span></div>
+    <div class="option-label reveal">Size — <span id="sizeLabel">Standard (5–30g)</span></div>
     <div class="size-options reveal">
       <button class="size-btn active" data-label="Standard (5–30g)" onclick="selectSize(this)">Standard</button>
       <button class="size-btn" data-label="Mini (2–15g)" onclick="selectSize(this)">Mini</button>
-      <button class="size-btn" data-label="Pro (5–60g)" onclick="selectSize(this)">Pro XL</button>
+      <button class="size-btn" data-label="Pro XL (5–60g)" onclick="selectSize(this)">Pro XL</button>
     </div>
 
-    <!-- Buy -->
     <div class="buy-row reveal">
       <div class="qty-control">
         <button class="qty-btn" onclick="changeQty(-1)">−</button>
@@ -805,119 +280,92 @@
         <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
       <button class="btn-add" id="addBtn" onclick="addToCart(event)">Add to Cart</button>
-      <button class="btn-wishlist" id="wishBtn" onclick="toggleWish(this)" aria-label="Wishlist">♡</button>
+      <button class="btn-wish" id="wishBtn" onclick="toggleWish(this)" aria-label="Wishlist">♡</button>
     </div>
 
     <div class="trust-row reveal">
-      <div class="trust-item"><span class="icon">🛡️</span> 5-Year Warranty</div>
-      <div class="trust-item"><span class="icon">🚚</span> Free Returns</div>
-      <div class="trust-item"><span class="icon">🔒</span> Secure Checkout</div>
-      <div class="trust-item"><span class="icon">⚡</span> Ships in 24h</div>
+      <div class="trust-item">🛡️ 5-Year Warranty</div>
+      <div class="trust-item">🚚 Free Returns</div>
+      <div class="trust-item">🔒 Secure Checkout</div>
+      <div class="trust-item">⚡ Ships in 24h</div>
     </div>
   </div>
 </div>
 
-<!-- ── TABS ── -->
+<!-- TABS -->
 <div class="tabs-section">
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('desc', this)">Description</button>
-    <button class="tab-btn" onclick="switchTab('specs', this)">Specifications</button>
-    <button class="tab-btn" onclick="switchTab('reviews', this)">Reviews (214)</button>
+    <button class="tab-btn active" onclick="switchTab('desc',this)">Description</button>
+    <button class="tab-btn" onclick="switchTab('specs',this)">Specifications</button>
+    <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews (214)</button>
   </div>
 
   <div id="tab-desc" class="tab-content active">
-    <p class="desc-text">The <strong>SCOOPX PRO ONE</strong> is not another plastic scoop that gets lost inside your protein tub. It's a precision-machined tool designed to eliminate the guesswork from every supplement, powder, or ingredient you measure.</p>
-    <p class="desc-text">Crafted from <strong>304 food-grade stainless steel</strong>, the PRO ONE is built to last a lifetime. The adjustable locking collar lets you preset your exact dose — set it once, scoop it forever. The engineered bowl geometry ensures a clean level every time: no sticking, no mess, no waste.</p>
-    <p class="desc-text">Whether you're scooping protein before a workout, dialing in your morning matcha, measuring collagen into your coffee, or portioning creatine to the gram — <strong>SCOOPX PRO ONE handles it all</strong> with the same unwavering precision.</p>
-    <p class="desc-text">The brushed gold finish isn't just cosmetic — it's a hard anodized coating that resists corrosion, scratches, and the chemical compounds found in supplements and powders. <strong>Dishwasher safe. Obsessively designed.</strong></p>
+    <p class="desc-text">The <strong>SCOOPX PRO ONE</strong> is not another plastic scoop that gets lost inside your protein tub. It's a precision tool designed to eliminate the guesswork from every supplement, powder, or ingredient you measure.</p>
+    <p class="desc-text">The <strong>Slide & Pour mechanism</strong> is the real breakthrough. One hand, one push — your exact dose dispenses cleanly with zero mess. Set it once, use it forever. Whether you're scooping protein, dialing in your morning matcha, measuring collagen, or portioning creatine to the gram, SCOOPX handles it all.</p>
+    <p class="desc-text">Built from <strong>304 food-grade stainless steel</strong>. Dishwasher safe. Drop-proof. The matte black finish resists corrosion, scratches, and chemical compounds found in supplements. <strong>Obsessively designed. Built to last a lifetime.</strong></p>
   </div>
 
   <div id="tab-specs" class="tab-content">
     <table class="specs-table">
       <tr><td>Material</td><td>304 Food-Grade Stainless Steel</td></tr>
+      <tr><td>Mechanism</td><td>Slide & Pour — one-hand operation</td></tr>
       <tr><td>Capacity Range</td><td>Adjustable 5g – 30g (Standard)</td></tr>
       <tr><td>Precision Tolerance</td><td>±0.1g</td></tr>
-      <tr><td>Finish Options</td><td>Brushed Gold / Matte Black / Polished Silver</td></tr>
-      <tr><td>Weight</td><td>68g (solid, no hollow parts)</td></tr>
-      <tr><td>Dimensions</td><td>16cm length × 7cm bowl diameter</td></tr>
+      <tr><td>Finish</td><td>Matte Black</td></tr>
+      <tr><td>Weight</td><td>68g</td></tr>
       <tr><td>Dishwasher Safe</td><td>Yes — top rack recommended</td></tr>
-      <tr><td>BPA / Toxin Free</td><td>Yes — food-grade certified</td></tr>
-      <tr><td>Locking Mechanism</td><td>Snap-collar with 12 preset positions</td></tr>
+      <tr><td>BPA Free</td><td>Yes — food-grade certified</td></tr>
       <tr><td>Compatibility</td><td>All fine-to-medium powders & grains</td></tr>
-      <tr><td>Warranty</td><td>5 Years (no-questions policy)</td></tr>
-      <tr><td>Country of Origin</td><td>Designed in USA · Made in Portugal</td></tr>
+      <tr><td>Warranty</td><td>5 Years, no questions</td></tr>
     </table>
   </div>
 
   <div id="tab-reviews" class="tab-content">
     <div class="review-item">
-      <div class="review-header">
-        <span class="review-author">Marcus L.</span>
-        <span class="review-date">Feb 2025</span>
-      </div>
+      <div class="review-header"><span class="review-author">Marcus L.</span><span class="review-date">Feb 2025</span></div>
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">I've gone through a dozen plastic scoops in the last two years. SCOOPX is the first one I haven't lost in a protein tub. It just lives on my counter. Looks incredible, works perfectly. The locking collar is a game changer — my creatine dose is locked at 5g permanently.</p>
+      <p class="review-text">Gone through a dozen plastic scoops. SCOOPX is the first one I haven't lost. The slide mechanism is a game changer — creatine dose locked at 5g permanently.</p>
     </div>
     <div class="review-item">
-      <div class="review-header">
-        <span class="review-author">Sofia R.</span>
-        <span class="review-date">Jan 2025</span>
-      </div>
+      <div class="review-header"><span class="review-author">Sofia R.</span><span class="review-date">Jan 2025</span></div>
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">I use it for matcha every morning. The precision is absolutely real — my cups have been consistent for the first time ever. Also looks way better than any kitchen tool I own. Worth every cent and then some.</p>
+      <p class="review-text">Use it for matcha every morning. Consistent every single time. Also looks better than any kitchen tool I own. Worth every cent.</p>
     </div>
     <div class="review-item">
-      <div class="review-header">
-        <span class="review-author">Jake T.</span>
-        <span class="review-date">Dec 2024</span>
-      </div>
+      <div class="review-header"><span class="review-author">Jake T.</span><span class="review-date">Dec 2024</span></div>
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">Bought two — one for the gym bag, one for the kitchen. The build quality is insane for the price. Feels like something that costs three times as much. Pre-workout is always dialed in exactly at 8g now. Love it.</p>
+      <p class="review-text">Bought two — gym bag and kitchen. Build quality is insane for the price. Pre-workout always dialed exactly at 8g.</p>
     </div>
     <div class="review-item">
-      <div class="review-header">
-        <span class="review-author">Priya K.</span>
-        <span class="review-date">Nov 2024</span>
-      </div>
+      <div class="review-header"><span class="review-author">Priya K.</span><span class="review-date">Nov 2024</span></div>
       <div class="review-stars">★★★★☆</div>
-      <p class="review-text">Great product overall. The bowl glides clean like they advertise — nothing sticks. Took off one star only because the collar can be a bit stiff to adjust at first, but loosens up after a week of use. Would still absolutely recommend.</p>
+      <p class="review-text">Great product. Bowl glides clean every time. Collar stiff at first but loosens up fast. Would absolutely recommend.</p>
     </div>
   </div>
 </div>
 
-<!-- ── RELATED ── -->
+<!-- RELATED -->
 <section class="related">
   <div class="section-label reveal">Complete Your Setup</div>
   <h2 class="reveal" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:0.95;letter-spacing:0.04em;margin-bottom:0">YOU MIGHT<br><span style="-webkit-text-stroke:1px var(--white);color:transparent">ALSO LIKE</span></h2>
   <div class="related-grid">
     <div class="product-card reveal">
-      <div class="card-img">🧪</div>
-      <div class="card-body">
-        <div class="card-name">SCOOPX Mini</div>
-        <div class="card-price">$24.99</div>
-        <a href="#" class="card-link">View Product →</a>
-      </div>
+      <div class="card-img"><img src="assets/5.jpg" alt="SCOOPX Mini"></div>
+      <div class="card-body"><div class="card-name">SCOOPX Mini</div><div class="card-price">$24.99</div><a href="#" class="card-link">View Product →</a></div>
     </div>
     <div class="product-card reveal">
-      <div class="card-img">🏋️</div>
-      <div class="card-body">
-        <div class="card-name">SCOOPX Pro XL</div>
-        <div class="card-price">$44.99</div>
-        <a href="#" class="card-link">View Product →</a>
-      </div>
+      <div class="card-img"><img src="assets/4.jpg" alt="SCOOPX Pro XL"></div>
+      <div class="card-body"><div class="card-name">SCOOPX Pro XL</div><div class="card-price">$44.99</div><a href="#" class="card-link">View Product →</a></div>
     </div>
     <div class="product-card reveal">
-      <div class="card-img">🎁</div>
-      <div class="card-body">
-        <div class="card-name">SCOOPX Bundle × 3</div>
-        <div class="card-price">$79.99</div>
-        <a href="#" class="card-link">View Product →</a>
-      </div>
+      <div class="card-img"><img src="assets/2.jpg" alt="SCOOPX Bundle"></div>
+      <div class="card-body"><div class="card-name">Bundle × 3</div><div class="card-price">$79.99</div><a href="#" class="card-link">View Product →</a></div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div>
@@ -952,18 +400,27 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2024 <span>SCOOPX</span>. All rights reserved.</div>
+    <div class="footer-copy">© 2025 <span>SCOOPX</span>. All rights reserved.</div>
     <div class="footer-copy">Made for people who give a damn.</div>
   </div>
 </footer>
 
-<!-- STICKY BUY (mobile) -->
+<!-- STICKY BUY MOBILE -->
 <div class="sticky-buy">
   <span class="sticky-price">$34.99</span>
-  <button class="sticky-btn" onclick="addToCart(event)">Add to Cart — $34.99</button>
+  <button class="sticky-btn" onclick="addToCart(event)">Add to Cart</button>
 </div>
 
 <script>
+  // Nav hide on scroll
+  const nav = document.getElementById('navbar');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('hide', y > lastY && y > 80);
+    lastY = y;
+  }, { passive: true });
+
   // Hamburger
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -978,6 +435,18 @@
     document.body.style.overflow = '';
   }
 
+  // Image switcher
+  function switchImg(el, src) {
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const img = document.getElementById('mainImg');
+    img.classList.add('fade');
+    setTimeout(() => {
+      img.src = src;
+      img.classList.remove('fade');
+    }, 200);
+  }
+
   // Tabs
   function switchTab(id, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -986,16 +455,7 @@
     btn.classList.add('active');
   }
 
-  // Color selector
-  function selectColor(btn) {
-    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const label = btn.dataset.label;
-    document.getElementById('colorLabel').textContent = label;
-    document.getElementById('colorBadge').textContent = label;
-  }
-
-  // Size selector
+  // Size
   function selectSize(btn) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1004,22 +464,20 @@
 
   // Qty
   let qty = 1;
-  function changeQty(delta) {
-    qty = Math.max(1, Math.min(10, qty + delta));
+  function changeQty(d) {
+    qty = Math.max(1, Math.min(10, qty + d));
     document.getElementById('qtyNum').textContent = qty;
   }
 
-  // Add to cart → checkout
+  // Add to cart
   function addToCart(e) {
     e.preventDefault();
     const btn = document.getElementById('addBtn');
     btn.classList.add('added');
-    const colorEl = document.querySelector('.color-btn.active');
     const sizeEl = document.querySelector('.size-btn.active');
-    const colorVal = colorEl ? colorEl.dataset.label : 'Brushed Gold';
     const sizeVal = sizeEl ? sizeEl.dataset.label : 'Standard';
     setTimeout(() => {
-      window.location.href = 'checkout.html?color=' + encodeURIComponent(colorVal) + '&size=' + encodeURIComponent(sizeVal) + '&qty=' + qty;
+      window.location.href = 'checkout.html?size=' + encodeURIComponent(sizeVal) + '&qty=' + qty;
     }, 700);
   }
 
@@ -1029,23 +487,13 @@
     btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
   }
 
-  // Thumb view (cosmetic)
-  function setThumb(el, icon, label) {
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-  }
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  // Reveal
+  const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 50);
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 55); obs.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
