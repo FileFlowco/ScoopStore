@@ -43,13 +43,23 @@ module.exports = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items,
+      billing_address_collection: 'required',
       shipping_address_collection: {
         allowed_countries: ['US', 'CA', 'MX', 'GB', 'AU']
       },
       shipping_options,
+      phone_number_collection: { enabled: true },
+      custom_fields: [
+        {
+          key: 'business_name',
+          label: { type: 'custom', custom: 'Business name' },
+          type: 'text',
+          optional: true
+        }
+      ],
       automatic_tax: { enabled: true },
       success_url: base + '/success.html',
-      cancel_url:  base + '/checkout.html',
+      cancel_url: base + '/checkout.html',
     });
 
     res.status(200).json({ url: session.url });
