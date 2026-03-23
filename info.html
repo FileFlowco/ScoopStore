@@ -1,421 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SCOOPX — Info</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:      #6e6e6e;
-      --bg2:     #5d5c5c;
-      --bg3:     #898787;
-      --gold:    #c9a84c;
-      --gold-lt: #e8c97a;
-      --gold-dk: #a07a2a;
-      --white:   #f0ece4;
-      --muted:   #c8c4bc;
-      --faint:   rgba(255,255,255,0.08);
-      --neon:    #d4f050;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
-
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw; height: 68px;
-      background: var(--bg2);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      transition: transform 0.32s ease;
-    }
-    nav.hide { transform: translateY(-100%); }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 0.55rem 1.5rem; text-decoration: none; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; position: relative; }
-    .nav-cta:hover { background: var(--gold-lt); }
-    .cart-count { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: #e03; color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; display: none; align-items: center; justify-content: center; }
-    .cart-count.show { display: flex; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: pointer; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg2); z-index: 1050; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; transition: color 0.2s; }
-    .mobile-menu a:hover { color: var(--gold); }
-
-    /* PAGE HEADER */
-    .page-header { padding: 120px 8vw 4rem; background: var(--bg2); border-bottom: 1px solid rgba(201,168,76,0.12); }
-    .page-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
-    .page-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
-    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; letter-spacing: 0.04em; margin-bottom: 1rem; }
-    .page-title span { color: var(--gold); }
-    .page-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--muted); font-style: italic; }
-
-    /* JUMP NAV */
-    .jump-nav { background: var(--bg3); padding: 1rem 8vw; display: flex; gap: 2rem; flex-wrap: wrap; border-bottom: 1px solid rgba(201,168,76,0.1); position: sticky; top: 68px; z-index: 100; }
-    .jump-link { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
-    .jump-link::before { content: '→'; color: var(--gold); font-size: 0.65rem; }
-    .jump-link:hover { color: var(--gold); }
-
-    /* SECTIONS */
-    .info-section { padding: 5rem 8vw; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .info-section:last-of-type { border-bottom: none; }
-    .info-section:nth-child(odd) { background: var(--bg); }
-    .info-section:nth-child(even) { background: var(--bg2); }
-    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
-    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
-    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 0.95; letter-spacing: 0.04em; margin-bottom: 2.5rem; }
-    .section-title span { color: var(--gold); }
-
-    /* CONTENT CARDS */
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
-    .info-card { background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); padding: 1.8rem; position: relative; overflow: hidden; }
-    .info-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); opacity: 0.5; }
-    .info-card-icon { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
-    .info-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
-    .info-card-text { font-size: 0.84rem; line-height: 1.75; color: var(--muted); }
-    .info-card-text strong { color: var(--white); font-weight: 500; }
-
-    /* TEXT BLOCKS */
-    .info-text { font-size: 0.9rem; line-height: 1.85; color: var(--muted); max-width: 720px; margin-bottom: 1.5rem; }
-    .info-text strong { color: var(--white); font-weight: 500; }
-    .info-text a { color: var(--gold); text-decoration: none; }
-    .info-text a:hover { color: var(--gold-lt); }
-
-    /* TABLE */
-    .info-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; max-width: 720px; }
-    .info-table tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .info-table tr:first-child { border-top: 1px solid rgba(201,168,76,0.2); }
-    .info-table td { padding: 0.9rem 0.5rem; font-size: 0.86rem; color: var(--muted); }
-    .info-table td:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); width: 40%; }
-    .info-table td .tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--neon); background: rgba(212,240,80,0.1); border: 1px solid rgba(212,240,80,0.25); padding: 0.15rem 0.45rem; margin-left: 0.5rem; }
-
-    /* CONTACT FORM */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: start; }
-    .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
-    .contact-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem; background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); }
-    .contact-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
-    .contact-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
-    .contact-val { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
-    .contact-val a { color: var(--white); text-decoration: none; transition: color 0.2s; }
-    .contact-val a:hover { color: var(--gold); }
-    .form-group { margin-bottom: 1.2rem; }
-    .form-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.5rem; }
-    .form-input { width: 100%; background: var(--bg3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.88rem; font-weight: 300; padding: 0.8rem 1rem; transition: border-color 0.2s; outline: none; }
-    .form-input:focus { border-color: var(--gold); }
-    .form-input::placeholder { color: rgba(255,255,255,0.25); }
-    textarea.form-input { resize: vertical; min-height: 120px; }
-    .form-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg2); background: var(--gold); border: none; padding: 1rem 2.2rem; cursor: pointer; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s; width: 100%; }
-    .form-btn:hover { background: var(--gold-lt); }
-    .form-success { display: none; background: rgba(45,106,31,0.2); border: 1px solid rgba(159,255,122,0.3); padding: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9fff7a; text-align: center; margin-top: 1rem; }
-
-    /* FOOTER */
-    footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
-    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
-    .footer-logo span { color: var(--gold); }
-    .footer-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; max-width: 210px; line-height: 1.6; }
-    .footer-nav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-    .footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-    .footer-nav-links a { font-size: 0.84rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .footer-nav-links a:hover { color: var(--gold); }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-copy { font-size: 0.74rem; color: var(--muted); }
-    .footer-copy span { color: var(--gold); }
-
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (max-width: 860px) {
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .page-header { padding: 100px 6vw 3rem; }
-      .jump-nav { padding: 1rem 6vw; gap: 1.2rem; }
-      .info-section { padding: 3.5rem 6vw; }
-      .contact-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .page-title { font-size: 2.8rem; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SCOOPX — Info</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+--bg:      #6e6e6e;
+--bg2:     #5d5c5c;
+--bg3:     #898787;
+--gold:    #c9a84c;
+--gold-lt: #e8c97a;
+--gold-dk: #a07a2a;
+--white:   #f0ece4;
+--muted:   #c8c4bc;
+--faint:   rgba(255,255,255,0.08);
+--neon:    #d4f050;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+display: flex; align-items: center; justify-content: space-between;
+padding: 0 5vw; height: 68px;
+background: var(--bg2);
+border-bottom: 1px solid rgba(201,168,76,0.15);
+transition: transform 0.32s ease;
+}
+nav.hide { transform: translateY(-100%); }
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 0.55rem 1.5rem; text-decoration: none; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; position: relative; }
+.nav-cta:hover { background: var(--gold-lt); }
+.cart-count { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: #e03; color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; display: none; align-items: center; justify-content: center; }
+.cart-count.show { display: flex; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg2); z-index: 1050; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; transition: color 0.2s; }
+.mobile-menu a:hover { color: var(--gold); }
+.page-header { padding: 120px 8vw 4rem; background: var(--bg2); border-bottom: 1px solid rgba(201,168,76,0.12); }
+.page-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.page-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+.page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; letter-spacing: 0.04em; margin-bottom: 1rem; }
+.page-title span { color: var(--gold); }
+.page-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--muted); font-style: italic; }
+.jump-nav { background: var(--bg3); padding: 1rem 8vw; display: flex; gap: 2rem; flex-wrap: wrap; border-bottom: 1px solid rgba(201,168,76,0.1); justify-content: flex-start; }
+a.jump-link { font-family: 'Barlow Condensed', sans-serif !important; font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.2em !important; text-transform: uppercase !important; color: var(--muted) !important; text-decoration: none !important; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+a.jump-link::before { content: '→'; color: var(--gold); font-size: 0.65rem; }
+a.jump-link:hover { color: var(--gold) !important; }
+.info-section { padding: 5rem 8vw; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.info-section:last-of-type { border-bottom: none; }
+.info-section:nth-child(odd) { background: var(--bg); }
+.info-section:nth-child(even) { background: var(--bg2); }
+.section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 0.95; letter-spacing: 0.04em; margin-bottom: 2.5rem; }
+.section-title span { color: var(--gold); }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+.info-card { background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); padding: 1.8rem; position: relative; overflow: hidden; }
+.info-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); opacity: 0.5; }
+.info-card-icon { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
+.info-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
+.info-card-text { font-size: 0.84rem; line-height: 1.75; color: var(--muted); }
+.info-card-text strong { color: var(--white); font-weight: 500; }
+.info-text { font-size: 0.9rem; line-height: 1.85; color: var(--muted); max-width: 720px; margin-bottom: 1.5rem; }
+.info-text strong { color: var(--white); font-weight: 500; }
+.info-text a { color: var(--gold); text-decoration: none; }
+.info-text a:hover { color: var(--gold-lt); }
+.info-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; max-width: 720px; }
+.info-table tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.info-table tr:first-child { border-top: 1px solid rgba(201,168,76,0.2); }
+.info-table td { padding: 0.9rem 0.5rem; font-size: 0.86rem; color: var(--muted); }
+.info-table td:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); width: 40%; }
+.info-table td .tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--neon); background: rgba(212,240,80,0.1); border: 1px solid rgba(212,240,80,0.25); padding: 0.15rem 0.45rem; margin-left: 0.5rem; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: start; }
+.contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+.contact-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem; background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); }
+.contact-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+.contact-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+.contact-val { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+.contact-val a { color: var(--white); text-decoration: none; transition: color 0.2s; }
+.contact-val a:hover { color: var(--gold); }
+.form-group { margin-bottom: 1.2rem; }
+.form-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.5rem; }
+.form-input { width: 100%; background: var(--bg3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.88rem; font-weight: 300; padding: 0.8rem 1rem; transition: border-color 0.2s; outline: none; }
+.form-input:focus { border-color: var(--gold); }
+.form-input::placeholder { color: rgba(255,255,255,0.25); }
+textarea.form-input { resize: vertical; min-height: 120px; }
+.form-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg2); background: var(--gold); border: none; padding: 1rem 2.2rem; cursor: pointer; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s; width: 100%; }
+.form-btn:hover:not(:disabled) { background: var(--gold-lt); }
+.form-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.form-success { display: none; background: rgba(45,106,31,0.2); border: 1px solid rgba(159,255,122,0.3); padding: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9fff7a; text-align: center; margin-top: 1rem; }
+.form-error { display: none; background: rgba(220,50,50,0.15); border: 1px solid rgba(255,100,100,0.3); padding: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: #ff8888; text-align: center; margin-top: 1rem; }
+footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
+.footer-logo span { color: var(--gold); }
+.footer-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; max-width: 210px; line-height: 1.6; }
+.footer-nav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-nav-links a { font-size: 0.84rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-nav-links a:hover { color: var(--gold); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-size: 0.74rem; color: var(--muted); }
+.footer-copy span { color: var(--gold); }
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (max-width: 860px) {
+.nav-links, .nav-cta { display: none; }
+.hamburger { display: flex; }
+.page-header { padding: 100px 6vw 3rem; }
+.jump-nav { padding: 1rem 6vw; gap: 1.2rem; }
+.info-section { padding: 3.5rem 6vw; }
+.contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) { .page-title { font-size: 2.8rem; } }
+</style>
 </head>
 <body>
-
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">SCOOP<span>X</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="product.html">Product</a></li>
-    <li><a href="index.html#features">Features</a></li>
-    <li><a href="index.html#how">How It Works</a></li>
-  </ul>
-  <a href="checkout.html" class="nav-cta">
-    Shop Now
-    <span class="cart-count" id="navCartCount">0</span>
-  </a>
-  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+<a href="index.html" class="nav-logo">X<span>supply</span></a>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="product.html">Product</a></li>
+<li><a href="index.html#features">Features</a></li>
+<li><a href="index.html#how">How It Works</a></li>
+</ul>
+<a href="checkout.html" class="nav-cta">Shop Now<span class="cart-count" id="navCartCount">0</span></a>
+<button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMenu()">Home</a>
-  <a href="product.html" onclick="closeMenu()">Product</a>
-  <a href="index.html#features" onclick="closeMenu()">Features</a>
-  <a href="index.html#how" onclick="closeMenu()">How It Works</a>
-  <a href="checkout.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
+<a href="index.html" onclick="closeMenu()">Home</a>
+<a href="product.html" onclick="closeMenu()">Product</a>
+<a href="index.html#features" onclick="closeMenu()">Features</a>
+<a href="index.html#how" onclick="closeMenu()">How It Works</a>
+<a href="checkout.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
 </div>
-
 <div class="page-header">
-  <div class="page-eyebrow">Support & Policies</div>
-  <h1 class="page-title">NEED TO<br><span>KNOW</span></h1>
-  <p class="page-sub">Everything about shipping, warranty, and getting in touch.</p>
+<div class="page-eyebrow">Support & Policies</div>
+<h1 class="page-title">NEED TO<br><span>KNOW</span></h1>
+<p class="page-sub">Everything about shipping, returns, and getting in touch.</p>
 </div>
-
-<nav class="jump-nav">
-  <a href="#shipping" class="jump-link">Shipping Policy</a>
-  <a href="#warranty" class="jump-link">Warranty</a>
-  <a href="#contact" class="jump-link">Contact Us</a>
-</nav>
+<div class="jump-nav">
+<a href="#shipping" class="jump-link">Shipping Policy</a>
+<a href="#returns" class="jump-link">Returns</a>
+<a href="#contact" class="jump-link">Contact Us</a>
+</div>
 
 <!-- SHIPPING -->
 <section class="info-section" id="shipping">
-  <div class="section-label reveal">Delivery</div>
-  <h2 class="section-title reveal">SHIPPING<br><span>POLICY</span></h2>
-
-  <div class="info-grid reveal">
-    <div class="info-card">
-      <span class="info-card-icon">📦</span>
-      <div class="info-card-title">Processing Time</div>
-      <p class="info-card-text">Orders are processed within <strong>1–2 business days</strong> after payment is confirmed. You'll receive a tracking number by email once shipped.</p>
-    </div>
-    <div class="info-card">
-      <span class="info-card-icon">🚚</span>
-      <div class="info-card-title">Delivery Time</div>
-      <p class="info-card-text">Standard delivery takes <strong>3–7 business days</strong> within the US. International orders may take 7–15 business days depending on location.</p>
-    </div>
-    <div class="info-card">
-      <span class="info-card-icon">💸</span>
-      <div class="info-card-title">Shipping Rates</div>
-      <p class="info-card-text"><strong>Free shipping</strong> on all orders over $20. Orders under $20 ship for a flat rate of <strong>$5.99</strong>. No surprises at checkout.</p>
-    </div>
-  </div>
-
-  <table class="info-table reveal">
-    <tr><td>United States</td><td>3–7 business days <span class="tag">Free over $20</span></td></tr>
-    <tr><td>Canada</td><td>7–12 business days</td></tr>
-    <tr><td>Mexico</td><td>7–12 business days</td></tr>
-    <tr><td>United Kingdom</td><td>7–15 business days</td></tr>
-    <tr><td>Australia</td><td>10–15 business days</td></tr>
-    <tr><td>Other countries</td><td>Contact us for availability</td></tr>
-  </table>
-
-  <p class="info-text reveal">Once your order ships, you'll receive a tracking link via email. If your package hasn't arrived within the estimated window, <a href="#contact">contact us</a> and we'll sort it out immediately.</p>
+<div class="section-label reveal">Delivery</div>
+<h2 class="section-title reveal">SHIPPING<br><span>POLICY</span></h2>
+<div class="info-grid reveal">
+<div class="info-card">
+<span class="info-card-icon">📦</span>
+<div class="info-card-title">Processing Time</div>
+<p class="info-card-text">Orders are processed within <strong>1–3 business days</strong> after payment is confirmed. You'll receive a confirmation email once your order ships.</p>
+</div>
+<div class="info-card">
+<span class="info-card-icon">🚚</span>
+<div class="info-card-title">Delivery Time</div>
+<p class="info-card-text">Delivery takes between <strong>5–14 business days</strong> depending on your location and carrier. We do our best to get it to you as fast as possible.</p>
+</div>
+<div class="info-card">
+<span class="info-card-icon">💸</span>
+<div class="info-card-title">Shipping Rates</div>
+<p class="info-card-text"><strong>Free shipping</strong> on orders over $20. Orders under $20 ship for a flat rate of <strong>$5.99</strong>. No hidden fees.</p>
+</div>
+</div>
+<table class="info-table reveal">
+<tr><td>United States</td><td>5–10 business days <span class="tag">Free over $20</span></td></tr>
+<tr><td>Canada</td><td>7–14 business days</td></tr>
+</table>
+<p class="info-text reveal">We currently ship to the <strong>United States and Canada only</strong>. Once your order ships you'll receive tracking info by email. If you haven't received it within the estimated window, <a href="#contact">contact us</a> and we'll look into it right away.</p>
 </section>
 
-<!-- WARRANTY -->
-<section class="info-section" id="warranty">
-  <div class="section-label reveal">Coverage</div>
-  <h2 class="section-title reveal">WARRANTY &<br><span>RETURNS</span></h2>
-
-  <div class="info-grid reveal">
-    <div class="info-card">
-      <span class="info-card-icon">🛡️</span>
-      <div class="info-card-title">5-Year Warranty</div>
-      <p class="info-card-text">Every SCOOPX PRO ONE comes with a <strong>5-year manufacturer warranty</strong>. If it breaks, malfunctions, or fails under normal use — we replace it. No questions asked.</p>
-    </div>
-    <div class="info-card">
-      <span class="info-card-icon">↩️</span>
-      <div class="info-card-title">30-Day Returns</div>
-      <p class="info-card-text">Not happy? Return it within <strong>30 days</strong> of delivery for a full refund. Item must be in original condition. Return shipping is on us.</p>
-    </div>
-    <div class="info-card">
-      <span class="info-card-icon">⚡</span>
-      <div class="info-card-title">Fast Resolution</div>
-      <p class="info-card-text">We aim to resolve all warranty claims and returns within <strong>2–3 business days</strong> of receiving your request. Replacements ship within 48 hours of approval.</p>
-    </div>
-  </div>
-
-  <table class="info-table reveal">
-    <tr><td>Warranty Period</td><td>5 Years from date of purchase</td></tr>
-    <tr><td>What's Covered</td><td>Manufacturing defects, mechanism failure, material issues</td></tr>
-    <tr><td>What's Not Covered</td><td>Physical damage from misuse, loss</td></tr>
-    <tr><td>Return Window</td><td>30 days from delivery</td></tr>
-    <tr><td>Refund Method</td><td>Original payment method, within 5–7 business days</td></tr>
-    <tr><td>How to Claim</td><td>Email us with your order number</td></tr>
-  </table>
-
-  <p class="info-text reveal">To start a warranty claim or return, just <a href="#contact">contact us</a> with your order number and a brief description. We'll take care of the rest.</p>
+<!-- RETURNS -->
+<section class="info-section" id="returns">
+<div class="section-label reveal">Returns & Refunds</div>
+<h2 class="section-title reveal">RETURNS &<br><span>REFUNDS</span></h2>
+<div class="info-grid reveal">
+<div class="info-card">
+<span class="info-card-icon">↩️</span>
+<div class="info-card-title">7-Day Return Window</div>
+<p class="info-card-text">You have <strong>7 days from delivery</strong> to request a return. We accept returns only for items that arrived damaged, defective, or were the wrong item — not for change of mind.</p>
+</div>
+<div class="info-card">
+<span class="info-card-icon">📸</span>
+<div class="info-card-title">How to Request</div>
+<p class="info-card-text">Email us at <strong>scoopxus@gmail.com</strong> with your name, the email used at checkout, a photo of the issue, and a brief description. We'll get back to you within 24–48 hours.</p>
+</div>
+<div class="info-card">
+<span class="info-card-icon">💳</span>
+<div class="info-card-title">Refunds</div>
+<p class="info-card-text">Once your return is approved, a refund will be issued to your original payment method within <strong>5–7 business days</strong>. Shipping costs are non-refundable unless the error was ours.</p>
+</div>
+</div>
+<table class="info-table reveal">
+<tr><td>Return Window</td><td>7 days from confirmed delivery</td></tr>
+<tr><td>Accepted Reasons</td><td>Damaged in shipping, defective, wrong item sent</td></tr>
+<tr><td>Not Accepted</td><td>Change of mind, buyer's remorse, misuse</td></tr>
+<tr><td>Refund Timeline</td><td>5–7 business days after approval</td></tr>
+<tr><td>How to Start</td><td>Email scoopxus@gmail.com with proof</td></tr>
+</table>
+<p class="info-text reveal">We stand behind our products. If something arrived broken or wrong — that's on us and we'll make it right. For any issues, <a href="#contact">reach out</a> and include a photo so we can resolve it quickly.</p>
 </section>
 
 <!-- CONTACT -->
 <section class="info-section" id="contact">
-  <div class="section-label reveal">Get in Touch</div>
-  <h2 class="section-title reveal">CONTACT<br><span>US</span></h2>
-
-  <div class="contact-grid">
-    <div class="contact-info reveal">
-      <div class="contact-item">
-        <span class="contact-icon">📧</span>
-        <div>
-          <div class="contact-label">Email</div>
-          <div class="contact-val"><a href="mailto:support@scoopx.com">support@scoopx.com</a></div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">⏱️</span>
-        <div>
-          <div class="contact-label">Response Time</div>
-          <div class="contact-val">We reply within 24 hours, Monday – Friday</div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">📱</span>
-        <div>
-          <div class="contact-label">Social</div>
-          <div class="contact-val">
-            <a href="#">Instagram</a> · <a href="#">TikTok</a> · <a href="#">YouTube</a>
-          </div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">📦</span>
-        <div>
-          <div class="contact-label">Order Issues</div>
-          <div class="contact-val">Include your order number in your message for faster help</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="reveal">
-      <div class="form-group">
-        <label class="form-label">Your Name</label>
-        <input type="text" class="form-input" placeholder="John Doe" id="formName">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" placeholder="you@example.com" id="formEmail">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Subject</label>
-        <select class="form-input" id="formSubject" style="cursor:pointer">
-          <option value="">Select a topic</option>
-          <option value="order">Order / Tracking</option>
-          <option value="warranty">Warranty Claim</option>
-          <option value="return">Return / Refund</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea class="form-input" placeholder="How can we help?" id="formMessage"></textarea>
-      </div>
-      <button class="form-btn" onclick="submitForm()">Send Message</button>
-      <div class="form-success" id="formSuccess">✓ Message sent! We'll get back to you within 24 hours.</div>
+<div class="section-label reveal">Get in Touch</div>
+<h2 class="section-title reveal">CONTACT<br><span>US</span></h2>
+<div class="contact-grid">
+<div class="contact-info reveal">
+  <div class="contact-item">
+    <span class="contact-icon">📧</span>
+    <div>
+      <div class="contact-label">Email</div>
+      <div class="contact-val"><a href="mailto:scoopxus@gmail.com">scoopxus@gmail.com</a></div>
     </div>
   </div>
+  <div class="contact-item">
+    <span class="contact-icon">⏱️</span>
+    <div>
+      <div class="contact-label">Response Time</div>
+      <div class="contact-val">We reply within 24 hours, Monday – Friday</div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <span class="contact-icon">📱</span>
+    <div>
+      <div class="contact-label">Instagram</div>
+      <div class="contact-val"><a href="https://www.instagram.com/scoopx.pro/" target="_blank" rel="noopener noreferrer">@scoopx.pro</a></div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <span class="contact-icon">📦</span>
+    <div>
+      <div class="contact-label">Order Issues</div>
+      <div class="contact-val">Include your full name and the email used at checkout for faster help</div>
+    </div>
+  </div>
+</div>
+<div class="reveal">
+  <div class="form-group">
+    <label class="form-label">Your Name</label>
+    <input type="text" class="form-input" placeholder="John Doe" id="formName">
+  </div>
+  <div class="form-group">
+    <label class="form-label">Email Address</label>
+    <input type="email" class="form-input" placeholder="you@example.com" id="formEmail">
+  </div>
+  <div class="form-group">
+    <label class="form-label">Subject</label>
+    <select class="form-input" id="formSubject" style="cursor:pointer">
+      <option value="">Select a topic</option>
+      <option value="Order / Tracking">Order / Tracking</option>
+      <option value="Return / Refund">Return / Refund</option>
+      <option value="Damaged Item">Damaged Item</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label">Message</label>
+    <textarea class="form-input" placeholder="How can we help?" id="formMessage"></textarea>
+  </div>
+  <button class="form-btn" id="formBtn" onclick="submitForm()">Send Message</button>
+  <div class="form-success" id="formSuccess">✓ Message sent! We'll get back to you within 24 hours.</div>
+  <div class="form-error" id="formError">Something went wrong. Please email us directly at scoopxus@gmail.com</div>
+</div>
+</div>
 </section>
 
 <footer>
-  <div class="footer-top">
-    <div>
-      <a href="index.html" class="footer-logo">SCOOP<span>X</span></a>
-      <p class="footer-tagline">Precision measuring tools for serious people. Every gram counts.</p>
-    </div>
-    <div>
-      <div class="footer-nav-title">Navigate</div>
-      <ul class="footer-nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="product.html">Product</a></li>
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#how">How It Works</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-nav-title">Info</div>
-      <ul class="footer-nav-links">
-        <li><a href="info.html#shipping">Shipping Policy</a></li>
-        <li><a href="info.html#warranty">Warranty</a></li>
-        <li><a href="info.html#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-nav-title">Follow</div>
-      <ul class="footer-nav-links">
-        <li><a href="https://www.instagram.com/scoopx.pro/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-        <li><a href="https://www.tiktok.com/@scoopxpro" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-        <li><a href="#" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">
-      © 2025 <span>SCOOPX</span>. All rights reserved. Powered by 
-      <a href="https://fileflowco.com" target="_blank" style="color:inherit; text-decoration:none;">
-        FileFlow
-      </a>
-    </div>
-    <div class="footer-copy">Made for people who give a damn.</div>
-  </div>
+<div class="footer-top">
+<div>
+<a href="index.html" class="footer-logo">SCOOP<span>X</span></a>
+<p class="footer-tagline">Precision measuring tools for serious people. Every gram counts.</p>
+</div>
+<div>
+<div class="footer-nav-title">Navigate</div>
+<ul class="footer-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="product.html">Product</a></li>
+<li><a href="index.html#features">Features</a></li>
+<li><a href="index.html#how">How It Works</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-nav-title">Info</div>
+<ul class="footer-nav-links">
+<li><a href="info.html#shipping">Shipping Policy</a></li>
+<li><a href="info.html#returns">Returns</a></li>
+<li><a href="info.html#contact">Contact</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-nav-title">Follow</div>
+<ul class="footer-nav-links">
+<li><a href="https://www.instagram.com/scoopx.pro/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+<li><a href="https://www.tiktok.com/@scoopxpro" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+<li><a href="#" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-copy">© 2025 <span>SCOOPX</span>. All rights reserved. Powered by <a href="https://fileflowco.com" target="_blank" style="color:inherit;text-decoration:none;">FileFlow</a></div>
+<div class="footer-copy">Made for people who give a damn.</div>
+</div>
 </footer>
 
 <script>
-  const nav = document.getElementById('navbar');
-  let lastY = 0;
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    nav.classList.toggle('hide', y > lastY && y > 80);
-    lastY = y;
-  }, { passive: true });
+const nav = document.getElementById('navbar');
+let lastY = 0;
+window.addEventListener('scroll', () => {
+const y = window.scrollY;
+nav.classList.toggle('hide', y > lastY && y > 80);
+lastY = y;
+}, { passive: true });
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+hamburger.classList.toggle('open');
+mobileMenu.classList.toggle('open');
+document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMenu() {
+hamburger.classList.remove('open');
+mobileMenu.classList.remove('open');
+document.body.style.overflow = '';
+}
+function getCart() { try { return JSON.parse(localStorage.getItem('scoopx_cart') || '[]'); } catch(e){ return []; } }
+function cartTotal() { return getCart().reduce((s,i)=>s+i.qty,0); }
+function updateBadge() {
+const el = document.getElementById('navCartCount');
+const n = cartTotal();
+el.textContent = n;
+el.classList.toggle('show', n > 0);
+}
+updateBadge();
 
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-  });
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  }
+async function submitForm() {
+const name = document.getElementById('formName').value.trim();
+const email = document.getElementById('formEmail').value.trim();
+const subject = document.getElementById('formSubject').value;
+const message = document.getElementById('formMessage').value.trim();
+if (!name || !email || !message) { alert('Please fill in all required fields.'); return; }
+const btn = document.getElementById('formBtn');
+btn.textContent = 'Sending…';
+btn.disabled = true;
+document.getElementById('formSuccess').style.display = 'none';
+document.getElementById('formError').style.display = 'none';
+try {
+const res = await fetch('https://formspree.io/f/myknqndk', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+body: JSON.stringify({ name, email, subject: subject || 'General inquiry', message })
+});
+if (res.ok) {
+document.getElementById('formSuccess').style.display = 'block';
+document.getElementById('formName').value = '';
+document.getElementById('formEmail').value = '';
+document.getElementById('formSubject').value = '';
+document.getElementById('formMessage').value = '';
+} else { throw new Error('Failed'); }
+} catch(e) {
+document.getElementById('formError').style.display = 'block';
+}
+btn.textContent = 'Send Message';
+btn.disabled = false;
+}
 
-  function getCart() { try { return JSON.parse(localStorage.getItem('scoopx_cart') || '[]'); } catch(e){ return []; } }
-  function cartTotal() { return getCart().reduce((s,i)=>s+i.qty,0); }
-  function updateBadge() {
-    const el = document.getElementById('navCartCount');
-    const n = cartTotal();
-    el.textContent = n;
-    el.classList.toggle('show', n > 0);
-  }
-  updateBadge();
-
-  function submitForm() {
-    const name = document.getElementById('formName').value.trim();
-    const email = document.getElementById('formEmail').value.trim();
-    const message = document.getElementById('formMessage').value.trim();
-    if (!name || !email || !message) { alert('Please fill in all required fields.'); return; }
-    document.getElementById('formSuccess').style.display = 'block';
-    document.getElementById('formName').value = '';
-    document.getElementById('formEmail').value = '';
-    document.getElementById('formSubject').value = '';
-    document.getElementById('formMessage').value = '';
-  }
-
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+const obs = new IntersectionObserver((entries) => {
+entries.forEach((e, i) => {
+if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
+});
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
