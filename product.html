@@ -73,23 +73,12 @@ nav.hide { transform: translateY(-100%); }
 .rating-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; }
 .stars-gold { color: var(--gold); font-size: 0.85rem; }
 .rating-count { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
-
 /* PACK SELECTOR */
 .pack-selector { margin-bottom: 1.6rem; }
 .pack-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.8rem; }
 .pack-label span { color: var(--white); font-weight: 700; }
 .pack-options { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-.pack-btn {
-  flex: 1; min-width: 120px;
-  background: none;
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 0.9rem 1rem;
-  cursor: pointer;
-  text-align: center;
-  transition: border-color 0.2s, background 0.2s;
-  position: relative;
-  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-}
+.pack-btn { flex: 1; min-width: 120px; background: none; border: 1px solid rgba(255,255,255,0.15); padding: 0.9rem 1rem; cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; position: relative; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
 .pack-btn:hover { border-color: rgba(201,168,76,0.5); }
 .pack-btn.active { border-color: var(--gold); background: rgba(201,168,76,0.08); }
 .pack-btn-qty { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); display: block; margin-bottom: 0.2rem; }
@@ -101,13 +90,25 @@ nav.hide { transform: translateY(-100%); }
 .promo-banner { background: rgba(212,240,80,0.08); border: 1px solid rgba(212,240,80,0.25); padding: 0.5rem 0.9rem; margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.6rem; }
 .promo-banner span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--neon); }
 .promo-banner strong { color: var(--white); }
-
+/* COLOR SELECTOR */
+.color-selector { margin-bottom: 1.6rem; }
+.color-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+.color-label span { color: var(--white); font-weight: 700; }
+.color-options { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+.color-opt { text-align: center; }
+.color-btn { width: 42px; height: 42px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: border-color 0.2s, transform 0.2s; display: block; background: none; padding: 0; }
+.color-btn .dot { width: 100%; height: 100%; border-radius: 50%; display: block; }
+.color-btn:hover:not(.soldout) { transform: scale(1.12); }
+.color-btn.active { border-color: var(--gold); }
+.color-btn.soldout { opacity: 0.38; cursor: not-allowed; position: relative; }
+.color-btn.soldout::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: repeating-linear-gradient(45deg,rgba(0,0,0,0.45) 0px,rgba(0,0,0,0.45) 2px,transparent 2px,transparent 6px); }
+.color-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+.color-name.soldout-lbl { color: #ff6b6b; }
 .price-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
 .price-main { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--gold); line-height: 1; }
 .price-old-main { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; color: rgba(255,255,255,0.3); text-decoration: line-through; }
 .price-save-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--neon); background: rgba(212,240,80,0.1); border: 1px solid rgba(212,240,80,0.3); padding: 0.2rem 0.55rem; align-self: center; }
 .price-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
-
 .buy-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
 .qty-control { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.12); height: 52px; }
 .qty-btn { width: 44px; height: 100%; background: none; border: none; color: var(--white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
@@ -159,6 +160,10 @@ nav.hide { transform: translateY(-100%); }
 .card-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); }
 .card-link { display: block; margin-top: 0.7rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); transition: color 0.2s; }
 .product-card:hover .card-link { color: var(--gold-lt); }
+/* FLOAT CART */
+.float-cart { display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 950; background: var(--gold); color: var(--bg2); font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 0.8rem 1.3rem; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: background 0.2s, transform 0.2s; align-items: center; gap: 0.6rem; }
+.float-cart:hover { background: var(--gold-lt); transform: translateY(-2px); }
+.float-cart-num { background: #e03; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; }
 footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
 .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
 .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
@@ -181,6 +186,7 @@ footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid r
 .sticky-buy { display: flex; }
 body { padding-bottom: 72px; }
 .tabs-section, .related { padding: 3.5rem 6vw; }
+.float-cart { display: flex; }
 }
 @media (max-width: 480px) {
 .product-name { font-size: 2.8rem; }
@@ -233,7 +239,7 @@ Shop Now
 <span class="rating-count" id="pRating">4.9 / 5 — 214 Reviews</span>
 </div>
 
-<!-- PACK SELECTOR — only shown for scoop products -->
+<!-- PACK SELECTOR — scoop only -->
 <div class="pack-selector reveal" id="packSelector" style="display:none">
   <div class="pack-label">Choose your pack — <span id="packLabelVal">1 Scoop</span></div>
   <div class="pack-options">
@@ -252,7 +258,32 @@ Shop Now
   </div>
 </div>
 
-<!-- PROMO BANNER — only for scoop -->
+<!-- COLOR SELECTOR — keychain only -->
+<div class="color-selector reveal" id="colorSelector" style="display:none">
+  <div class="color-label">Choose your color — <span id="colorLabelVal">Black</span></div>
+  <div class="color-options">
+    <div class="color-opt">
+      <button class="color-btn active" id="colorBlack" onclick="selectColor('Black',this)">
+        <span class="dot" style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.2)"></span>
+      </button>
+      <span class="color-name">Black</span>
+    </div>
+    <div class="color-opt">
+      <button class="color-btn" id="colorRed" onclick="selectColor('Red',this)">
+        <span class="dot" style="background:#cc2200"></span>
+      </button>
+      <span class="color-name">Red</span>
+    </div>
+    <div class="color-opt">
+      <button class="color-btn soldout" onclick="return false">
+        <span class="dot" style="background:#e87ab0"></span>
+      </button>
+      <span class="color-name soldout-lbl">Sold Out</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROMO BANNER — scoop only -->
 <div class="promo-banner reveal" id="promoBanner" style="display:none">
   <span>🔥 LIMITED PROMO — <strong id="promoText">33% off today only</strong></span>
 </div>
@@ -337,6 +368,9 @@ Shop Now
 <span class="sticky-price" id="stickyPrice">$8.00</span>
 <button class="sticky-btn" onclick="doAddAndCheckout()">Buy Now</button>
 </div>
+<a href="checkout.html" class="float-cart" id="floatCart" style="display:none">
+  🛒 Cart <span class="float-cart-num" id="floatCartNum">0</span>
+</a>
 <script>
 const CATALOG = {
 scoop1: {
@@ -411,18 +445,18 @@ nameLine2: 'Set',
 sub: 'The perfect gift for any gym lover.',
 price: 12.99,
 rating: '4.8 / 5 — 97 Reviews',
-note: 'Available in Red, Black, and Pink · Free shipping on orders over $25',
-images: ['assets/6.jpg','assets/6.jpg','assets/6.jpg','assets/6.jpg'],
+note: 'Available in Red & Black · Free shipping on orders over $25',
+images: ['assets/6.jpg','assets/7.jpg','assets/8.jpg','assets/9.jpg'],
 isScoop: false,
 desc: [
 'The <strong>Gym Keychain Set</strong> is the ultimate accessory for gym lovers. Mini rubber replicas of iconic gym equipment — dumbbells, kettlebell, barbell weight plate, and a shaker bottle — all dangling from a sleek carabiner clip.',
-'Available in <strong>Red, Black, and Pink</strong>. Makes a great gift for a training partner, coach, or anyone who lives at the gym. Compact, durable, and way cooler than a plain keychain.',
+'Available in <strong>Red and Black</strong> (Pink currently sold out). Makes a great gift for a training partner, coach, or anyone who lives at the gym. Compact, durable, and way cooler than a plain keychain.',
 'Clip it to your gym bag, car keys, or locker. Show the world where your priorities are.'
 ],
 specs: [
 ['Includes','Dumbbell × 2, Kettlebell, Weight Plate, Shaker'],
 ['Material','High-quality rubber charms + metal hardware'],
-['Colors Available','Red, Black, Pink'],
+['Colors Available','Red, Black (Pink — Sold Out)'],
 ['Clip Type','Carabiner-style key ring'],
 ['Size','Compact — fits any keyring or bag'],
 ['Occasion','Gift, gym accessory, bag charm']
@@ -436,7 +470,7 @@ reviews: [
 };
 
 const PACK_DATA = {
-1: { id:'scoop1', price:8.00,  oldPrice:12.00, save:'33% off',  label:'1 Scoop',  promo:'33% off today only',       cartName:'SCOOPX PRO ONE Single' },
+1: { id:'scoop1', price:8.00,  oldPrice:12.00, save:'33% off',  label:'1 Scoop',  promo:'33% off today only',           cartName:'SCOOPX PRO ONE Single' },
 3: { id:'scoop3', price:19.99, oldPrice:36.00, save:'Save $16', label:'3 Pack',   promo:'Save $16 vs buying 3 singles', cartName:'SCOOPX PRO ONE 3 Pack' }
 };
 
@@ -446,30 +480,26 @@ const product = CATALOG[id] || CATALOG['scoop1'];
 
 let qty = 1;
 let selectedPack = (id === 'scoop3') ? 3 : 1;
-let activeCartId = product.id;
-let activePrice = product.price;
+let selectedColor = 'Black';
 
 function selectPack(packNum) {
   selectedPack = packNum;
   const pd = PACK_DATA[packNum];
-  activeCartId = pd.id;
-  activePrice = pd.price;
-
-  // Update buttons
   document.getElementById('pack1').classList.toggle('active', packNum === 1);
   document.getElementById('pack3').classList.toggle('active', packNum === 3);
-
-  // Update label
   document.getElementById('packLabelVal').textContent = pd.label;
-
-  // Update price display
   document.getElementById('pPrice').textContent = '$' + pd.price.toFixed(2);
   document.getElementById('pPriceOld').textContent = '$' + pd.oldPrice.toFixed(2);
   document.getElementById('pPriceSave').textContent = pd.save;
   document.getElementById('stickyPrice').textContent = '$' + pd.price.toFixed(2);
-
-  // Update promo banner
   document.getElementById('promoText').textContent = pd.promo;
+}
+
+function selectColor(color, btn) {
+  selectedColor = color;
+  document.getElementById('colorLabelVal').textContent = color;
+  document.querySelectorAll('.color-btn:not(.soldout)').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function init() {
@@ -481,48 +511,43 @@ function init() {
   document.getElementById('pRating').textContent = product.rating;
   document.getElementById('pNote').textContent = product.note;
 
-  // Show pack selector + promo only for scoop products
   if (product.isScoop) {
     document.getElementById('packSelector').style.display = 'block';
     document.getElementById('promoBanner').style.display = 'flex';
     document.getElementById('pPriceOld').style.display = 'inline';
     document.getElementById('pPriceSave').style.display = 'inline';
-    // Pre-select correct pack based on URL
     selectPack(id === 'scoop3' ? 3 : 1);
   } else {
     document.getElementById('pPrice').textContent = '$' + product.price.toFixed(2);
     document.getElementById('stickyPrice').textContent = '$' + product.price.toFixed(2);
   }
 
-  // Main image
-  document.getElementById('mainImg').src = product.images[0];
+  if (!product.isScoop) {
+    document.getElementById('colorSelector').style.display = 'block';
+  }
 
-  // Thumbs
+  document.getElementById('mainImg').src = product.images[0];
   const thumbRow = document.getElementById('thumbRow');
   thumbRow.innerHTML = '';
   product.images.forEach((src, i) => {
     const d = document.createElement('div');
     d.className = 'thumb' + (i===0?' active':'');
     d.innerHTML = '<img src="'+src+'" alt="View '+(i+1)+'">';
-    d.onclick = () => switchImg(d, src, i);
+    d.onclick = () => switchImg(d, src);
     thumbRow.appendChild(d);
   });
 
-  // Description
   const descEl = document.getElementById('tab-desc');
   descEl.innerHTML = product.desc.map(p => '<p class="desc-text">'+p+'</p>').join('');
 
-  // Specs
   const specsEl = document.getElementById('specsTable');
   specsEl.innerHTML = product.specs.map(([k,v]) => '<tr><td>'+k+'</td><td>'+v+'</td></tr>').join('');
 
-  // Reviews
   const revEl = document.getElementById('tab-reviews');
   revEl.innerHTML = product.reviews.map(r =>
     '<div class="review-item"><div class="review-header"><span class="review-author">'+r.author+'</span><span class="review-date">'+r.date+'</span></div><div class="review-stars">'+'★'.repeat(r.stars)+'☆'.repeat(5-r.stars)+'</div><p class="review-text">'+r.text+'</p></div>'
   ).join('');
 
-  // Related
   const others = Object.values(CATALOG).filter(p => p.id !== id);
   const relGrid = document.getElementById('relatedGrid');
   relGrid.innerHTML = others.map(p =>
@@ -556,10 +581,14 @@ function changeQty(d) {
 function getCart() { try { return JSON.parse(localStorage.getItem('scoopx_cart') || '[]'); } catch(e){ return []; } }
 function saveCart(c) { localStorage.setItem('scoopx_cart', JSON.stringify(c)); }
 function cartTotal() { return getCart().reduce((s,i)=>s+i.qty,0); }
+
 function updateBadge() {
   const el = document.getElementById('navCartCount');
   const n = cartTotal();
   el.textContent = n; el.classList.toggle('show', n > 0);
+  const fc = document.getElementById('floatCart');
+  const fcn = document.getElementById('floatCartNum');
+  if (fc && fcn) { fcn.textContent = n; fc.style.display = n > 0 ? 'flex' : 'none'; }
 }
 
 function getActiveItem() {
@@ -567,13 +596,13 @@ function getActiveItem() {
     const pd = PACK_DATA[selectedPack];
     return { id: pd.id, name: pd.cartName, price: pd.price };
   }
-  return { id: product.id, name: product.name + ' ' + product.nameLine2, price: product.price };
+  return { id: product.id, name: product.name + ' ' + product.nameLine2 + ' — ' + selectedColor, price: product.price };
 }
 
 function doAddToCart() {
   const item = getActiveItem();
   const cart = getCart();
-  const ex = cart.find(i => i.id === item.id);
+  const ex = cart.find(i => i.id === item.id && i.name === item.name);
   if(ex) ex.qty += qty; else cart.push({ id:item.id, name:item.name, price:item.price, qty });
   saveCart(cart);
   updateBadge();
@@ -586,7 +615,7 @@ function doAddToCart() {
 function doAddAndCheckout() {
   const item = getActiveItem();
   const cart = getCart();
-  const ex = cart.find(i => i.id === item.id);
+  const ex = cart.find(i => i.id === item.id && i.name === item.name);
   if(ex) ex.qty += qty; else cart.push({ id:item.id, name:item.name, price:item.price, qty });
   saveCart(cart);
   window.location.href = 'checkout.html';
@@ -623,9 +652,5 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
-<a href="checkout.html" class="float-cart" id="floatCart" style="display:none">
-  🛒 Cart <span class="float-cart-num" id="floatCartNum">0</span>
-</a>
-
 </body>
 </html>
