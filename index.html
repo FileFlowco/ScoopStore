@@ -185,6 +185,12 @@
     .footer-copy { font-size: 0.74rem; color: var(--muted); }
     .footer-copy span { color: var(--gold); }
 
+    /* FLOATING CART */
+    .float-cart { display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 950; background: var(--gold); color: var(--bg2); font-family: "Barlow Condensed", sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 0.8rem 1.3rem; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: background 0.2s, transform 0.2s; align-items: center; gap: 0.6rem; }
+    .float-cart:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .float-cart-num { background: #e03; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; }
+    @media (max-width: 860px) { .float-cart { display: flex; } }
+
     .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
@@ -454,6 +460,9 @@
   function cartTotal() { return getCart().reduce((s,i)=>s+i.qty,0); }
 
   function updateBadge() {
+    const fc = document.getElementById("floatCart");
+    const fcn = document.getElementById("floatCartNum");
+    if (fc && fcn) { const n = cartTotal(); fcn.textContent = n; fc.style.display = n > 0 ? "flex" : "none"; }
     const el = document.getElementById('navCartCount');
     const n = cartTotal();
     el.textContent = n;
@@ -502,5 +511,9 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+<a href="checkout.html" class="float-cart" id="floatCart" style="display:none">
+  🛒 Cart <span class="float-cart-num" id="floatCartNum">0</span>
+</a>
+
 </body>
 </html>
