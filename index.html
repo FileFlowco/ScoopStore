@@ -108,6 +108,9 @@
     .shop-desc { font-size: 0.82rem; line-height: 1.6; color: var(--muted); margin-bottom: 1.2rem; flex: 1; }
     .shop-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: auto; flex-wrap: wrap; }
     .shop-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); line-height: 1; }
+    .shop-price-wrap { display: flex; flex-direction: column; gap: 0.1rem; }
+    .shop-price-old { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; color: rgba(255,255,255,0.35); text-decoration: line-through; letter-spacing: 0.05em; }
+    .shop-price-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--neon); background: rgba(212,240,80,0.1); border: 1px solid rgba(212,240,80,0.3); padding: 0.15rem 0.4rem; display: inline-block; margin-top: 0.15rem; }
     .shop-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .shop-view { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.15); padding: 0.6rem 0.9rem; text-decoration: none; transition: all 0.2s; white-space: nowrap; display: inline-block; }
     .shop-view:hover { border-color: var(--gold); color: var(--gold); }
@@ -289,13 +292,17 @@
 
     <div class="shop-card reveal">
       <div class="shop-img" onclick="location.href='product.html?id=scoop1'">
-        <img src="assets/4.jpg" alt="SCOOPX Pro One Single">
+        <img src="assets/1.jpg" alt="SCOOPX Pro One Single">
       </div>
       <div class="shop-body">
         <div class="shop-name" onclick="location.href='product.html?id=scoop1'">SCOOPX Pro One — Single</div>
         <div class="shop-desc">One precision scoop. Adjustable 5–30g. 304 stainless steel with Slide & Pour. The last scoop you'll ever buy.</div>
         <div class="shop-footer">
-          <div class="shop-price">$8.00</div>
+          <div class="shop-price-wrap">
+            <span class="shop-price-old">$12.00</span>
+            <span class="shop-price">$8.00</span>
+            <span class="shop-price-tag">33% off</span>
+          </div>
           <div class="shop-btns">
             <a href="product.html?id=scoop1" class="shop-view">Details</a>
             <button class="shop-cta" onclick="addToCart('scoop1', this)">Add to Cart</button>
@@ -313,7 +320,11 @@
         <div class="shop-name" onclick="location.href='product.html?id=scoop3'">SCOOPX Pro One — 3 Pack</div>
         <div class="shop-desc">One for the gym bag, one for the kitchen, one to spare. Save over $4 vs buying individually.</div>
         <div class="shop-footer">
-          <div class="shop-price">$19.99</div>
+          <div class="shop-price-wrap">
+            <span class="shop-price-old">$36.00</span>
+            <span class="shop-price">$19.99</span>
+            <span class="shop-price-tag">Save $16</span>
+          </div>
           <div class="shop-btns">
             <a href="product.html?id=scoop3" class="shop-view">Details</a>
             <button class="shop-cta" onclick="addToCart('scoop3', this)">Add to Cart</button>
@@ -324,7 +335,7 @@
 
     <div class="shop-card reveal">
       <div class="shop-img" onclick="location.href='product.html?id=keychain'">
-        <img src="assets/6.jpg" alt="Gym Keychain Set">
+        <img src="assets/4.jpg" alt="Gym Keychain Set">
       </div>
       <div class="shop-body">
         <div class="shop-name" onclick="location.href='product.html?id=keychain'">Gym Keychain Set</div>
