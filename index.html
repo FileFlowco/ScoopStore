@@ -1,506 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SCOOPX — The Last Scoop You'll Ever Need</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>FileFlow | Custom Software & SaaS Engineering Company</title>
+  <meta
+    name="description"
+    content="FileFlow engineers production-grade software systems built for scale, clarity, and long-term durability."
+  />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/styles.css" />
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:      #6e6e6e;
-      --bg2:     #5d5c5c;
-      --bg3:     #898787;
-      --gold:    #c9a84c;
-      --gold-lt: #e8c97a;
-      --gold-dk: #a07a2a;
-      --white:   #f0ece4;
-      --muted:   #c8c4bc;
-      --faint:   rgba(255,255,255,0.08);
-      --neon:    #d4f050;
+      --bg: #1a0d2e;
+      --panel: rgba(255,255,255,0.07);
+      --panel-soft: rgba(255,255,255,0.04);
+      --stroke: rgba(255,255,255,0.12);
+      --stroke-strong: rgba(255,255,255,0.22);
+      --text: rgba(255,255,255,0.95);
+      --muted: rgba(255,255,255,0.55);
+      --radius-xl: 40px;
+      --radius-lg: 32px;
+      --radius-md: 22px;
+      --shadow-xl: 0 40px 120px rgba(0,0,0,0.6);
+      --shadow-lg: 0 32px 90px rgba(0,0,0,0.55);
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --google-star: #fbbc05;
+
+      --container-max: 1440px;
+      --gutter: clamp(18px, 3vw, 72px);
+      --top-pad: clamp(92px, 9vh, 140px);
+      --bottom-pad: clamp(84px, 8vh, 120px);
     }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw; height: 68px;
-      background: var(--bg2);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      transition: transform 0.32s ease;
+    * { box-sizing: border-box; }
+
+    html { height: 100%; }
+
+    body {
+      background:
+        radial-gradient(900px 700px at 15% 0%, rgba(139,92,246,0.20), transparent 55%),
+        radial-gradient(700px 500px at 88% 25%, rgba(109,40,217,0.15), transparent 55%),
+        var(--bg);
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    nav.hide { transform: translateY(-100%); }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 0.55rem 1.5rem; text-decoration: none; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background 0.2s; position: relative; }
-    .nav-cta:hover { background: var(--gold-lt); }
-    .cart-count { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: #e03; color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; display: none; align-items: center; justify-content: center; }
-    .cart-count.show { display: flex; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: pointer; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg2); z-index: 1050; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; transition: color 0.2s; }
-    .mobile-menu a:hover { color: var(--gold); }
 
-    /* HERO — text LEFT, image RIGHT */
-    .hero { min-height: 100svh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
-    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 110px 4vw 80px 8vw; position: relative; z-index: 2; order: 1; }
-    .hero-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 1rem; }
-    .hero-eyebrow::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
-    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 9vw, 9.5rem); line-height: 0.9; letter-spacing: 0.03em; margin-bottom: 0.2em; }
-    .hero-title .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
-    .hero-title .gold { color: var(--gold); }
-    .hero-sub { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(0.95rem, 1.8vw, 1.2rem); font-weight: 300; font-style: italic; color: var(--muted); max-width: 360px; margin-bottom: 2.8rem; line-height: 1.65; }
-    .hero-actions { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
-    .btn-primary { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 1rem 2.2rem; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; display: inline-block; border: none; cursor: pointer; font-size: 0.78rem; }
-    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
-    .btn-ghost { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
-    .btn-ghost:hover { color: var(--white); }
-    .btn-ghost::after { content: '→'; transition: transform 0.2s; }
-    .btn-ghost:hover::after { transform: translateX(4px); }
-    .hero-right { position: relative; overflow: hidden; order: 2; }
-    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
-    .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, var(--bg) 0%, transparent 45%); }
-    .hero-cut { position: absolute; bottom: -1px; left: 0; right: 0; height: 90px; background: var(--bg); clip-path: polygon(0 65%,100% 0%,100% 100%,0% 100%); z-index: 3; }
-
-    /* MARQUEE */
-    .marquee-wrap { background: var(--gold); padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
-    .marquee-track { display: inline-block; animation: marquee 22s linear infinite; }
-    .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.22em; color: var(--bg); margin: 0 2rem; }
-    .marquee-track .dot { color: rgba(0,0,0,0.25); margin: 0; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* STATS */
-    .stats-bar { background: var(--bg3); border-top: 1px solid rgba(201,168,76,0.12); border-bottom: 1px solid rgba(201,168,76,0.12); padding: 1.8rem 8vw; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; overflow-x: auto; }
-    .stat-item { text-align: center; flex-shrink: 0; }
-    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--gold); line-height: 1; }
-    .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
-    .stat-div { width: 1px; height: 34px; background: var(--faint); flex-shrink: 0; }
-
-    section { padding: 5.5rem 8vw; }
-    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
-    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
-    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 5.5vw, 5rem); line-height: 0.95; letter-spacing: 0.04em; margin-bottom: 1.5rem; }
-
-    /* SHOP */
-    .shop { background: var(--bg); }
-    .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
-    .shop-card { background: var(--bg2); border: 1px solid rgba(201,168,76,0.1); overflow: hidden; transition: border-color 0.3s, transform 0.3s; position: relative; display: flex; flex-direction: column; }
-    .shop-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-5px); }
-    .shop-card.featured { border-color: rgba(201,168,76,0.35); }
-    .shop-badge { position: absolute; top: 1rem; left: 1rem; z-index: 2; font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; background: var(--gold); color: var(--bg2); padding: 0.3rem 0.8rem; clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%); }
-    .shop-img { aspect-ratio: 1; overflow: hidden; background: var(--bg3); position: relative; flex-shrink: 0; cursor: pointer; }
-    .shop-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-    .shop-card:hover .shop-img img { transform: scale(1.05); }
-    .shop-body { padding: 1.4rem; display: flex; flex-direction: column; flex: 1; }
-    .shop-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; cursor: pointer; }
-    .shop-name:hover { color: var(--gold); }
-    .shop-desc { font-size: 0.82rem; line-height: 1.6; color: var(--muted); margin-bottom: 1.2rem; flex: 1; }
-    .shop-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: auto; flex-wrap: wrap; }
-    .shop-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); line-height: 1; }
-    .shop-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .shop-view { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.15); padding: 0.6rem 0.9rem; text-decoration: none; transition: all 0.2s; white-space: nowrap; display: inline-block; }
-    .shop-view:hover { border-color: var(--gold); color: var(--gold); }
-    .shop-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 0.6rem 1rem; border: none; cursor: pointer; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); transition: background 0.2s; white-space: nowrap; }
-    .shop-cta:hover { background: var(--gold-lt); }
-    .shop-cta.added { background: #2d6a1f; color: #9fff7a; }
-
-    /* FEATURES */
-    .features { background: var(--bg2); }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 1px; background: var(--faint); border: 1px solid var(--faint); margin-top: 3.5rem; }
-    .feature-card { background: var(--bg2); padding: 2.2rem; position: relative; overflow: hidden; transition: background 0.3s; }
-    .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--gold); transition: height 0.4s ease; }
-    .feature-card:hover { background: var(--bg3); }
-    .feature-card:hover::before { height: 100%; }
-    .feature-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
-    .feature-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
-    .feature-desc { font-size: 0.86rem; line-height: 1.7; color: var(--muted); }
-
-    /* SPOTLIGHT */
-    .spotlight { background: var(--bg3); display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: center; }
-    .spotlight-img { position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(201,168,76,0.15); }
-    .spotlight-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-    .spotlight-img:hover img { transform: scale(1.04); }
-    .price-tag { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
-    .price-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 2rem; }
-    .spec-list { list-style: none; margin-bottom: 2.5rem; }
-    .spec-list li { display: flex; align-items: center; gap: 0.8rem; font-size: 0.86rem; color: var(--muted); padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .spec-list li::before { content: '—'; color: var(--gold); font-size: 0.7rem; }
-    .spec-list li strong { color: var(--white); font-weight: 500; }
-
-    /* HOW */
-    .how { background: var(--bg3); }
-    .steps-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); margin-top: 3.5rem; position: relative; }
-    .steps-row::before { content: ''; position: absolute; top: 1.3rem; left: 8%; right: 8%; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dk), var(--gold-dk), transparent); }
-    .step { text-align: center; padding: 0 1.2rem 2rem; }
-    .step-num { width: 42px; height: 42px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.4rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--gold); position: relative; z-index: 1; }
-    .step-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
-    .step-desc { font-size: 0.82rem; line-height: 1.65; color: var(--muted); }
-
-    /* PHOTO BREAK */
-    .photo-break { display: grid; grid-template-columns: 1fr 1fr; height: clamp(220px, 38vw, 500px); overflow: hidden; }
-    .photo-break div { overflow: hidden; }
-    .photo-break img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-    .photo-break div:hover img { transform: scale(1.05); }
-
-    /* TESTIMONIALS */
-    .testimonials { background: var(--bg2); }
-    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); gap: 1.2rem; margin-top: 3.5rem; }
-    .testi-card { background: var(--bg3); border: 1px solid rgba(201,168,76,0.1); padding: 1.8rem; position: relative; }
-    .testi-card::before { content: '"'; font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--gold); opacity: 0.12; position: absolute; top: -0.3rem; left: 1.2rem; line-height: 1; }
-    .testi-text { font-size: 0.87rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.4rem; position: relative; z-index: 1; }
-    .testi-author { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-    .testi-role { font-size: 0.74rem; color: var(--muted); margin-top: 0.2rem; }
-    .stars { color: var(--gold); font-size: 0.72rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
-
-    /* CTA */
-    .cta-banner { background: var(--gold); padding: 5rem 8vw; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; position: relative; overflow: hidden; }
-    .cta-banner::before { content: 'SCOOPX'; position: absolute; right: -1%; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 13rem; color: rgba(0,0,0,0.07); pointer-events: none; line-height: 1; }
-    .cta-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.4rem; }
-    .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 4.5vw, 4.2rem); color: var(--bg); line-height: 0.95; letter-spacing: 0.04em; }
-    .btn-dark { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); background: var(--bg); padding: 1.1rem 2.6rem; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; white-space: nowrap; display: inline-block; }
-    .btn-dark:hover { background: var(--bg2); transform: translateY(-2px); }
-
-    /* FOOTER */
-    footer { background: var(--bg2); padding: 4rem 8vw 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
-    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; display: block; }
-    .footer-logo span { color: var(--gold); }
-    .footer-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; max-width: 210px; line-height: 1.6; }
-    .footer-nav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-    .footer-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-    .footer-nav-links a { font-size: 0.84rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .footer-nav-links a:hover { color: var(--gold); }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-copy { font-size: 0.74rem; color: var(--muted); }
-    .footer-copy span { color: var(--gold); }
-
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; min-height: 100svh; }
-      .hero-left { order: 2; padding: 2.5rem 6vw 3.5rem; justify-content: flex-start; }
-      .hero-right { order: 1; height: 60vw; min-height: 240px; max-height: 420px; }
-      .hero-right img { object-position: center 20%; }
-      .hero-right::after { background: linear-gradient(to top, var(--bg) 0%, transparent 55%); }
-      .hero-cut { display: none; }
-      .spotlight { grid-template-columns: 1fr; }
-      .steps-row::before { display: none; }
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      section { padding: 4rem 6vw; }
-      .stats-bar { padding: 1.4rem 5vw; justify-content: flex-start; }
-      .shop-grid { grid-template-columns: 1fr; }
+    /* ===== Layout: fluid on big screens, still premium and centered ===== */
+    .page-shell {
+      flex-grow: 1;
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--top-pad) var(--gutter) var(--bottom-pad);
     }
-    @media (min-width: 500px) and (max-width: 860px) {
-      .shop-grid { grid-template-columns: 1fr 1fr; }
+
+    /* ===== Header branding sizing override (keeps phone good, improves big screens) ===== */
+    .logo-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
     }
-    @media (max-width: 480px) {
-      .hero-title { font-size: 3.8rem; }
-      .hero-right { height: 64vw; }
-      .cta-banner { padding: 3rem 6vw; }
-      .photo-break { grid-template-columns: 1fr; height: auto; }
-      .photo-break div { height: 55vw; }
+
+    .logo-icon {
+      width: clamp(28px, 2.2vw, 42px);
+      height: clamp(28px, 2.2vw, 42px);
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .logo-text {
+      font-size: clamp(15px, 1.2vw, 18px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    /* ================= HERO ================= */
+
+    .home-hero {
+      max-width: 980px;
+      margin-bottom: clamp(96px, 10vh, 160px);
+    }
+
+    .home-hero span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 18px;
+    }
+
+    .home-hero h1 {
+      font-size: clamp(40px, 3.6vw, 66px);
+      letter-spacing: -0.05em;
+      line-height: 1.03;
+      margin: 0 0 26px;
+      text-wrap: balance;
+    }
+
+    .home-hero p {
+      font-size: clamp(16px, 1.3vw, 20px);
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 0 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(192,132,252,0.12);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform .18s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(124,58,237,0.12);
+      border-color: var(--stroke-strong);
+    }
+
+    .btn.primary {
+      background: #fff;
+      color: #000;
+    }
+
+    .btn.primary:hover {
+      background: rgba(18,8,30,0.92);
+    }
+
+    /* ================= CAPABILITIES ================= */
+
+    .capabilities {
+      margin-bottom: 90px;
+    }
+
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .capability-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.09) 0%, rgba(139,92,246,0.08) 50%, rgba(109,40,217,0.05) 100%);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      transition: transform .22s var(--ease);
+    }
+
+    .capability-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .capability-card h3 {
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    .capability-card p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+      margin: 0;
+    }
+
+   /* LOOP */
+   .services-fit{margin:0 0 80px}
+    .loop-card{padding:18px 0}
+    .loop-track{
+      display:flex;
+      width:max-content;
+      animation:scroll 42s linear infinite;
+    }
+    @keyframes scroll{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+    .loop-group{display:flex;gap:60px;padding-right:60px}
+    .loop-node{display:flex;gap:10px;align-items:center}
+    .node-val{font-size:28px;font-weight:800}
+    .node-key{font-size:11px;letter-spacing:.18em;color:var(--muted)}
+    .node-phrase{font-size:15px;color:rgba(255,255,255,.75)}
+    .node-sep{width:6px;height:6px;border-radius:50%;background:var(--stroke-strong);opacity:.6}
+
+    /* ================= PROCESS ================= */
+
+    .process {
+      max-width: 980px;
+      margin-bottom: clamp(120px, 14vh, 180px);
+    }
+
+    .process h2 {
+      font-size: clamp(30px, 2.6vw, 46px);
+      letter-spacing: -0.04em;
+      margin: 0 0 40px;
+    }
+
+    .process-step {
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .process-step:last-child {
+      border-bottom: none;
+    }
+
+    .process-step span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+    }
+
+    .process-step h3 {
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+
+    .process-step p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+      max-width: 760px;
+      margin: 0;
+    }
+
+    /* ================= REVIEWS ================= */
+
+    .reviews {
+      margin-bottom: clamp(120px, 14vh, 180px);
+      width: 100%;
+    }
+
+    .reviews-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .reviews h2 {
+      font-size: clamp(30px, 2.6vw, 46px);
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .google-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .google-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.06);
+      font-size: 12px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .stars-lg {
+      color: var(--google-star);
+      letter-spacing: 0.12em;
+      font-size: 18px;
+    }
+
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      width: 100vw;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      animation: scroll 88s linear infinite;
+      padding: 20px 0;
+      will-change: transform;
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .g-review {
+      width: 340px;
+      max-width: 85vw;
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .g-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--stroke);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .g-who strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .g-who span { font-size: 12px; color: var(--muted); }
+
+    .google-mini { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .g-stars {
+      color: var(--google-star);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+    }
+
+    .g-review p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      margin: 8px 0;
+    }
+
+    .g-foot {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 12px;
+      margin-top: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+  
+/* =========================
+       bottom cta 
+       ========================= */
+
+       .services-cta {
+      margin-top: 160px;
+      max-width: 820px;
+    }
+
+    .services-cta-eyebrow {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 18px;
+    }
+
+    .services-cta h2 {
+      font-size: 42px;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    .services-cta p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 640px;
+    }
+
+    .services-cta-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1000px) {
+      .capabilities-grid { grid-template-columns: 1fr; }
+      .page-shell { padding: clamp(84px, 10vh, 110px) 24px clamp(72px, 9vh, 110px); }
+    }
+
+    @media (min-width: 1440px) {
+      :root { --container-max: 1560px; }
+    }
+
+    @media (min-width: 1800px) {
+      :root { --container-max: 1680px; }
+      .capability-card { padding: 44px; }
     }
   </style>
 </head>
+
 <body>
 
-<nav id="navbar">
-  <a href="index.html" class="nav-logo">SCOOP<span>X</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="product.html">Product</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#how">How It Works</a></li>
-  </ul>
-  <a href="checkout.html" class="nav-cta">
-    Shop Now
-    <span class="cart-count" id="navCartCount">0</span>
-  </a>
-  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-</nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMenu()">Home</a>
-  <a href="product.html" onclick="closeMenu()">Product</a>
-  <a href="#features" onclick="closeMenu()">Features</a>
-  <a href="#how" onclick="closeMenu()">How It Works</a>
-  <a href="checkout.html" onclick="closeMenu()" style="color:var(--gold)">Shop Now →</a>
-</div>
-
-<!-- HERO: text LEFT, image RIGHT -->
-<section class="hero" style="padding:0">
-  <div class="hero-left">
-    <div class="hero-eyebrow">Precision Engineered</div>
-    <h1 class="hero-title">THE<br><span class="outline">PERFECT</span><br><span class="gold">SCOOP</span></h1>
-    <p class="hero-sub">No mess. No guess. Every powder — protein, coffee, collagen — measured flawlessly every single time.</p>
-    <div class="hero-actions">
-      <a href="#shop" class="btn-primary">Get Yours</a>
-      <a href="#features" class="btn-ghost">See Features</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <img src="assets/1.jpg" alt="SCOOPX Pro One">
-  </div>
-  <div class="hero-cut"></div>
-</section>
-
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span>PROTEIN POWDER</span><span class="dot">✦</span><span>COFFEE & MATCHA</span><span class="dot">✦</span><span>COLLAGEN</span><span class="dot">✦</span><span>PRE-WORKOUT</span><span class="dot">✦</span><span>CREATINE</span><span class="dot">✦</span><span>GREENS</span><span class="dot">✦</span>
-    <span>PROTEIN POWDER</span><span class="dot">✦</span><span>COFFEE & MATCHA</span><span class="dot">✦</span><span>COLLAGEN</span><span class="dot">✦</span><span>PRE-WORKOUT</span><span class="dot">✦</span><span>CREATINE</span><span class="dot">✦</span><span>GREENS</span><span class="dot">✦</span>
-  </div>
-</div>
-
-<div class="stats-bar">
-  <div class="stat-item reveal"><div class="stat-num">30g</div><div class="stat-label">Max Capacity</div></div>
-  <div class="stat-div"></div>
-  <div class="stat-item reveal"><div class="stat-num">±0.1g</div><div class="stat-label">Precision</div></div>
-  <div class="stat-div"></div>
-  <div class="stat-item reveal"><div class="stat-num">304</div><div class="stat-label">Grade Steel</div></div>
-  <div class="stat-div"></div>
-  <div class="stat-item reveal"><div class="stat-num">BPA</div><div class="stat-label">Free</div></div>
-  <div class="stat-div"></div>
-  <div class="stat-item reveal"><div class="stat-num">5yr</div><div class="stat-label">Warranty</div></div>
-</div>
-
-<section class="shop" id="shop">
-  <div class="section-label reveal">Our Products</div>
-  <h2 class="section-title reveal">SHOP<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">NOW</span></h2>
-  <div class="shop-grid">
-
-    <div class="shop-card reveal">
-      <div class="shop-img" onclick="location.href='product.html?id=scoop1'">
-        <img src="assets/1.jpg" alt="SCOOPX Pro One Single">
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <a href="index.html" class="logo-button">
+          <img src="assets/logo.jpg" alt="FileFlow logo" class="logo-icon" />
+          <span class="logo-text">FileFlow</span>
+        </a>
       </div>
-      <div class="shop-body">
-        <div class="shop-name" onclick="location.href='product.html?id=scoop1'">SCOOPX Pro One — Single</div>
-        <div class="shop-desc">One precision scoop. Adjustable 5–30g. 304 stainless steel with Slide & Pour. The last scoop you'll ever buy.</div>
-        <div class="shop-footer">
-          <div class="shop-price">$8.00</div>
-          <div class="shop-btns">
-            <a href="product.html?id=scoop1" class="shop-view">Details</a>
-            <button class="shop-cta" onclick="addToCart('scoop1', this)">Add to Cart</button>
+
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="approach.html">Approach</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+
+    <section class="home-hero">
+      <span>FileFlow</span>
+      <h1>Custom software built to start fast and scale into systems.</h1>
+      <p>
+        We design and build software, platforms, and digital products
+        from websites to complex systems. Built to scale as your business grows.
+      </p>
+      <div class="hero-actions">
+        <a href="services.html" class="btn primary">See what we build</a>
+        <a href="contact.html" class="btn">Get a free consultation</a>
+      </div>
+    </section>
+
+    <section class="capabilities">
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <h3>Apps & Mobile</h3>
+          <p>Native and cross-platform applications built for real users, performance, and long-term maintainability.</p>
+        </div>
+        <div class="capability-card">
+          <h3>Websites & Platforms</h3>
+          <p>Production-ready websites and web platforms built to convert, scale, and evolve into full systems.</p>
+        </div>
+        <div class="capability-card">
+          <h3>Systems & SaaS</h3>
+          <p>Custom internal systems and SaaS products that automate workflows and support business operations at scale.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services-fit">
+      <div class="loop-card">
+        <div class="loop-track">
+          <div class="loop-group">
+            <div class="loop-node"><span class="node-val">2+</span><span class="node-key">YEARS ON THE MARKET</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">ZERO-DOWNTIME DEPLOYMENTS</span>
+            <div class="node-sep"></div>
+            <div class="loop-node"><span class="node-val">200+</span><span class="node-key">CLIENTS</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">PRODUCTION-GRADE ARCHITECTURE</span>
+            <div class="node-sep"></div>
+            <div class="loop-node"><span class="node-val">350+</span><span class="node-key">PROJECTS AND SOFTWARE TOOLS DONE</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">TRUSTED ACROSS INDUSTRIES</span>
+          </div>
+    
+          <div class="loop-group">
+            <div class="loop-node"><span class="node-val">2+</span><span class="node-key">YEARS ON THE MARKET</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">ZERO-DOWNTIME DEPLOYMENTS</span>
+            <div class="node-sep"></div>
+            <div class="loop-node"><span class="node-val">200+</span><span class="node-key">CLIENTS</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">PRODUCTION-GRADE ARCHITECTURE</span>
+            <div class="node-sep"></div>
+            <div class="loop-node"><span class="node-val">350+</span><span class="node-key">PROJECTS AND SOFTWARE TOOLS DONE</span></div>
+            <div class="node-sep"></div>
+            <span class="node-phrase">TRUSTED ACROSS INDUSTRIES</span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="shop-card featured reveal">
-      <div class="shop-badge">Best Value</div>
-      <div class="shop-img" onclick="location.href='product.html?id=scoop3'">
-        <img src="assets/2.jpg" alt="SCOOPX Pro One 3 Pack">
+
+    <section class="process">
+      <h2>How we build software</h2>
+      <div class="process-step">
+        <span>01</span>
+        <h3>Understanding the problem</h3>
+        <p>We take time to understand your business, workflows, and goals before any technical decisions are made.</p>
       </div>
-      <div class="shop-body">
-        <div class="shop-name" onclick="location.href='product.html?id=scoop3'">SCOOPX Pro One — 3 Pack</div>
-        <div class="shop-desc">One for the gym bag, one for the kitchen, one to spare. Save over $4 vs buying individually.</div>
-        <div class="shop-footer">
-          <div class="shop-price">$19.99</div>
-          <div class="shop-btns">
-            <a href="product.html?id=scoop3" class="shop-view">Details</a>
-            <button class="shop-cta" onclick="addToCart('scoop3', this)">Add to Cart</button>
-          </div>
+      <div class="process-step">
+        <span>02</span>
+        <h3>System design</h3>
+        <p>We design clear, scalable architectures that support growth, change, and long-term maintenance.</p>
+      </div>
+      <div class="process-step">
+        <span>03</span>
+        <h3>Building & delivery</h3>
+        <p>We build and ship production-ready software with clean code, testing, and real-world reliability.</p>
+      </div>
+      <div class="process-step">
+        <span>04</span>
+        <h3>Growth & maintenance</h3>
+        <p>We support ongoing improvements, maintenance, and new features as your business grows.</p>
+      </div>
+    </section>
+
+    <section class="reviews" aria-label="Client feedback">
+      <div class="reviews-head">
+        <h2>What clients think</h2>
+        <div class="google-meta">
+          <span class="stars-lg">★★★★★</span>
+          <span>5.0 average</span>
+          <span class="google-chip">
+            <svg class="google-mini" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.3 0 6.3 1.1 8.7 3.3l6.5-6.5C35.2 2.4 29.9 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.6 5.9C12.3 13.4 17.7 9.5 24 9.5z"/>
+              <path fill="#34A853" d="M46.1 24.6c0-1.7-.2-3.4-.5-5H24v9.5h12.3c-.5 2.8-2.1 5.2-4.4 6.8l6.8 5.3c4-3.7 6.4-9.1 6.4-16.6z"/>
+              <path fill="#4A90E2" d="M10.3 28.9c-1-2.8-1-5.9 0-8.7l-7.6-5.9c-3.3 6.5-3.3 14 0 20.5l7.6-5.9z"/>
+              <path fill="#FBBC05" d="M24 48c6.5 0 12-2.1 16-5.7l-6.8-5.3c-1.9 1.3-4.4 2.1-9.2 2.1-6.3 0-11.7-3.9-13.7-9.3l-7.6 5.9C6.6 42.6 14.6 48 24 48z"/>
+            </svg>
+            Google Reviews
+          </span>
         </div>
       </div>
-    </div>
 
-    <div class="shop-card reveal">
-      <div class="shop-img" onclick="location.href='product.html?id=keychain'">
-        <img src="assets/6.jpg" alt="Gym Keychain Set">
-      </div>
-      <div class="shop-body">
-        <div class="shop-name" onclick="location.href='product.html?id=keychain'">Gym Keychain Set</div>
-        <div class="shop-desc">Mini gym keychains — dumbbells, kettlebell, weight plate & shaker. Red, black, and pink. Perfect gift for any gym lover.</div>
-        <div class="shop-footer">
-          <div class="shop-price">$12.99</div>
-          <div class="shop-btns">
-            <a href="product.html?id=keychain" class="shop-view">Details</a>
-            <button class="shop-cta" onclick="addToCart('keychain', this)">Add to Cart</button>
-          </div>
+      <div class="marquee">
+        <div class="marquee-track">
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">J</div><div class="g-who"><strong>Jordan M.</strong><span>2 weeks ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>FileFlow turned our internal chaos into a clean, fast dashboard. Zero downtime since launch.</p>
+            <div class="g-foot">Web platform</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">P</div><div class="g-who"><strong>Priya S.</strong><span>1 month ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Clear communication and a site that finally feels premium and trustworthy.</p>
+            <div class="g-foot">Business website</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">A</div><div class="g-who"><strong>Alex R.</strong><span>2 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Strong engineering decisions. The codebase is clean and easy for our team to maintain.</p>
+            <div class="g-foot">SaaS platform</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">M</div><div class="g-who"><strong>Marcus K.</strong><span>3 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Excellent cross-platform execution. The app is fast and the UX is exactly what we needed.</p>
+            <div class="g-foot">Mobile App</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">S</div><div class="g-who"><strong>Sarah L.</strong><span>5 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Highly professional team. They delivered our internal portal ahead of schedule.</p>
+            <div class="g-foot">Custom System</div>
+          </article>
+
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">J</div><div class="g-who"><strong>Jordan M.</strong><span>2 weeks ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>FileFlow turned our internal chaos into a clean, fast dashboard. Zero downtime since launch.</p>
+            <div class="g-foot">Web platform</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">P</div><div class="g-who"><strong>Priya S.</strong><span>1 month ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Clear communication and a site that finally feels premium and trustworthy.</p>
+            <div class="g-foot">Business website</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">A</div><div class="g-who"><strong>Alex R.</strong><span>2 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Strong engineering decisions. The codebase is clean and easy for our team to maintain.</p>
+            <div class="g-foot">SaaS platform</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">M</div><div class="g-who"><strong>Marcus K.</strong><span>3 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Excellent cross-platform execution. The app is fast and the UX is exactly what we needed.</p>
+            <div class="g-foot">Mobile App</div>
+          </article>
+          <article class="g-review">
+            <div class="g-user"><div class="avatar">S</div><div class="g-who"><strong>Sarah L.</strong><span>5 months ago</span></div></div>
+            <div class="g-stars">★★★★★</div>
+            <p>Highly professional team. They delivered our internal portal ahead of schedule.</p>
+            <div class="g-foot">Custom System</div>
+          </article>
         </div>
       </div>
+    </section>
+  </section>
+
+  
+
+  <section class="services-cta">
+    <span class="services-cta-eyebrow">FileFlow</span>
+
+    <h2>Ready when you are</h2>
+    
+    <p>
+      Tell us what you’re trying to build or improve. We’ll help you move forward.
+    </p>
+    
+
+    <div class="services-cta-actions">
+      <a href="contact.html" class="btn primary">Start a project</a>
     </div>
+  </section>
+  </main>
 
-  </div>
-</section>
-
-<section class="features" id="features">
-  <div class="section-label">Why SCOOPX</div>
-  <h2 class="section-title reveal">BUILT<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">DIFFERENT</span></h2>
-  <div class="features-grid">
-    <div class="feature-card reveal"><span class="feature-icon">⚖️</span><div class="feature-name">Dead-Accurate</div><p class="feature-desc">Machined to ±0.1g tolerance. Whether it's 5g of creatine or 30g of protein, you'll never second-guess again.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">🏗️</span><div class="feature-name">Indestructible</div><p class="feature-desc">304 food-grade stainless steel. Dishwasher safe. Drop it, it won't care. Built to outlast every tub you own.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">🌀</span><div class="feature-name">No Clump, No Mess</div><p class="feature-desc">Engineered geometry prevents powder from sticking. Glides clean every single time.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">⚡</span><div class="feature-name">Slide & Pour</div><p class="feature-desc">One-hand slide mechanism. Preset your dose and dispense instantly. Measure once, scoop forever.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">♻️</span><div class="feature-name">Zero Waste</div><p class="feature-desc">No powder contamination. No plastic buried in your tub. SCOOPX stays clean on the counter.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">✦</span><div class="feature-name">Universal Fit</div><p class="feature-desc">Protein. Coffee. Collagen. Creatine. Matcha. One scoop rules every powder you own.</p></div>
-  </div>
-</section>
-
-<section class="spotlight" style="padding:5.5rem 8vw">
-  <div class="spotlight-img reveal">
-    <img src="assets/5.jpg" alt="SCOOPX in action">
-  </div>
-  <div>
-    <div class="section-label reveal">The Main Product</div>
-    <h2 class="section-title reveal">SCOOPX<br>PRO <span style="color:var(--gold)">ONE</span></h2>
-    <div class="price-tag reveal">$8 · $19.99</div>
-    <div class="price-sub reveal">Single or 3-Pack · Free shipping on orders over $25</div>
-    <ul class="spec-list reveal">
-      <li><strong>Material:</strong> 304 Stainless Steel</li>
-      <li><strong>Mechanism:</strong> Slide & Pour</li>
-      <li><strong>Capacity:</strong> Adjustable 5g – 30g</li>
-      <li><strong>Finish:</strong> Matte Black</li>
-      <li><strong>Compatibility:</strong> All powders & grains</li>
-      <li><strong>Warranty:</strong> 5 years, no questions</li>
-    </ul>
-    <a href="product.html" class="btn-primary reveal">View Full Product</a>
-  </div>
-</section>
-
-<section class="how" id="how">
-  <div class="section-label reveal">Simple by Design</div>
-  <h2 class="section-title reveal">HOW IT<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">WORKS</span></h2>
-  <div class="steps-row">
-    <div class="step reveal"><div class="step-num">01</div><div class="step-title">Set Your Dose</div><p class="step-desc">Slide the collar to your desired amount. Click it in place.</p></div>
-    <div class="step reveal"><div class="step-num">02</div><div class="step-title">Scoop & Level</div><p class="step-desc">Dig in. Perfectly flat every time. No guessing.</p></div>
-    <div class="step reveal"><div class="step-num">03</div><div class="step-title">Slide & Pour</div><p class="step-desc">One push. Everything drops clean — nothing stays behind.</p></div>
-    <div class="step reveal"><div class="step-num">04</div><div class="step-title">Rinse & Repeat</div><p class="step-desc">Dishwasher safe. Quick rinse. Done in seconds.</p></div>
-  </div>
-</section>
-
-<div class="photo-break">
-  <div><img src="assets/2.jpg" alt="Slide and Pour"></div>
-  <div><img src="assets/3.jpg" alt="The Smart Way"></div>
-</div>
-
-<section class="testimonials">
-  <div class="section-label reveal">Real People</div>
-  <h2 class="section-title reveal">THEY<br><span style="color:var(--gold)">LOVE IT</span></h2>
-  <div class="testi-grid">
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">I've gone through a dozen plastic scoops. SCOOPX is the first one I haven't lost in a protein tub. The slide mechanism is a total game changer.</p><div class="testi-author">Marcus L.</div><div class="testi-role">Competitive Powerlifter</div></div>
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">I use it for matcha every morning. Consistent every single time. Worth every cent and then some.</p><div class="testi-author">Sofia R.</div><div class="testi-role">Wellness Coach</div></div>
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><p class="testi-text">Bought two — gym bag and kitchen. Pre-workout always dialed in. Build quality is insane for the price.</p><div class="testi-author">Jake T.</div><div class="testi-role">CrossFit Athlete</div></div>
-  </div>
-</section>
-
-<div class="cta-banner">
-  <div>
-    <div class="cta-label">Limited Drop</div>
-    <div class="cta-title">STOP<br>GUESSING.<br>START<br>SCOOPING.</div>
-  </div>
-  <a href="checkout.html" class="btn-dark">Order Now</a>
-</div>
-
-<footer>
-  <div class="footer-top">
-    <div>
-      <a href="index.html" class="footer-logo">SCOOP<span>X</span></a>
-      <p class="footer-tagline">Precision measuring tools for serious people. Every gram counts.</p>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-text">
+        © 2024 FileFlow. Serious work starts here.
+        <a
+          href="https://www.instagram.com/file.flowco/"
+          target="_blank"
+          rel="noopener"
+          class="footer-ig"
+          aria-label="FileFlow Instagram"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="5"
+              stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.2"
+              stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="17.5" cy="6.5" r="1"
+              fill="currentColor"/>
+          </svg>
+        </a>
+      </p>
     </div>
-    <div>
-      <div class="footer-nav-title">Navigate</div>
-      <ul class="footer-nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="product.html">Product</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how">How It Works</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-nav-title">Info</div>
-      <ul class="footer-nav-links">
-        <li><a href="#">Shipping Policy</a></li>
-        <li><a href="#">Warranty</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-nav-title">Follow</div>
-      <ul class="footer-nav-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">TikTok</a></li>
-        <li><a href="#">YouTube</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 <span>SCOOPX</span>. All rights reserved.</div>
-    <div class="footer-copy">Made for people who give a damn.</div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  const PRODUCTS = {
-    scoop1:  { name: 'SCOOPX Pro One — Single', price: 8.00 },
-    scoop3:  { name: 'SCOOPX Pro One — 3 Pack', price: 19.99 },
-    keychain:{ name: 'Gym Keychain Set',         price: 12.99 }
-  };
-
-  function getCart() { try { return JSON.parse(localStorage.getItem('scoopx_cart') || '[]'); } catch(e){ return []; } }
-  function saveCart(c) { localStorage.setItem('scoopx_cart', JSON.stringify(c)); }
-  function cartTotal() { return getCart().reduce((s,i)=>s+i.qty,0); }
-
-  function updateBadge() {
-    const el = document.getElementById('navCartCount');
-    const n = cartTotal();
-    el.textContent = n;
-    el.classList.toggle('show', n > 0);
-  }
-
-  function addToCart(id, btn) {
-    const p = PRODUCTS[id]; if(!p) return;
-    const cart = getCart();
-    const ex = cart.find(i=>i.id===id);
-    if(ex) ex.qty++; else cart.push({id, name:p.name, price:p.price, qty:1});
-    saveCart(cart);
-    updateBadge();
-    btn.textContent = '✓ Added!';
-    btn.classList.add('added');
-    setTimeout(()=>{ btn.textContent='Add to Cart'; btn.classList.remove('added'); }, 1800);
-  }
-
-  updateBadge();
-
-  const nav = document.getElementById('navbar');
-  let lastY = 0;
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    nav.classList.toggle('hide', y > lastY && y > 80);
-    lastY = y;
-  }, { passive: true });
-
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-  });
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
+  <script src="js/main.js"></script>
 </body>
 </html>
+
