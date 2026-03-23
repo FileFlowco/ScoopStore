@@ -21,7 +21,6 @@
     }
     html, body { height: 100%; }
     body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
-
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: space-between;
@@ -33,30 +32,25 @@
     .nav-logo span { color: var(--gold); }
     .nav-back { font-family: 'Barlow Condensed', sans-serif; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
     .nav-back:hover { color: var(--gold); }
-
     .overlay { position: fixed; inset: 0; background: var(--bg); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
     .overlay.show { opacity: 1; pointer-events: all; }
     .overlay-logo { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--white); }
     .overlay-logo span { color: var(--gold); }
     .overlay-msg { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
     .bar-wrap { width: 220px; height: 2px; background: rgba(201,168,76,0.15); overflow: hidden; }
-    .bar { height: 100%; width: 0%; background: var(--gold); transition: width 0.9s ease; }
-
-    /* EMPTY STATE */
+    .bar { height: 100%; width: 0%; background: var(--gold); transition: width 1.8s ease; }
+    .overlay-error { font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; color: #ff6b6b; letter-spacing: 0.1em; display: none; text-align: center; max-width: 300px; }
+    .overlay-error.show { display: block; }
     .empty-state { min-height: calc(100vh - 68px); padding-top: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 68px 6vw 4rem; }
     .empty-icon { font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.4; }
     .empty-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: 0.04em; margin-bottom: 0.8rem; }
     .empty-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; max-width: 380px; }
     .btn-shop { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bg2); background: var(--gold); padding: 1rem 2.5rem; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background 0.2s; display: inline-block; }
     .btn-shop:hover { background: var(--gold-lt); }
-
-    /* CART STATE */
     .page { min-height: 100vh; padding-top: 68px; display: grid; grid-template-columns: 1fr 1fr; }
-
     .summary { background: var(--bg2); padding: 4vw 4vw 4vw 8vw; border-right: 1px solid rgba(201,168,76,0.1); display: flex; flex-direction: column; }
     .sum-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; margin-top: 1rem; display: flex; align-items: center; gap: 1rem; }
     .sum-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
-
     .cart-items { margin-bottom: 2rem; }
     .cart-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .cart-item-img { width: 72px; height: 72px; flex-shrink: 0; overflow: hidden; border: 1px solid rgba(201,168,76,0.15); background: var(--bg3); position: relative; }
@@ -72,7 +66,6 @@
     .cqn { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--white); min-width: 20px; text-align: center; }
     .remove-btn { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 1rem; cursor: pointer; padding: 0 0.3rem; transition: color 0.2s; }
     .remove-btn:hover { color: #ff5555; }
-
     .cost-lines { margin-bottom: 1.5rem; }
     .cost-line { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .cost-line .lbl { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
@@ -80,24 +73,21 @@
     .cost-line.total { border-top: 1px solid rgba(201,168,76,0.2); border-bottom: none; padding-top: 1.2rem; margin-top: 0.5rem; }
     .cost-line.total .lbl { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--white); letter-spacing: 0.1em; }
     .cost-line.total .val { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--gold); }
-
     .trust-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.5rem; }
     .trust-row { display: flex; align-items: center; gap: 0.7rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
     .trust-icon { width: 24px; height: 24px; background: var(--bg3); border: 1px solid rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
-
     .checkout-panel { background: var(--bg); padding: 4vw 8vw 4vw 4vw; display: flex; flex-direction: column; justify-content: center; }
     .checkout-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 0.92; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
     .checkout-title .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
     .checkout-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 2.8rem; line-height: 1.6; }
-
-    .stripe-btn { display: flex; align-items: center; justify-content: space-between; background: var(--gold); text-decoration: none; padding: 1.3rem 1.8rem; clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; margin-bottom: 1rem; position: relative; overflow: hidden; cursor: pointer; border: none; width: 100%; }
+    .stripe-btn { display: flex; align-items: center; justify-content: space-between; background: var(--gold); padding: 1.3rem 1.8rem; clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition: background 0.2s, transform 0.2s; margin-bottom: 1rem; position: relative; overflow: hidden; cursor: pointer; border: none; width: 100%; }
     .stripe-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%); transform: translateX(-100%); transition: transform 0.5s ease; }
     .stripe-btn:hover::before { transform: translateX(100%); }
-    .stripe-btn:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .stripe-btn:hover:not(:disabled) { background: var(--gold-lt); transform: translateY(-2px); }
+    .stripe-btn:disabled { opacity: 0.7; cursor: not-allowed; }
     .stripe-lbl { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(0,0,0,0.5); margin-bottom: 0.2rem; text-align: left; }
     .stripe-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.55rem; letter-spacing: 0.08em; color: var(--bg2); line-height: 1; }
     .stripe-right { font-family: 'Barlow Condensed', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(0,0,0,0.45); }
-
     .secure-note { display: flex; align-items: center; gap: 0.6rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; }
     .secure-note::before { content: '🔒'; font-size: 0.78rem; }
     .pay-methods { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
@@ -109,7 +99,6 @@
     .back-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .back-link::before { content: '←'; }
     .back-link:hover { color: var(--gold); }
-
     @media (max-width: 800px) {
       .page { grid-template-columns: 1fr; }
       .summary { padding: 2rem 6vw; border-right: none; border-bottom: 1px solid rgba(201,168,76,0.1); }
@@ -126,11 +115,11 @@
 
 <div class="overlay" id="overlay">
   <div class="overlay-logo">SCOOP<span>X</span></div>
-  <div class="overlay-msg">Redirecting to secure checkout…</div>
+  <div class="overlay-msg" id="overlayMsg">Creating your secure checkout…</div>
   <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+  <div class="overlay-error" id="overlayError"></div>
 </div>
 
-<!-- Empty cart state -->
 <div class="empty-state" id="emptyState" style="display:none">
   <div class="empty-icon">🛒</div>
   <div class="empty-title">YOUR CART<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">IS EMPTY</span></div>
@@ -138,7 +127,6 @@
   <a href="index.html#shop" class="btn-shop">Browse Products →</a>
 </div>
 
-<!-- Cart with items -->
 <div class="page" id="cartState" style="display:none">
   <div class="summary">
     <div class="sum-label">Your Cart</div>
@@ -159,7 +147,7 @@
     <button class="stripe-btn" id="stripeBtn">
       <div>
         <div class="stripe-lbl">Secure Checkout via</div>
-        <div class="stripe-text">Pay with Stripe →</div>
+        <div class="stripe-text" id="stripeBtnText">Pay with Stripe →</div>
       </div>
       <div class="stripe-right">🔒 STRIPE</div>
     </button>
@@ -181,15 +169,10 @@
 </div>
 
 <script>
-const STRIPE_LINKS = {
-  scoop3:   'https://buy.stripe.com/4gMaEZeaE2Rx36qbUj5os03',
-  scoop1:   'https://buy.stripe.com/fZu14pc2weAf8qKaQf5os06',
-  keychain: 'https://buy.stripe.com/6oU5kFd6A2RxaySe2r5os05'
-};
 const PRODUCT_IMAGES = {
-  scoop1: 'assets/1.jpg',
-  scoop3: 'assets/2.jpg',
-  keychain: 'assets/6.jpg'
+  scoop1:   'assets/1.jpg',
+  scoop3:   'assets/2.jpg',
+  keychain: 'assets/4.jpg'
 };
 
 function getCart() { try { return JSON.parse(localStorage.getItem('scoopx_cart') || '[]'); } catch(e){ return []; } }
@@ -197,17 +180,14 @@ function saveCart(c) { localStorage.setItem('scoopx_cart', JSON.stringify(c)); }
 
 function renderCart() {
   const cart = getCart();
-
   if (cart.length === 0) {
     document.getElementById('emptyState').style.display = 'flex';
     document.getElementById('cartState').style.display = 'none';
     return;
   }
-
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('cartState').style.display = 'grid';
 
-  // Items
   const itemsEl = document.getElementById('cartItems');
   itemsEl.innerHTML = cart.map((item, idx) => {
     const img = PRODUCT_IMAGES[item.id] || 'assets/1.jpg';
@@ -234,10 +214,8 @@ function renderCart() {
       </div>`;
   }).join('');
 
-  // Totals
   const subtotal = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  const costEl = document.getElementById('costLines');
-  costEl.innerHTML = `
+  document.getElementById('costLines').innerHTML = `
     <div class="cost-line"><span class="lbl">Subtotal</span><span class="val">$${subtotal.toFixed(2)}</span></div>
     <div class="cost-line"><span class="lbl">Shipping</span><span class="val" style="color:var(--neon)">FREE</span></div>
     <div class="cost-line total"><span class="lbl">Total</span><span class="val">$${subtotal.toFixed(2)}</span></div>
@@ -247,26 +225,52 @@ function renderCart() {
 function updateQty(idx, delta) {
   const cart = getCart();
   cart[idx].qty = Math.max(1, Math.min(10, cart[idx].qty + delta));
-  saveCart(cart);
-  renderCart();
+  saveCart(cart); renderCart();
 }
 
 function removeItem(idx) {
   const cart = getCart();
   cart.splice(idx, 1);
-  saveCart(cart);
-  renderCart();
+  saveCart(cart); renderCart();
 }
 
-document.getElementById('stripeBtn').addEventListener('click', function() {
+document.getElementById('stripeBtn').addEventListener('click', async function() {
+  const cart = getCart();
+  if (!cart.length) return;
+
+  const btn = document.getElementById('stripeBtn');
   const overlay = document.getElementById('overlay');
   const bar = document.getElementById('bar');
+  const overlayMsg = document.getElementById('overlayMsg');
+  const overlayError = document.getElementById('overlayError');
+
+  btn.disabled = true;
+  document.getElementById('stripeBtnText').textContent = 'Creating checkout…';
   overlay.classList.add('show');
-  setTimeout(() => { bar.style.width = '100%'; }, 60);
-  const cart = getCart();
-const firstItem = cart[0];
-const link = firstItem ? (STRIPE_LINKS[firstItem.id] || STRIPE_LINKS.scoop1) : STRIPE_LINKS.scoop1;
-setTimeout(() => { window.location.href = link; }, 1050);
+  setTimeout(() => { bar.style.width = '70%'; }, 60);
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.url) throw new Error(data.error || 'Something went wrong');
+
+    overlayMsg.textContent = 'Redirecting to Stripe…';
+    bar.style.width = '100%';
+    setTimeout(() => { window.location.href = data.url; }, 600);
+
+  } catch (err) {
+    overlay.classList.remove('show');
+    bar.style.width = '0%';
+    btn.disabled = false;
+    document.getElementById('stripeBtnText').textContent = 'Pay with Stripe →';
+    overlayError.textContent = 'Error: ' + err.message + '. Please try again.';
+    overlayError.classList.add('show');
+    setTimeout(() => { overlayError.classList.remove('show'); }, 4000);
+  }
 });
 
 renderCart();
