@@ -20,12 +20,34 @@ module.exports = async (req, res) => {
       }
     }));
 
+    const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+    const freeShipping = subtotal >= 20;
+
+    const shipping_options = [
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: { amount: freeShipping ? 0 : 599, currency: 'usd' },
+          display_name: freeShipping ? 'Free Shipping' : 'Standard Shipping',
+          delivery_estimate: {
+            minimum: { unit: 'business_day', value: 3 },
+            maximum: { unit: 'business_day', value: 7 }
+          }
+        }
+      }
+    ];
+
     const origin = req.headers.origin || req.headers.referer || '';
-    const base = origin.replace(/\/$/, '').split('/').slice(0,3).join('/');
+    const base = origin.replace(/\/$/, '').split('/').slice(0, 3).join('/');
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items,
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA', 'MX', 'GB', 'AU']
+      },
+      shipping_options,
+      automatic_tax: { enabled: true },
       success_url: base + '/success.html',
       cancel_url:  base + '/checkout.html',
     });
