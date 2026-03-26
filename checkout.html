@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Xsupply</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JP67WX64Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2JP67WX64Y');
+  </script>
+  <style>
+    body { background: var(--black); }
+    .checkout-nav {
+      height: var(--nav-h); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 32px;
+      background: rgba(7,7,7,0.97); border-bottom: 1px solid var(--gray-3);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .checkout-nav-logo { font-family: var(--ff-head); font-size: 26px; letter-spacing: 0.1em; }
+    .checkout-nav-logo span { color: var(--accent); }
+    .checkout-nav-back { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .checkout-nav-back:hover { color: var(--accent); }
+
+    /* OVERLAY */
+    .checkout-overlay {
+      position: fixed; inset: 0; background: rgba(7,7,7,0.95);
+      z-index: 900; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.35s;
+    }
+    .checkout-overlay.show { opacity: 1; pointer-events: auto; }
+    .overlay-logo { font-family: var(--ff-head); font-size: 36px; letter-spacing: 0.1em; }
+    .overlay-logo span { color: var(--accent); }
+    .overlay-msg { font-size: 13px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; }
+    .overlay-bar-wrap { width: 240px; height: 2px; background: var(--gray-3); overflow: hidden; border-radius: 2px; }
+    .overlay-bar { height: 100%; width: 0%; background: var(--accent); transition: width 1.8s ease; }
+    .overlay-error { font-size: 13px; color: #e55; letter-spacing: 0.05em; display: none; text-align: center; max-width: 340px; padding: 0 20px; }
+    .overlay-error.show { display: block; }
+
+    /* EMPTY */
+    .empty-state {
+      min-height: calc(100vh - var(--nav-h));
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px;
+    }
+    .empty-state.show { display: flex; }
+    .empty-icon { font-size: 56px; margin-bottom: 20px; opacity: 0.4; }
+    .empty-state h2 { font-family: var(--ff-head); font-size: clamp(40px,7vw,70px); letter-spacing: 0.04em; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; color: var(--text-muted); margin-bottom: 28px; max-width: 380px; }
+
+    /* MAIN LAYOUT */
+    .checkout-wrap {
+      display: grid; grid-template-columns: 1fr 460px;
+      max-width: 1180px; margin: 0 auto; min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* LEFT */
+    .checkout-left { padding: 48px 48px 60px; border-right: 1px solid var(--gray-3); }
+    .checkout-steps {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 40px; border-bottom: 1px solid var(--gray-3); padding-bottom: 20px;
+    }
+    .checkout-step { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .checkout-step.active { color: var(--accent); }
+    .checkout-step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gray-3); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .checkout-step.active .checkout-step-num { background: var(--accent); color: var(--black); }
+    .step-divider { width: 32px; height: 1px; background: var(--gray-3); margin: 0 10px; }
+
+    .form-section { margin-bottom: 36px; }
+    .form-section-title { font-family: var(--ff-head); font-size: 22px; letter-spacing: 0.05em; margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+    .form-group label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); }
+    .form-group input, .form-group select {
+      background: var(--gray-1); border: 1.5px solid var(--gray-3);
+      color: var(--white); font-family: var(--ff-body); font-size: 14.5px;
+      padding: 12px 14px; border-radius: var(--radius); outline: none;
+      transition: border-color 0.2s; -webkit-appearance: none; width: 100%;
+    }
+    .form-group input::placeholder { color: var(--text-muted); }
+    .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+    .form-group select option { background: #111; }
+
+    /* Stripe Element */
+    .stripe-element-wrap {
+      background: var(--gray-1); border: 1.5px solid var(--gray-3);
+      border-radius: var(--radius); padding: 14px; transition: border-color 0.2s;
+    }
+    .stripe-element-wrap:focus-within { border-color: var(--accent); }
+    #card-element { min-height: 24px; }
+    #card-errors { color: #e55; font-size: 12.5px; margin-top: 8px; min-height: 18px; }
+
+    /* Trust under form */
+    .checkout-trust-row {
+      display: flex; gap: 16px; flex-wrap: wrap; padding: 20px 0;
+      border-top: 1px solid var(--gray-3); margin-top: 8px; margin-bottom: 24px;
+    }
+    .checkout-trust-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+
+    .place-order-btn {
+      width: 100%; background: var(--accent); color: var(--black); border: none;
+      padding: 17px; border-radius: var(--radius); font-size: 15px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.2s; margin-top: 8px;
+    }
+    .place-order-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .place-order-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .secure-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 12px; color: var(--text-muted); }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-top: 20px; cursor: pointer; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+
+    /* RIGHT */
+    .checkout-right { background: var(--gray-1); padding: 48px 36px; position: sticky; top: var(--nav-h); max-height: calc(100vh - var(--nav-h)); overflow-y: auto; }
+    .order-summary-title { font-family: var(--ff-head); font-size: 22px; letter-spacing: 0.05em; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; }
+    .order-summary-title a { font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .order-items { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    .order-item { display: flex; gap: 14px; align-items: center; }
+    .order-item-img-wrap { position: relative; flex-shrink: 0; }
+    .order-item-img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; background: var(--gray-2); }
+    .order-item-qty { position: absolute; top: -8px; right: -8px; background: var(--text-muted); color: var(--white); border-radius: 50%; width: 20px; height: 20px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .order-item-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .order-item-variant { font-size: 12px; color: var(--text-muted); }
+    .order-item-price { font-size: 14px; font-weight: 700; color: var(--accent); margin-left: auto; flex-shrink: 0; }
+    .coupon-row { display: flex; gap: 8px; margin-bottom: 24px; }
+    .coupon-row input { flex: 1; background: var(--gray-2); border: 1.5px solid var(--gray-3); color: var(--white); font-family: var(--ff-body); font-size: 13.5px; padding: 11px 14px; border-radius: var(--radius); outline: none; transition: border-color 0.2s; }
+    .coupon-row input:focus { border-color: var(--accent); }
+    .coupon-row input::placeholder { color: var(--text-muted); }
+    .coupon-row button { background: var(--gray-3); color: var(--white); border: none; padding: 11px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 700; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
+    .coupon-row button:hover { background: var(--accent); color: var(--black); }
+    .order-totals { border-top: 1px solid var(--gray-3); padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .totals-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-mid); }
+    .totals-row.total { font-size: 18px; font-weight: 700; color: var(--white); padding-top: 10px; border-top: 1px solid var(--gray-3); }
+    .totals-row.total .t-price { color: var(--accent); }
+    .t-free { color: var(--accent); font-weight: 600; }
+
+    /* Order trust */
+    .order-trust { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+    .order-trust-item { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-muted); }
+
+    /* Pay methods */
+    .pay-methods { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 24px; }
+    .pay-icon { background: var(--gray-2); border: 1px solid var(--gray-3); border-radius: 3px; padding: 4px 9px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--text-mid); }
+
+    @media (max-width: 900px) {
+      .checkout-wrap { grid-template-columns: 1fr; }
+      .checkout-right { position: static; max-height: none; order: -1; padding: 28px 20px; }
+      .checkout-left { padding: 32px 20px 60px; border-right: none; }
+    }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="checkout-nav">
+  <a href="index.html" class="checkout-nav-logo">X<span>SUPPLY</span></a>
+  <a href="product.html" class="checkout-nav-back">← Continue Shopping</a>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="overlay-logo">X<span>SUPPLY</span></div>
+  <div class="overlay-msg" id="overlayMsg">Creating your secure checkout…</div>
+  <div class="overlay-bar-wrap"><div class="overlay-bar" id="overlayBar"></div></div>
+  <div class="overlay-error" id="overlayError"></div>
+</div>
+
+<!-- EMPTY STATE -->
+<div class="empty-state" id="emptyState">
+  <div class="empty-icon">🛒</div>
+  <h2>YOUR CART<br><span style="-webkit-text-stroke:1.5px var(--white);color:transparent">IS EMPTY</span></h2>
+  <p>Looks like you haven't added anything yet. Head back to the shop and grab yours.</p>
+  <a href="product.html" class="btn-primary">Browse Products →</a>
+</div>
+
+<!-- MAIN -->
+<div class="checkout-wrap" id="checkoutWrap" style="display:none;">
+
+  <!-- LEFT -->
+  <div class="checkout-left">
+    <div class="checkout-steps">
+      <div class="checkout-step active"><span class="checkout-step-num">1</span>Information</div>
+      <div class="step-divider"></div>
+      <div class="checkout-step active"><span class="checkout-step-num">2</span>Shipping</div>
+      <div class="step-divider"></div>
+      <div class="checkout-step active"><span class="checkout-step-num">3</span>Payment</div>
+    </div>
+
+    <!-- Contact -->
+    <div class="form-section">
+      <div class="form-section-title">Contact</div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input type="tel" id="phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
+      </div>
+    </div>
+
+    <!-- Shipping -->
+    <div class="form-section">
+      <div class="form-section-title">Shipping Address</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" id="firstName" placeholder="John" autocomplete="given-name" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" id="lastName" placeholder="Doe" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address *</label>
+        <input type="text" id="address" placeholder="123 Main Street" autocomplete="street-address" required>
+      </div>
+      <div class="form-group">
+        <label>Apartment, suite, etc. (optional)</label>
+        <input type="text" id="address2" placeholder="Apt 4B" autocomplete="address-line2">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" id="city" placeholder="New York" autocomplete="address-level2" required>
+        </div>
+        <div class="form-group">
+          <label>ZIP / Postal *</label>
+          <input type="text" id="zip" placeholder="10001" autocomplete="postal-code" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>State / Province</label>
+          <input type="text" id="state" placeholder="NY" autocomplete="address-level1">
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select id="country" autocomplete="country">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="BR">Brazil</option>
+            <option value="MX">Mexico</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="form-section">
+      <div class="form-section-title">Payment</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+        🔒 All transactions are 256-bit SSL encrypted and processed by Stripe
+      </p>
+      <div class="form-group">
+        <label>Card Details</label>
+        <div class="stripe-element-wrap">
+          <div id="card-element"></div>
+        </div>
+        <div id="card-errors"></div>
+      </div>
+    </div>
+
+    <!-- Trust row above button -->
+    <div class="checkout-trust-row">
+      <div class="checkout-trust-item">🔒 256-bit SSL</div>
+      <div class="checkout-trust-item">💳 Powered by Stripe</div>
+      <div class="checkout-trust-item">↩️ 30-Day Returns</div>
+      <div class="checkout-trust-item">🛡️ 5yr Warranty</div>
+    </div>
+
+    <button class="place-order-btn" id="placeOrderBtn" onclick="handlePlaceOrder()">
+      Complete Order — Secure
+    </button>
+    <div class="secure-note">🔒 Secured by Stripe · 256-bit SSL Encrypted · We never store card details</div>
+    <div class="back-link" onclick="window.history.back()">← Return to cart</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="checkout-right">
+    <div class="order-summary-title">
+      Order Summary
+      <a href="product.html">Edit</a>
+    </div>
+
+    <div class="order-items" id="orderItems">
+      <div style="text-align:center;padding:32px 0;color:var(--text-muted);" id="orderEmpty">
+        <p>Your cart is empty</p>
+        <a href="product.html" style="color:var(--accent);font-size:13px;font-weight:600;display:block;margin-top:8px;">← Browse Products</a>
+      </div>
+    </div>
+
+    <div class="coupon-row">
+      <input type="text" id="couponInput" placeholder="Discount code">
+      <button onclick="applyCoupon()">Apply</button>
+    </div>
+
+    <div class="order-totals">
+      <div class="totals-row"><span>Subtotal</span><span id="summarySubtotal">$0.00</span></div>
+      <div class="totals-row"><span>Shipping</span><span id="summaryShipping" class="t-free">Free</span></div>
+      <div class="totals-row" id="discountRow" style="display:none;color:var(--accent);"><span>Discount</span><span id="summaryDiscount">-$0.00</span></div>
+      <div class="totals-row total"><span>Total</span><span id="summaryTotal" class="t-price">$0.00</span></div>
+    </div>
+
+    <div class="order-trust">
+      <div class="order-trust-item"><span>🚚</span> Free shipping on orders over $25</div>
+      <div class="order-trust-item"><span>↩️</span> Free 30-day returns, no questions asked</div>
+      <div class="order-trust-item"><span>🛡️</span> 5-year manufacturer warranty included</div>
+      <div class="order-trust-item"><span>🔒</span> Your info is never shared or sold</div>
+    </div>
+
+    <div class="pay-methods">
+      <span class="pay-icon">VISA</span>
+      <span class="pay-icon">MC</span>
+      <span class="pay-icon">AMEX</span>
+      <span class="pay-icon">Apple Pay</span>
+      <span class="pay-icon">Google Pay</span>
+      <span class="pay-icon">🔒 Stripe</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span class="toast-msg"></span></div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="js/cart.js"></script>
+<script>
+  let discount = 0;
+  const COUPONS = { 'XSUPPLY10': 0.10, 'SAVE20': 0.20, 'WELCOME': 0.15 };
+
+  const PRODUCT_IMAGES = {
+    'scoopx-pro': 'https://xsupply.pro/assets/4.jpg',
+    'scoopx-pro-3': 'https://xsupply.pro/assets/2.jpg',
+    'keychain': 'https://xsupply.pro/assets/6.jpg'
+  };
+
+  function renderSummary() {
+    XCart.load();
+    const items = XCart.items;
+    const itemsEl = document.getElementById('orderItems');
+    const emptyEl = document.getElementById('orderEmpty');
+
+    if (items.length === 0) {
+      document.getElementById('emptyState').classList.add('show');
+      document.getElementById('checkoutWrap').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('emptyState').classList.remove('show');
+    document.getElementById('checkoutWrap').style.display = 'grid';
+
+    if (emptyEl) emptyEl.style.display = 'none';
+    const existing = itemsEl.querySelectorAll('.order-item');
+    existing.forEach(el => el.remove());
+
+    items.forEach(item => {
+      const img = PRODUCT_IMAGES[item.id] || item.image || 'https://xsupply.pro/assets/4.jpg';
+      const div = document.createElement('div');
+      div.className = 'order-item';
+      div.innerHTML = `
+        <div class="order-item-img-wrap">
+          <img class="order-item-img" src="${img}" alt="${item.name}" onerror="this.src='https://xsupply.pro/assets/4.jpg'">
+          <span class="order-item-qty">${item.qty}</span>
+        </div>
+        <div>
+          <div class="order-item-name">${item.name}</div>
+          <div class="order-item-variant">${item.variant}${item.color ? ' · ' + item.color : ''}</div>
+        </div>
+        <span class="order-item-price">$${(item.price * item.qty).toFixed(2)}</span>`;
+      itemsEl.appendChild(div);
+    });
+
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const sub = XCart.total();
+    const shipping = sub >= 25 ? 0 : 4.99;
+    const total = sub - discount + shipping;
+    document.getElementById('summarySubtotal').textContent = `$${sub.toFixed(2)}`;
+    const shippingEl = document.getElementById('summaryShipping');
+    shippingEl.textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+    shippingEl.className = shipping === 0 ? 't-free' : '';
+    document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+  }
+
+  function applyCoupon() {
+    const code = document.getElementById('couponInput').value.trim().toUpperCase();
+    if (COUPONS[code]) {
+      discount = XCart.total() * COUPONS[code];
+      const pct = Math.round(COUPONS[code] * 100);
+      document.getElementById('discountRow').style.display = 'flex';
+      document.getElementById('summaryDiscount').textContent = `-$${discount.toFixed(2)}`;
+      showToast(`✓ ${pct}% discount applied!`);
+      updateTotals();
+    } else {
+      showToast('Invalid discount code');
+    }
+  }
+
+  // ── STRIPE ──
+  // IMPORTANT: Replace with your actual Stripe publishable key
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_REPLACE_WITH_YOUR_STRIPE_PUBLISHABLE_KEY';
+  let stripe, elements, card;
+
+  function initStripe() {
+    try {
+      stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+      elements = stripe.elements();
+      card = elements.create('card', {
+        style: {
+          base: {
+            color: '#f0ede6',
+            fontFamily: 'DM Sans, sans-serif',
+            fontSize: '15px',
+            '::placeholder': { color: '#6a6a6a' },
+            iconColor: '#d5f94e',
+          },
+          invalid: { color: '#e55', iconColor: '#e55' }
+        }
+      });
+      card.mount('#card-element');
+      card.on('change', ({ error }) => {
+        document.getElementById('card-errors').textContent = error ? error.message : '';
+      });
+    } catch(e) {
+      document.getElementById('card-element').innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:13.5px;padding:4px 0;">
+          <span>💳</span><span>Enter your Stripe publishable key in checkout.html to activate payments</span>
+        </div>`;
+    }
+  }
+
+  async function handlePlaceOrder() {
+    const email = document.getElementById('email').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+
+    if (!email || !firstName || !lastName || !address || !city || !zip) {
+      showToast('Please fill in all required fields');
+      return;
+    }
+    if (!email.includes('@')) { showToast('Enter a valid email address'); return; }
+    if (XCart.items.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const btn = document.getElementById('placeOrderBtn');
+    const overlay = document.getElementById('checkoutOverlay');
+    const bar = document.getElementById('overlayBar');
+    const overlayMsg = document.getElementById('overlayMsg');
+    const overlayError = document.getElementById('overlayError');
+
+    btn.disabled = true;
+    btn.textContent = 'Processing…';
+    overlay.classList.add('show');
+    setTimeout(() => { bar.style.width = '60%'; }, 80);
+
+    try {
+      // Send to Vercel serverless function
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: XCart.items.map(i => ({
+            id: i.id,
+            name: i.name,
+            variant: i.variant,
+            color: i.color,
+            price: i.price,
+            qty: i.qty
+          })),
+          customer: { email, firstName, lastName, address, city, zip,
+            state: document.getElementById('state').value,
+            country: document.getElementById('country').value,
+            phone: document.getElementById('phone').value }
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || 'Something went wrong');
+
+      overlayMsg.textContent = 'Redirecting to Stripe…';
+      bar.style.width = '100%';
+      setTimeout(() => { window.location.href = data.url; }, 600);
+
+    } catch (err) {
+      overlay.classList.remove('show');
+      bar.style.width = '0%';
+      btn.disabled = false;
+      btn.textContent = 'Complete Order — Secure';
+      overlayError.textContent = '⚠ ' + err.message + '. Please try again.';
+      overlayError.classList.add('show');
+      setTimeout(() => { overlayError.classList.remove('show'); }, 5000);
+      showToast('Error: ' + err.message);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderSummary();
+    initStripe();
+  });
+</script>
+</body>
+</html>

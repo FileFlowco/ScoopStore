@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xsupply — Precision Gear. Every Gram Counts.</title>
+  <meta name="description" content="Xsupply makes the SCOOPX Pro — the last scoop you'll ever buy. Adjustable 5–30g, 304 stainless steel, Slide & Pour mechanism.">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JP67WX64Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2JP67WX64Y');
+  </script>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement-bar">
+  🔥 LIMITED OFFER — 33% OFF THE SCOOPX PRO TODAY ONLY &nbsp;·&nbsp; FREE SHIPPING OVER $25
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">X<span>SUPPLY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product.html">Shop Products</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="info.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-socials">
+      <a href="https://www.instagram.com/scoopx.pro/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@scoopxpro" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.87a8.18 8.18 0 0 0 4.78 1.52V7.01a4.85 4.85 0 0 1-1.01-.32z"/></svg>
+      </a>
+    </div>
+    <span class="auth-nav-btn-wrap">
+      <button class="auth-user-btn" onclick="openAuth()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </span>
+    <button class="cart-btn" onclick="openCart()">
+      Cart <span class="cart-count">0</span>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="product.html">Shop Products</a>
+  <a href="index.html#how">How It Works</a>
+  <a href="info.html#contact">Contact</a>
+  <div class="m-socials">
+    <a href="https://www.instagram.com/scoopx.pro/" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@scoopxpro" target="_blank">TikTok</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-video-wrapper">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="assets/vid1.p4.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available Now</div>
+    <h1 class="hero-title">SCOOPX<br><span class="accent">PRO</span></h1>
+    <p class="hero-sub">No mess. No guessing. Every powder — protein, coffee, collagen — measured flawlessly every single time.</p>
+    <div class="hero-btns">
+      <a href="product.html" class="btn-primary">Buy Now</a>
+      <a href="#features" class="btn-ghost">See Features</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span>PROTEIN POWDER</span><span class="dot">✦</span>
+    <span>COFFEE & MATCHA</span><span class="dot">✦</span>
+    <span>COLLAGEN</span><span class="dot">✦</span>
+    <span>PRE-WORKOUT</span><span class="dot">✦</span>
+    <span>CREATINE</span><span class="dot">✦</span>
+    <span>GREENS</span><span class="dot">✦</span>
+    <span>PROTEIN POWDER</span><span class="dot">✦</span>
+    <span>COFFEE & MATCHA</span><span class="dot">✦</span>
+    <span>COLLAGEN</span><span class="dot">✦</span>
+    <span>PRE-WORKOUT</span><span class="dot">✦</span>
+    <span>CREATINE</span><span class="dot">✦</span>
+    <span>GREENS</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">30G</div><div class="stat-label">Max Capacity</div></div>
+  <div class="stat-item"><div class="stat-num">±0.1G</div><div class="stat-label">Precision</div></div>
+  <div class="stat-item"><div class="stat-num">304</div><div class="stat-label">Grade Steel</div></div>
+  <div class="stat-item"><div class="stat-num">5YR</div><div class="stat-label">Warranty</div></div>
+</div>
+
+<!-- TRUST BLOCK -->
+<div class="trust-section">
+  <div class="trust-section-grid">
+    <div class="trust-block">
+      <div class="trust-block-icon">🛡️</div>
+      <div class="trust-block-title">5-YEAR WARRANTY</div>
+      <p class="trust-block-desc">Every SCOOPX ships with a full 5-year warranty. No questions asked. We stand behind every unit we sell.</p>
+    </div>
+    <div class="trust-block">
+      <div class="trust-block-icon">🔒</div>
+      <div class="trust-block-title">SECURE CHECKOUT</div>
+      <p class="trust-block-desc">All payments are 256-bit SSL encrypted and processed by Stripe — the world's most trusted payment platform.</p>
+    </div>
+    <div class="trust-block">
+      <div class="trust-block-icon">↩️</div>
+      <div class="trust-block-title">FREE 30-DAY RETURNS</div>
+      <p class="trust-block-desc">Not satisfied? Return it within 30 days for a full refund. No hoops to jump through. Zero risk to you.</p>
+    </div>
+    <div class="trust-block">
+      <div class="trust-block-icon">🚚</div>
+      <div class="trust-block-title">FAST SHIPPING</div>
+      <p class="trust-block-desc">Orders ship within 48–72 hours. Free shipping on orders over $25. Track your package every step of the way.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT SECTION -->
+<section class="section" id="shop">
+  <div class="product-section">
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <img id="mainImg" class="product-gallery-main" src="https://xsupply.pro/assets/4.jpg" alt="SCOOPX Pro One">
+      <div class="product-thumbs" id="thumbs">
+        <img src="https://xsupply.pro/assets/4.jpg" class="active" alt="SCOOPX Pro One" onclick="switchImg(this)">
+        <img src="https://xsupply.pro/assets/1.jpg" alt="SCOOPX Pro One" onclick="switchImg(this)">
+        <img src="https://xsupply.pro/assets/2.jpg" alt="SCOOPX Pro One" onclick="switchImg(this)">
+        <img src="https://xsupply.pro/assets/3.jpg" alt="SCOOPX Pro One" onclick="switchImg(this)">
+        <img src="https://xsupply.pro/assets/5.jpg" alt="SCOOPX Pro One" onclick="switchImg(this)">
+        <img src="https://xsupply.pro/assets/6.jpg" alt="Gym Keychain Set" onclick="switchImg(this)">
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      <div>
+        <div class="section-label">Available Now</div>
+        <h2 class="product-title">SCOOPX<br>PRO ONE</h2>
+        <div class="product-subtitle">The last scoop you'll ever buy</div>
+      </div>
+
+      <div class="product-stars">
+        <span class="stars">★★★★★</span>
+        <span class="stars-count">4.9 / 5 — 214 reviews</span>
+      </div>
+
+      <div>
+        <div class="product-price-row" id="priceRow">
+          <span class="price-current" id="priceDisplay">$8.00</span>
+          <span class="price-original" id="priceOriginal">$12.00</span>
+          <span class="price-badge">33% OFF</span>
+        </div>
+        <div class="product-shipping" style="margin-top:8px;">
+          <a href="info.html#shipping">Free shipping</a> on orders over $25 · Ships in 48–72h
+        </div>
+      </div>
+
+      <!-- Pack options -->
+      <div>
+        <div class="option-label">Choose your pack — <span id="packLabel">1 Scoop</span></div>
+        <div class="option-pills" id="packOptions">
+          <button class="option-pill active" data-pack="1" data-price="8" data-original="12" data-label="1 Scoop" onclick="selectPack(this)">
+            1 Scoop<small>$8.00</small>
+          </button>
+          <button class="option-pill" data-pack="3" data-price="19.99" data-original="36" data-label="3 Pack" onclick="selectPack(this)">
+            3 Pack<small>$19.99 — Best Value</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Color -->
+      <div>
+        <div class="option-label">Color — <span id="colorLabel">Black</span></div>
+        <div class="color-pills">
+          <div class="color-pill black active" data-color="Black" onclick="selectColor(this)" title="Black"></div>
+          <div class="color-pill red soldout-dot" data-color="Red" title="Red — Sold Out" style="cursor:not-allowed;opacity:.35;"></div>
+        </div>
+      </div>
+
+      <!-- Qty + ATC -->
+      <div class="qty-row">
+        <div class="qty-box">
+          <button onclick="changeQty(-1)">−</button>
+          <input type="number" id="qtyInput" value="1" min="1" max="10" readonly>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="add-to-cart" onclick="handleAddToCart()">Add to Cart</button>
+      </div>
+      <button class="buy-now" onclick="handleBuyNow()">Buy Now →</button>
+
+      <!-- Secure badges -->
+      <div class="secure-bar">
+        <div class="secure-bar-item"><span>🔒</span> SSL Encrypted</div>
+        <div class="secure-bar-item"><span>✓</span> Stripe Secured</div>
+        <div class="secure-bar-item"><span>↩️</span> 30-Day Returns</div>
+        <div class="secure-bar-item"><span>🛡️</span> 5yr Warranty</div>
+      </div>
+
+      <!-- Trust -->
+      <div class="trust-badges">
+        <div class="trust-badge"><span class="trust-badge-icon">🛡️</span><span class="trust-badge-text">5-Year Warranty</span></div>
+        <div class="trust-badge"><span class="trust-badge-icon">🔒</span><span class="trust-badge-text">Secure Checkout</span></div>
+        <div class="trust-badge"><span class="trust-badge-icon">⚡</span><span class="trust-badge-text">Ships in 48–72h</span></div>
+        <div class="trust-badge"><span class="trust-badge-icon">↩️</span><span class="trust-badge-text">30-Day Returns</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE IMAGE -->
+<div class="feature-img-section">
+  <img src="https://xsupply.pro/assets/3.jpg" alt="Stop wasting powder" loading="lazy">
+  <div class="feature-img-overlay">
+    <h2 class="section-title" style="color:var(--white);font-size:clamp(52px,9vw,120px);">STOP WASTING<br>POWDER.</h2>
+    <p style="color:#ccc;max-width:500px;font-size:16px;margin-top:16px;font-weight:300;">Most people spill with every scoop. Our precision geometry ensures clean, exact pours — no more mess, no more waste.</p>
+    <a href="product.html" class="btn-primary" style="margin-top:28px;">Learn More</a>
+  </div>
+</div>
+
+<!-- WHY SECTION -->
+<section class="section" id="features">
+  <div class="section-label">Why Xsupply</div>
+  <h2 class="section-title">BUILT <em>DIFFERENT</em></h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon">⚖️</div>
+      <div class="why-title">DEAD-ACCURATE</div>
+      <p class="why-desc">Machined to ±0.1g tolerance. Whether it's 5g of creatine or 30g of protein, you'll never second-guess your dose again.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🏗️</div>
+      <div class="why-title">INDESTRUCTIBLE</div>
+      <p class="why-desc">304 food-grade stainless steel. Dishwasher safe. Drop it, it won't care. Built to outlast every tub you own.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🌀</div>
+      <div class="why-title">NO CLUMP, NO MESS</div>
+      <p class="why-desc">Engineered geometry prevents powder from sticking. Glides clean every single time. No scraping. No waste.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">SLIDE & POUR</div>
+      <p class="why-desc">One-hand slide mechanism. Preset your dose and dispense instantly. Measure once, scoop forever.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">♻️</div>
+      <div class="why-title">ZERO WASTE</div>
+      <p class="why-desc">No powder contamination. No plastic buried in your tub. SCOOPX stays clean on the counter, always.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">✦</div>
+      <div class="why-title">UNIVERSAL FIT</div>
+      <p class="why-desc">Protein. Coffee. Collagen. Creatine. Matcha. One scoop rules every powder you own — one and done.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="background:var(--gray-1);border-top:1px solid var(--gray-3);border-bottom:1px solid var(--gray-3);">
+  <div class="section-label">Simple by Design</div>
+  <h2 class="section-title">HOW IT <em>WORKS</em></h2>
+  <div class="how-grid">
+    <div class="how-item">
+      <div class="how-num">01</div>
+      <div class="how-title">SET YOUR DOSE</div>
+      <p class="how-desc">Slide the collar to your desired amount — anywhere from 5g to 30g. Click it firmly in place.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-num">02</div>
+      <div class="how-title">SCOOP & LEVEL</div>
+      <p class="how-desc">Dig in and level the top. Perfectly flat every single time. No guessing, no over-scooping.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-num">03</div>
+      <div class="how-title">SLIDE & POUR</div>
+      <p class="how-desc">One push. Everything drops clean — nothing stays behind. Directly into your shaker or bottle.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-num">04</div>
+      <div class="how-title">RINSE & REPEAT</div>
+      <p class="how-desc">Dishwasher safe. Quick rinse under the tap. Done in seconds. Ready for the next scoop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO REVIEWS -->
+<section class="video-reviews-section">
+  <div class="section-label">Real Customers</div>
+  <h2 class="section-title">THEY <em>SHOW IT</em></h2>
+  <p class="section-desc" style="margin-top:12px;">Watch real customers show off their SCOOPX in action.</p>
+  <div class="video-reviews-grid">
+    <!-- Short-form vertical video embeds from YouTube Shorts -->
+    <div class="video-review-card">
+      <iframe src="https://www.youtube.com/embed/2Vv-BfVoq4g?start=5&controls=1&rel=0&modestbranding=1" title="Customer Review 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <div class="video-review-overlay">
+        <div class="video-review-stars">★★★★★</div>
+        <div class="video-review-name">Marcus L.</div>
+        <div class="video-review-role">Competitive Powerlifter</div>
+      </div>
+      <div class="video-play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+    <div class="video-review-card">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&rel=0&modestbranding=1" title="Customer Review 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <div class="video-review-overlay">
+        <div class="video-review-stars">★★★★★</div>
+        <div class="video-review-name">Sofia R.</div>
+        <div class="video-review-role">Wellness Coach</div>
+      </div>
+      <div class="video-play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+    <div class="video-review-card">
+      <iframe src="https://www.youtube.com/embed/ZZ5LpwO-An4?controls=1&rel=0&modestbranding=1" title="Customer Review 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <div class="video-review-overlay">
+        <div class="video-review-stars">★★★★★</div>
+        <div class="video-review-name">Jake T.</div>
+        <div class="video-review-role">CrossFit Athlete</div>
+      </div>
+      <div class="video-play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEXT REVIEWS -->
+<section class="section">
+  <div class="section-label">Real People</div>
+  <h2 class="section-title">THEY <em>LOVE IT</em></h2>
+  <p class="section-desc">Don't take our word for it — here's what customers are saying about the SCOOPX Pro One.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I've gone through a dozen plastic scoops. SCOOPX is the first one I haven't lost in a protein tub. The slide mechanism is a total game changer — dialed every time."</p>
+      <div class="review-author">
+        <div class="review-avatar">M</div>
+        <div><div class="review-name">Marcus L.</div><div class="review-role">Competitive Powerlifter · Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I use it for matcha every single morning. Consistent every time. The build quality is insane for the price. Worth every cent and then some — highly recommend."</p>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div><div class="review-name">Sofia R.</div><div class="review-role">Wellness Coach · Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Bought two — one for my gym bag, one for the kitchen. Pre-workout always dialed in. The stainless steel feels premium. Nothing like the cheap plastic ones."</p>
+      <div class="review-author">
+        <div class="review-avatar">J</div>
+        <div><div class="review-name">Jake T.</div><div class="review-role">CrossFit Athlete · Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Finally a scoop that doesn't slip and disappear into the tub. The adjustable design means I use it for protein AND creatine. Doesn't get better than this."</p>
+      <div class="review-author">
+        <div class="review-avatar">A</div>
+        <div><div class="review-name">Alex M.</div><div class="review-role">Gym Owner · Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Got the 3-pack and gave one to my training partner. We're both obsessed. No more guessing on our doses. Game changer for tracking macros seriously."</p>
+      <div class="review-author">
+        <div class="review-avatar">R</div>
+        <div><div class="review-name">Rachel K.</div><div class="review-role">Bikini Competitor · Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Looks amazing on the counter, works even better. My coffee scoop game is finally on point. Never going back to those flimsy plastic things. Worth every penny."</p>
+      <div class="review-author">
+        <div class="review-avatar">D</div>
+        <div><div class="review-name">Daniel F.</div><div class="review-role">Coffee Enthusiast · Verified Buyer</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BIG -->
+<div class="cta-big">
+  <div class="section-label">Limited Drop</div>
+  <h2 class="section-title">STOP GUESSING.<br><em>START SCOOPING.</em></h2>
+  <a href="product.html" class="btn-primary">Order Now</a>
+</div>
+
+<!-- EMAIL -->
+<div class="email-section">
+  <div class="section-label">Become a VIP</div>
+  <h2>BE THE FIRST TO<br>KNOW EVERYTHING.</h2>
+  <p style="color:rgba(0,0,0,0.55);margin-bottom:28px;font-size:15px;">Exclusive drops, discounts, and early access — straight to your inbox.</p>
+  <form class="email-form" id="emailForm" onsubmit="handleEmailSignup(event)">
+    <input type="email" placeholder="Enter your email" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <p class="email-note">No spam. Unsubscribe anytime.</p>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="f-logo">X<span>SUPPLY</span></div>
+      <p>Precision measuring tools for serious people. Every gram counts. Every scoop matters.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/scoopx.pro/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@scoopxpro" target="_blank" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.87a8.18 8.18 0 0 0 4.78 1.52V7.01a4.85 4.85 0 0 1-1.01-.32z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.499 6.203A3.048 3.048 0 0 0 21.3 3.993c-1.946-.52-9.8-.52-9.8-.52s-7.853 0-9.8.52A3.048 3.048 0 0 0-.3 6.203C-.818 8.148-.818 12-.818 12s0 3.852.518 5.797A3.048 3.048 0 0 0 1.9 20.007c1.947.52 9.8.52 9.8.52s7.854 0 9.8-.52a3.048 3.048 0 0 0 2.199-2.21C24.218 15.852 24.218 12 24.218 12s-.02-3.852-.519-5.797zM9.5 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Shop Products</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#how">How It Works</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="info.html#shipping">Shipping Policy</a></li>
+        <li><a href="info.html#returns">Returns</a></li>
+        <li><a href="info.html#contact">Contact Us</a></li>
+        <li><a href="info.html#privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Payment</h4>
+      <div class="payment-icons" style="margin-top:4px;">
+        <span>VISA</span>
+        <span>MC</span>
+        <span>AMEX</span>
+        <span>Apple Pay</span>
+        <span>Google Pay</span>
+        <span>Stripe</span>
+      </div>
+      <div style="margin-top:16px;font-size:12px;color:var(--text-muted);line-height:1.6;">
+        🔒 All transactions secured<br>by 256-bit SSL encryption
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Xsupply. All rights reserved. Made for people who give a damn.</p>
+    <div class="payment-icons">
+      <span>🔒 Secure</span>
+      <span>Free Returns</span>
+      <span>5yr Warranty</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-head">
+    <h2>YOUR CART</h2>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty" style="display:flex;">
+      <p>Your cart is empty.</p>
+      <a href="product.html">Browse Products →</a>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <span class="cart-subtotal-price" id="cartSubtotal">$0.00</span>
+    </div>
+    <button class="cart-checkout-btn" onclick="goToCheckout()">Checkout — Secure</button>
+    <span class="cart-continue" onclick="closeCart()">Continue Shopping</span>
+    <div class="cart-trust">
+      <span>🔒 SSL Secure</span>
+      <span>⚡ Ships 48–72h</span>
+      <span>↩️ Free Returns</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span class="toast-msg"></span>
+</div>
+
+<script src="js/cart.js"></script>
+<script>
+  let selectedPack  = { pack:'1', price:8, original:12, label:'1 Scoop' };
+  let selectedColor = 'Black';
+  let selectedQty   = 1;
+
+  function selectPack(el) {
+    document.querySelectorAll('#packOptions .option-pill').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    selectedPack = { pack:el.dataset.pack, price:parseFloat(el.dataset.price), original:parseFloat(el.dataset.original), label:el.dataset.label };
+    document.getElementById('packLabel').textContent = selectedPack.label;
+    document.getElementById('priceDisplay').textContent = `$${selectedPack.price.toFixed(2)}`;
+    document.getElementById('priceOriginal').textContent = `$${selectedPack.original.toFixed(2)}`;
+  }
+
+  function selectColor(el) {
+    if (el.classList.contains('soldout-dot')) return;
+    document.querySelectorAll('.color-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    selectedColor = el.dataset.color;
+    document.getElementById('colorLabel').textContent = selectedColor;
+  }
+
+  function changeQty(delta) {
+    const input = document.getElementById('qtyInput');
+    let v = parseInt(input.value) + delta;
+    if (v < 1) v = 1; if (v > 10) v = 10;
+    input.value = v;
+    selectedQty = v;
+  }
+
+  function switchImg(el) {
+    const main = document.getElementById('mainImg');
+    main.classList.add('fade');
+    setTimeout(() => { main.src = el.src; main.classList.remove('fade'); }, 180);
+    document.querySelectorAll('.product-thumbs img').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function handleAddToCart() {
+    const packId = selectedPack.pack === '3' ? 'scoopx-pro-3' : 'scoopx-pro';
+    const name = selectedPack.pack === '3' ? 'SCOOPX Pro One 3 Pack' : 'SCOOPX Pro One';
+    XCart.add({ id:packId, name, variant:selectedPack.label, color:selectedColor, price:selectedPack.price, image:'https://xsupply.pro/assets/4.jpg', qty:selectedQty });
+    openCart();
+  }
+
+  function handleBuyNow() {
+    const packId = selectedPack.pack === '3' ? 'scoopx-pro-3' : 'scoopx-pro';
+    const name = selectedPack.pack === '3' ? 'SCOOPX Pro One 3 Pack' : 'SCOOPX Pro One';
+    XCart.add({ id:packId, name, variant:selectedPack.label, color:selectedColor, price:selectedPack.price, image:'https://xsupply.pro/assets/4.jpg', qty:selectedQty });
+    window.location.href = 'checkout.html';
+  }
+
+  function handleEmailSignup(e) {
+    e.preventDefault();
+    showToast('✓ You\'re on the list! Check your inbox.');
+    e.target.reset();
+  }
+</script>
+</body>
+</html>

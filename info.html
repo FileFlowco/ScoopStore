@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Info — Xsupply</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JP67WX64Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-2JP67WX64Y");
+  </script>
+  <style>
+    .info-hero {
+      padding: 80px 56px 56px;
+      border-bottom: 1px solid var(--gray-3);
+    }
+    .info-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--gray-3);
+      padding: 0 56px;
+      overflow-x: auto;
+      background: var(--gray-1);
+    }
+    .info-tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2.5px solid transparent;
+      color: var(--text-muted);
+      padding: 16px 28px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color var(--transition), border-color var(--transition);
+      white-space: nowrap;
+    }
+    .info-tab-btn:hover { color: var(--white); }
+    .info-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .info-content { padding: 60px 56px; max-width: 760px; }
+    .info-panel { display: none; }
+    .info-panel.active { display: block; }
+    .info-panel h2 {
+      font-family: var(--ff-head);
+      font-size: 44px;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      color: var(--white);
+    }
+    .info-panel h3 {
+      font-family: var(--ff-head);
+      font-size: 24px;
+      letter-spacing: 0.04em;
+      margin: 28px 0 12px;
+      color: var(--accent);
+    }
+    .info-panel p {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .info-panel ul {
+      padding-left: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .info-panel ul li {
+      font-size: 14.5px;
+      color: var(--text-mid);
+      padding-left: 20px;
+      position: relative;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .info-panel ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 13px;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; margin-top: 8px; }
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      background: var(--gray-1);
+      border: 1.5px solid var(--gray-3);
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 14.5px;
+      padding: 13px 16px;
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color var(--transition);
+      -webkit-appearance: none;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--accent); }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: var(--text-muted); }
+    .contact-form textarea { min-height: 140px; resize: vertical; }
+    .contact-form label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .contact-form .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .info-card {
+      background: var(--gray-1);
+      border: 1px solid var(--gray-3);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .info-card strong { color: var(--white); font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .info-hero { padding: 48px 20px 36px; }
+      .info-tabs { padding: 0 16px; }
+      .info-content { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="announcement-bar">
+  🔥 LIMITED OFFER — 33% OFF TODAY ONLY &nbsp;·&nbsp; FREE SHIPPING OVER $25
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">X<span>SUPPLY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product.html">Shop Products</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="info.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()">Cart <span class="cart-count">0</span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="product.html">Shop Products</a>
+  <a href="index.html#how">How It Works</a>
+  <a href="info.html#contact">Contact</a>
+</nav>
+
+<div class="info-hero">
+  <div class="section-label">Xsupply</div>
+  <h1 style="font-family:var(--ff-head);font-size:clamp(56px,8vw,100px);line-height:0.93;letter-spacing:0.02em;">POLICIES &<br><span style="color:var(--accent);">CONTACT</span></h1>
+</div>
+
+<div class="info-tabs">
+  <button class="info-tab-btn active" onclick="switchInfoTab('shipping', this)">Shipping</button>
+  <button class="info-tab-btn" onclick="switchInfoTab('returns', this)">Returns</button>
+  <button class="info-tab-btn" onclick="switchInfoTab('contact', this)">Contact</button>
+  <button class="info-tab-btn" onclick="switchInfoTab('privacy', this)">Privacy</button>
+  <button class="info-tab-btn" onclick="switchInfoTab('terms', this)">Terms</button>
+</div>
+
+<div class="info-content">
+  <!-- SHIPPING -->
+  <div class="info-panel active" id="info-shipping">
+    <h2>SHIPPING POLICY</h2>
+    <div class="info-card">
+      <p style="margin:0;"><strong>Free Shipping</strong> on all orders over $25. Standard orders ship within <strong>48–72 hours</strong>.</p>
+    </div>
+    <h3>Processing Time</h3>
+    <p>All orders are processed within 1–2 business days. Orders placed on weekends or holidays will be processed the next business day.</p>
+    <h3>Delivery Times</h3>
+    <ul>
+      <li><strong>United States:</strong> 3–7 business days (standard) / 1–3 business days (expedited)</li>
+      <li><strong>Canada:</strong> 7–14 business days</li>
+      <li><strong>United Kingdom / Europe:</strong> 10–18 business days</li>
+      <li><strong>Australia / Oceania:</strong> 12–20 business days</li>
+      <li><strong>Rest of World:</strong> 14–28 business days</li>
+    </ul>
+    <h3>Tracking</h3>
+    <p>Once your order ships, you'll receive a tracking number via email. You can use this to monitor your delivery in real time.</p>
+    <h3>Shipping Rates</h3>
+    <ul>
+      <li>Orders over $25 — FREE standard shipping</li>
+      <li>Orders under $25 — $4.99 standard shipping</li>
+      <li>Expedited shipping available at checkout</li>
+    </ul>
+  </div>
+
+  <!-- RETURNS -->
+  <div class="info-panel" id="info-returns">
+    <h2>RETURN POLICY</h2>
+    <div class="info-card">
+      <p style="margin:0;"><strong>30-Day Free Returns.</strong> Not happy? No questions asked — we'll make it right.</p>
+    </div>
+    <h3>How to Return</h3>
+    <ul>
+      <li>Contact us within 30 days of delivery at support@xsupply.pro</li>
+      <li>Include your order number and reason for return</li>
+      <li>We'll send you a prepaid return label within 24 hours</li>
+      <li>Refund processed within 5–7 business days of receiving the item</li>
+    </ul>
+    <h3>Conditions</h3>
+    <ul>
+      <li>Items must be in original condition</li>
+      <li>Original packaging preferred but not required</li>
+      <li>Damaged or defective items are always covered — no questions asked</li>
+    </ul>
+    <h3>5-Year Warranty</h3>
+    <p>Every SCOOPX Pro includes a 5-year manufacturer warranty covering defects in materials and workmanship. If your SCOOPX ever fails under normal use, we'll replace it — free of charge.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="info-panel" id="info-contact">
+    <h2>CONTACT US</h2>
+    <p>We're here to help. Reach out and we'll get back to you within 24 hours.</p>
+    <div class="info-card" style="margin-bottom:28px;">
+      <p style="margin:0 0 8px;"><strong>📧 Email:</strong> support@xsupply.pro</p>
+      <p style="margin:0 0 8px;"><strong>📸 Instagram:</strong> <a href="https://www.instagram.com/scoopx.pro/" target="_blank" style="color:var(--accent);">@scoopx.pro</a></p>
+      <p style="margin:0;"><strong>🕐 Response time:</strong> Within 24 hours, Mon–Fri</p>
+    </div>
+    <form class="contact-form" onsubmit="handleContact(event)">
+      <div class="form-group"><label>Name</label><input type="text" placeholder="Your name" required></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="you@example.com" required></div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select>
+          <option>Order Issue</option>
+          <option>Return / Refund</option>
+          <option>Product Question</option>
+          <option>Shipping Question</option>
+          <option>Warranty Claim</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="How can we help you?" required></textarea></div>
+      <button type="submit" class="btn-primary" style="align-self:flex-start;padding:14px 36px;">Send Message</button>
+    </form>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="info-panel" id="info-privacy">
+    <h2>PRIVACY POLICY</h2>
+    <p>Last updated: January 2025</p>
+    <h3>Information We Collect</h3>
+    <p>When you place an order, we collect your name, email address, shipping address, and payment information. Payment data is processed securely by Stripe and never stored on our servers.</p>
+    <h3>How We Use Your Information</h3>
+    <ul>
+      <li>To process and fulfill your orders</li>
+      <li>To send order confirmations and shipping updates</li>
+      <li>To respond to customer service inquiries</li>
+      <li>To send promotional emails (only with your consent)</li>
+    </ul>
+    <h3>Data Sharing</h3>
+    <p>We do not sell, trade, or otherwise transfer your personal information to third parties, except as necessary to fulfill orders (shipping carriers) or process payments (Stripe).</p>
+    <h3>Cookies</h3>
+    <p>We use cookies to maintain cart state and improve your experience. You can disable cookies in your browser settings at any time.</p>
+    <h3>Contact</h3>
+    <p>For privacy-related inquiries, contact us at support@xsupply.pro.</p>
+  </div>
+
+  <!-- TERMS -->
+  <div class="info-panel" id="info-terms">
+    <h2>TERMS OF SERVICE</h2>
+    <p>Last updated: January 2025</p>
+    <h3>Use of Site</h3>
+    <p>By using this site, you agree to these terms. This site and its content are for personal, non-commercial use only.</p>
+    <h3>Orders</h3>
+    <p>We reserve the right to refuse or cancel orders at our discretion. Prices are subject to change without notice. All prices are in USD.</p>
+    <h3>Intellectual Property</h3>
+    <p>All content on this site — including text, images, logos, and product designs — is the property of Xsupply and protected by applicable copyright laws.</p>
+    <h3>Limitation of Liability</h3>
+    <p>Xsupply is not liable for any indirect, incidental, or consequential damages arising from the use of our products or this website.</p>
+    <h3>Governing Law</h3>
+    <p>These terms are governed by the laws of the United States. Any disputes shall be resolved in the applicable courts.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="f-logo">X<span>SUPPLY</span></div>
+      <p>Precision measuring tools for serious people. Every gram counts.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/scoopx.pro/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@scoopxpro" target="_blank" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.87a8.18 8.18 0 0 0 4.78 1.52V7.01a4.85 4.85 0 0 1-1.01-.32z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Shop Products</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#how">How It Works</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="info.html#shipping">Shipping Policy</a></li>
+        <li><a href="info.html#returns">Returns</a></li>
+        <li><a href="info.html#contact">Contact Us</a></li>
+        <li><a href="info.html#privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Payment</h4>
+      <div class="payment-icons" style="margin-top:4px;"><span>VISA</span><span>MC</span><span>AMEX</span><span>Apple Pay</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Xsupply. All rights reserved.</p>
+    <div class="payment-icons"><span>🔒 Secure</span><span>Free Returns</span><span>5yr Warranty</span></div>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-head"><h2>YOUR CART</h2><button class="cart-close" onclick="closeCart()">×</button></div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty" style="display:flex;"><p>Your cart is empty.</p><a href="product.html">Browse Products →</a></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-subtotal"><span>Subtotal</span><span class="cart-subtotal-price" id="cartSubtotal">$0.00</span></div>
+    <button class="cart-checkout-btn" onclick="goToCheckout()">Checkout — Secure</button>
+    <span class="cart-continue" onclick="closeCart()">Continue Shopping</span>
+  </div>
+</div>
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span class="toast-msg"></span></div>
+
+<script src="js/cart.js"></script>
+<script>
+  function switchInfoTab(id, btn) {
+    document.querySelectorAll('.info-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.info-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('info-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function handleContact(e) {
+    e.preventDefault();
+    showToast('✓ Message sent! We\'ll reply within 24 hours.');
+    e.target.reset();
+  }
+
+  // Auto-open tab from URL hash
+  document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (['shipping','returns','contact','privacy','terms'].includes(hash)) {
+      const btn = [...document.querySelectorAll('.info-tab-btn')].find(b => b.onclick?.toString().includes(hash));
+      if (btn) btn.click();
+    }
+  });
+</script>
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span class="toast-msg"></span></div>
+<script src="js/cart.js"></script>
+</body>
+</html>

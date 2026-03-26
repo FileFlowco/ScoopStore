@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — Xsupply</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JP67WX64Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2JP67WX64Y');
+  </script>
+</head>
+<body>
+<nav class="nav" style="position:relative;top:0;">
+  <a href="index.html" class="nav-logo">X<span>SUPPLY</span></a>
+</nav>
+
+<div class="success-wrap">
+  <div class="success-card">
+    <div class="success-icon-big">✅</div>
+    <h1>ORDER<br>CONFIRMED!</h1>
+    <p>Thank you for your order! You'll receive a confirmation email shortly with your tracking information. Your SCOOPX is on the way.</p>
+    <div class="success-order-num">
+      Order ID: <strong id="orderId">Processing…</strong>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-muted);">
+        <span>📦</span> Estimated delivery: 3–7 business days
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-muted);">
+        <span>📧</span> Confirmation sent to your email
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-muted);">
+        <span>🛡️</span> 5-year warranty included with your purchase
+      </div>
+    </div>
+    <a href="index.html" class="btn-primary" style="display:inline-block;width:100%;text-align:center;">Continue Shopping</a>
+    <a href="info.html#contact" style="display:block;margin-top:14px;font-size:13px;color:var(--text-muted);text-align:center;">Questions? Contact us</a>
+  </div>
+</div>
+
+<script src="js/cart.js"></script>
+<script>
+  // Clear cart on success
+  XCart.load();
+  XCart.items = [];
+  XCart.save();
+
+  // Show order ID from Stripe session
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (sessionId) {
+    document.getElementById('orderId').textContent = sessionId.substring(0, 24) + '…';
+  } else {
+    document.getElementById('orderId').textContent = 'XS-' + Date.now().toString(36).toUpperCase();
+  }
+
+  // Track purchase in GA
+  if (typeof gtag === 'function') {
+    gtag('event', 'purchase', { transaction_id: sessionId || Date.now() });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "xsupply",
+  "version": "1.0.0",
+  "description": "Xsupply store — SCOOPX Pro precision measuring tools",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
